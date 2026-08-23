@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum StatusActive {
+  active
+  non_active @map("non-active")
+
+  @@map("status_active")
+}
+
+enum OrderStatus {
+  pending
+  cancelled
+  dispatched
+  delivered
+
+  @@map("order_status")
+}
+
+model Admin {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  username       String   @unique
+  passwordHash   String   @map("password_hash")
+  role           String   @default("super_admin")
+  sessionVersion Int      @default(0) @map("session_version")
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("admins")
+}
+
+model Category {
+  id             Int          @id @default(autoincrement())
+  name           String       @db.VarChar(255)
+  slug           String       @unique @db.VarChar(255)
+  status         StatusActive @default(active)
+  description    String?
+  seoTitle       String?      @map("seo_title") @db.VarChar(255)
+  seoDescription String?      @map("seo_description")
+  seoKeywords    String[]     @default([]) @map("seo_keywords")
+  isIndexed      Boolean      @default(true) @map("is_indexed")
+  createdAt      DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+  products       Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id                 Int          @id @default(autoincrement())
+  categoryId         Int?         @map("category_id")
+  image              String?
+  imageGallery       String[]     @default([]) @map("image_gallery")
+  titleName          String       @map("title_name") @db.VarChar(255)
+  descriptionContent String?      @map("description_content")
+  pricing            Decimal      @db.Decimal(10, 2)
+  status             StatusActive @default(active)
+  slug               String       @unique @db.VarChar(255)
+  sizes              String[]     @default([])
+  colors             String[]     @default([])
+  quantities         String[]     @default([])
+  seoTitle           String?      @map("seo_title") @db.VarChar(255)
+  seoDescription     String?      @map("seo_description")
+  seoKeywords        String[]     @default([]) @map("seo_keywords")
+  isIndexed          Boolean      @default(true) @map("is_indexed")
+  createdAt          DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+  category           Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  orders             Order[]
+
+  @@index([categoryId], map: "idx_products_category_id")
+  @@index([status], map: "idx_products_status")
+  @@index([titleName], map: "idx_products_title_name")
+  @@map("products")
+}
+
+model Order {
+  id           Int         @id @default(autoincrement())
+  customerName String      @map("customer_name") @db.VarChar(255)
+  phoneNumber  String      @map("phone_number") @db.VarChar(50)
+  email        String      @db.VarChar(255)
+  status       OrderStatus @default(pending)
+  quantity     Int
+  unitPrice    Decimal     @map("unit_price") @db.Decimal(10, 2)
+  totalAmount  Decimal     @map("total_amount") @db.Decimal(12, 2)
+  productId    Int?        @map("product_id")
+  createdAt    DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
+  // Restrict: deleting a product must not wipe order history.
+  product      Product?    @relation(fields: [productId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+
+  @@index([productId], map: "idx_orders_product_id")
+  @@index([status], map: "idx_orders_status")
+  @@index([createdAt], map: "idx_orders_created_at")
+  @@map("orders")
+}
+
+model Enquiry {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(255)
+  email     String   @db.VarChar(255)
+  number    String   @db.VarChar(50)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([createdAt], map: "idx_enquiries_created_at")
+  @@map("enquiries")
+}
