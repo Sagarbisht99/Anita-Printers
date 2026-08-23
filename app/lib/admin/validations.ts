@@ -1,15 +1,22 @@
 import { z } from "zod";
 
 const optionalText = z.string().trim().max(5000).optional().or(z.literal(""));
-const optionalUrl = z.union([z.string().url(), z.literal("")]).optional();
+const optionalUrl = z
+  .string()
+  .trim()
+  .refine(
+    (value) => value === "" || /^https?:\/\/.+/i.test(value),
+    "Enter a valid image URL",
+  );
 const boolFromForm = z
   .union([z.boolean(), z.literal("true"), z.literal("false"), z.literal("on")])
   .transform((value) => value === true || value === "true" || value === "on");
 
 export const categoryFormSchema = z.object({
-  id: z.coerce.number().int().positive().optional(),
+  id: z.number().int().positive().optional(),
   name: z.string().trim().min(2).max(255),
   slug: z.string().trim().min(2).max(255).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  image: optionalUrl,
   status: z.enum(["active", "non_active"]),
   description: optionalText,
   seoTitle: z.string().trim().max(255).optional().or(z.literal("")),

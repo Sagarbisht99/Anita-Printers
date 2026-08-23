@@ -39,6 +39,7 @@ model Category {
   id             Int          @id @default(autoincrement())
   name           String       @db.VarChar(255)
   slug           String       @unique @db.VarChar(255)
+  image          String?
   status         StatusActive @default(active)
   description    String?
   seoTitle       String?      @map("seo_title") @db.VarChar(255)

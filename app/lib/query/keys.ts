@@ -50,11 +50,15 @@ export const storefrontKeys = {
   products: {
     all: ["storefront", "products"] as const,
     lists: () => [...storefrontKeys.products.all, "list"] as const,
+    list: (filters?: Record<string, unknown>) =>
+      [...storefrontKeys.products.lists(), filters ?? {}] as const,
     detail: (slug: string) =>
       [...storefrontKeys.products.all, "detail", slug] as const,
   },
   categories: {
     all: ["storefront", "categories"] as const,
     lists: () => [...storefrontKeys.categories.all, "list"] as const,
+    list: (filters?: Record<string, unknown>) =>
+      [...storefrontKeys.categories.lists(), filters ?? {}] as const,
   },
 };

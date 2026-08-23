@@ -1,21 +1,27 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f7f6f3;
+  --foreground: #1a1a1a;
+  --store-navy: #0b1f4a;
+  --store-ink: #2e2e2e;
+  --store-muted: #6b6b6b;
+  --store-line: #e6e4df;
+  --store-paper: #f7f6f3;
+  --store-surface: #ffffff;
+  --store-accent: #0b1f4a;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-store-navy: var(--store-navy);
+  --color-store-ink: var(--store-ink);
+  --color-store-muted: var(--store-muted);
+  --color-store-line: var(--store-line);
+  --color-store-paper: var(--store-paper);
+  --color-store-surface: var(--store-surface);
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
@@ -28,6 +34,10 @@ body {
 
 .admin-theme {
   font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  background: #0a0a0a;
+  color: #ededed;
 }
 
 .admin-theme h1 {
@@ -41,7 +51,6 @@ body {
   font-weight: 600;
 }
 
-/* Dark thin vertical scrollbar for modal / admin panels */
 .admin-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: #3b82f6 #1f1f1f;
@@ -78,3 +87,40 @@ body {
   }
 }
 
+@keyframes store-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.store-fade-up {
+  animation: store-fade-up 0.7s ease-out both;
+}
+
+.store-fade-up-delay {
+  animation: store-fade-up 0.8s ease-out 0.12s both;
+}
+
+@keyframes brand-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.brand-marquee {
+  animation: brand-marquee 32s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-marquee {
+    animation: none;
+  }
+}

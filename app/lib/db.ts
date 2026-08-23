@@ -6,7 +6,7 @@ import { PrismaClient } from "@/app/generated/prisma";
  * Bump this whenever Prisma schema fields change.
  * Prevents a stale global PrismaClient from querying dropped columns in `next dev`.
  */
-const PRISMA_SCHEMA_STAMP = "2026-08-23-critical-high-fixes";
+const PRISMA_SCHEMA_STAMP = "2026-08-23-category-image";
 
 const globalForPrisma = globalThis as unknown as {
   prisma?: PrismaClient;
