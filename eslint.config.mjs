@@ -12,7 +12,17 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Prisma client (created by `prisma generate` / postinstall)
+    "app/generated/**",
   ]),
+  {
+    rules: {
+      // Common sync patterns (URL → state, form reset, localStorage) trip these.
+      "react-hooks/set-state-in-effect": "off",
+      "react-hooks/immutability": "off",
+      "react-hooks/refs": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;

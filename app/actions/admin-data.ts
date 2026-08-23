@@ -9,6 +9,7 @@ export type AdminCategoryRow = {
   id: number;
   name: string;
   slug: string;
+  image: string | null;
   status: "active" | "non_active";
   description: string | null;
   seoTitle: string | null;
@@ -140,6 +141,7 @@ export async function fetchAdminCategories(
       id: category.id,
       name: category.name,
       slug: category.slug,
+      image: category.image,
       status: category.status,
       description: category.description,
       seoTitle: category.seoTitle,

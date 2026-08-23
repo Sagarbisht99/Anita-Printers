@@ -5,12 +5,15 @@ import { useSaveCategory } from "@/app/hooks/admin";
 import { Button } from "@/app/components/admin/ui/button";
 import { Field, Input, Textarea } from "@/app/components/admin/ui/field";
 import { TodoListField } from "@/app/components/admin/ui/todo-list-field";
+import { ProductImageUploader } from "@/app/components/imagekit/product-image-uploader";
+import { CATEGORY_IMAGE_FOLDER } from "@/app/lib/imagekit/constants";
 import { slugify } from "@/app/lib/admin/slug";
 
 export type CategoryFormValues = {
   id?: number;
   name: string;
   slug: string;
+  image?: string | null;
   status: "active" | "non_active";
   description?: string | null;
   seoTitle?: string | null;
@@ -30,6 +33,12 @@ export function CategoryForm({
   const [name, setName] = useState(initial?.name ?? "");
   const [slug, setSlug] = useState(initial?.slug ?? "");
   const [slugTouched, setSlugTouched] = useState(Boolean(initial?.slug));
+  const [image, setImage] = useState(initial?.image ?? "");
+  const [description, setDescription] = useState(initial?.description ?? "");
+  const [seoTitle, setSeoTitle] = useState(initial?.seoTitle ?? "");
+  const [seoDescription, setSeoDescription] = useState(
+    initial?.seoDescription ?? "",
+  );
   const [seoKeywords, setSeoKeywords] = useState<string[]>(
     initial?.seoKeywords ?? [],
   );
@@ -41,14 +50,39 @@ export function CategoryForm({
 
   useEffect(() => {
     setError(null);
+    setName(initial?.name ?? "");
+    setSlug(initial?.slug ?? "");
+    setSlugTouched(Boolean(initial?.slug));
+    setImage(initial?.image ?? "");
+    setDescription(initial?.description ?? "");
+    setSeoTitle(initial?.seoTitle ?? "");
+    setSeoDescription(initial?.seoDescription ?? "");
+    setSeoKeywords(initial?.seoKeywords ?? []);
+    setIsActive((initial?.status ?? "active") === "active");
+    setIsIndexed(initial?.isIndexed ?? true);
   }, [initial]);
 
   const autoSlug = useMemo(() => slugify(name), [name]);
 
   async function handleSubmit(formData: FormData) {
     setError(null);
+
+    if (initial?.id) {
+      formData.set("id", String(initial.id));
+    } else {
+      formData.delete("id");
+    }
+
+    formData.set("name", name);
+    formData.set("slug", slug);
+    formData.set("image", image);
+    formData.set("description", description);
+    formData.set("seoTitle", seoTitle);
+    formData.set("seoDescription", seoDescription);
+    formData.set("seoKeywords", JSON.stringify(seoKeywords));
     formData.set("status", isActive ? "active" : "non_active");
     formData.set("isIndexed", isIndexed ? "true" : "false");
+
     try {
       await save.mutateAsync(formData);
       onSuccess();
@@ -59,7 +93,9 @@ export function CategoryForm({
 
   return (
     <form action={handleSubmit} className="space-y-5">
-      {initial?.id ? <input type="hidden" name="id" value={initial.id} /> : null}
+      {initial?.id ? (
+        <input type="hidden" name="id" value={String(initial.id)} />
+      ) : null}
 
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Name">
@@ -86,21 +122,37 @@ export function CategoryForm({
         </Field>
       </div>
 
+      <div className="rounded-2xl border border-white/[0.06] bg-[#161616] p-4">
+        <ProductImageUploader
+          mode="single"
+          label="Category image"
+          value={image}
+          onChange={(next) => setImage(typeof next === "string" ? next : "")}
+          folder={CATEGORY_IMAGE_FOLDER}
+        />
+      </div>
+
       <Field label="Description">
         <Textarea
           name="description"
-          defaultValue={initial?.description ?? ""}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
         />
       </Field>
 
       <Field label="SEO Title">
-        <Input name="seoTitle" defaultValue={initial?.seoTitle ?? ""} />
+        <Input
+          name="seoTitle"
+          value={seoTitle}
+          onChange={(e) => setSeoTitle(e.target.value)}
+        />
       </Field>
 
       <Field label="SEO Description">
         <Textarea
           name="seoDescription"
-          defaultValue={initial?.seoDescription ?? ""}
+          value={seoDescription}
+          onChange={(e) => setSeoDescription(e.target.value)}
         />
       </Field>
 

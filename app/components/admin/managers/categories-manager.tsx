@@ -88,7 +88,7 @@ export function CategoriesManager() {
         <table className="w-full min-w-[720px] text-left text-sm">
           <thead className="border-b border-white/[0.06] text-xs tracking-wide text-zinc-500 uppercase">
             <tr>
-              <th className="px-4 py-3 font-medium">Name</th>
+              <th className="px-4 py-3 font-medium">Category</th>
               <th className="px-4 py-3 font-medium">Slug</th>
               <th className="px-4 py-3 font-medium">Status</th>
               <th className="px-4 py-3 font-medium">Products</th>
@@ -113,7 +113,21 @@ export function CategoriesManager() {
             ) : (
               rows.map((row) => (
                 <tr key={row.id} className="border-b border-white/[0.06] text-zinc-300">
-                  <td className="px-4 py-3 font-medium text-white">{row.name}</td>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-3">
+                      {row.image ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={row.image}
+                          alt=""
+                          className="h-10 w-10 rounded-lg object-cover"
+                        />
+                      ) : (
+                        <div className="h-10 w-10 rounded-lg bg-white/5" />
+                      )}
+                      <span className="font-medium text-white">{row.name}</span>
+                    </div>
+                  </td>
                   <td className="px-4 py-3">{row.slug}</td>
                   <td className="px-4 py-3 capitalize">
                     {row.status.replace("_", "-")}
@@ -175,6 +189,7 @@ export function CategoriesManager() {
         size="lg"
       >
         <CategoryForm
+          key={editing?.id ?? "new-category"}
           initial={editing as CategoryFormValues | null}
           onSuccess={close}
         />
@@ -188,6 +203,19 @@ export function CategoriesManager() {
         fields={
           viewing
             ? [
+                {
+                  label: "Image",
+                  value: viewing.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={viewing.image}
+                      alt=""
+                      className="h-20 w-20 rounded-xl object-cover"
+                    />
+                  ) : (
+                    "—"
+                  ),
+                },
                 { label: "Name", value: viewing.name },
                 { label: "Slug", value: viewing.slug },
                 {
