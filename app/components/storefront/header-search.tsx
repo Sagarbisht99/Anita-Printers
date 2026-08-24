@@ -134,7 +134,7 @@ export function HeaderSearch({
               {items.map((product) => (
                 <li key={product.id} role="option">
                   <Link
-                    href={`/contact?product=${encodeURIComponent(product.slug)}&intent=order`}
+                    href={`/products/${encodeURIComponent(product.slug)}`}
                     onClick={() => setOpen(false)}
                     className="flex items-center gap-3 px-3 py-2.5 transition hover:bg-store-paper"
                   >

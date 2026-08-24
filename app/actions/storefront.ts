@@ -20,6 +20,14 @@ export type StoreProductItem = {
   categoryName: string | null;
 };
 
+export type StoreProductDetail = StoreProductItem & {
+  descriptionContent: string | null;
+  imageGallery: string[];
+  sizes: string[];
+  colors: string[];
+  quantities: string[];
+};
+
 export type StoreProductsPage = {
   items: StoreProductItem[];
   page: number;
@@ -149,5 +157,41 @@ export async function fetchStoreProductsPage(input?: {
     pageSize,
     total,
     totalPages: Math.max(1, Math.ceil(total / pageSize)),
+  };
+}
+
+export async function fetchStoreProductBySlug(
+  slug: string,
+): Promise<StoreProductDetail | null> {
+  const normalized = String(slug ?? "").trim();
+  if (!normalized) return null;
+
+  const product = await prisma.product.findFirst({
+    where: { status: "active", slug: normalized },
+    select: {
+      id: true,
+      titleName: true,
+      slug: true,
+      image: true,
+      imageGallery: true,
+      pricing: true,
+      quantities: true,
+      sizes: true,
+      colors: true,
+      descriptionContent: true,
+      categoryId: true,
+      category: { select: { name: true } },
+    },
+  });
+
+  if (!product) return null;
+
+  return {
+    ...mapProduct(product),
+    descriptionContent: product.descriptionContent,
+    imageGallery: product.imageGallery,
+    sizes: product.sizes,
+    colors: product.colors,
+    quantities: product.quantities,
   };
 }
