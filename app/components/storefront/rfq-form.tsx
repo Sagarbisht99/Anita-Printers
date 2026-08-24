@@ -51,10 +51,10 @@ export function RfqForm() {
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
-            href="/artwork-guidelines"
+            href="/#faq"
             className="rounded-full bg-store-navy px-5 py-2.5 text-sm font-semibold text-white"
           >
-            Download print guidelines
+            View FAQs
           </Link>
           <Link
             href="/products"

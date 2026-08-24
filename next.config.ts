@@ -18,6 +18,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  redirects: async () => [
+    { source: "/quote", destination: "/contact", permanent: true },
+    { source: "/quote/:path*", destination: "/contact", permanent: true },
+    {
+      source: "/artwork-guidelines",
+      destination: "/contact",
+      permanent: true,
+    },
+  ],
 };
 
 export default nextConfig;

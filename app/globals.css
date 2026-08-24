@@ -1,26 +1,42 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f7f6f3;
-  --foreground: #1a1a1a;
-  --store-navy: #0b1f4a;
-  --store-ink: #2e2e2e;
-  --store-muted: #6b6b6b;
-  --store-line: #e6e4df;
-  --store-paper: #f7f6f3;
+  /*
+    Aligned to logo.svg:
+    - Logo blue #1D6FB8 → deepened to navy for UI on white
+    - Logo rose #C43B58 → accent pops
+  */
+  --store-logo-blue: #1d6fb8;
+  --store-navy: #0f3d66;
+  --store-brand-dark: #0c3254;
+  --store-brand-deeper: #081f36;
+  --store-rose: #c43b58;
+  --store-rose-soft: #f6eef1;
+
+  --background: #f7f8fa;
+  --foreground: #15202b;
+  --store-ink: #1c2733;
+  --store-muted: #5c6b7a;
+  --store-line: #e2e7ee;
+  --store-paper: #f7f8fa;
   --store-surface: #ffffff;
-  --store-accent: #0b1f4a;
+  --store-accent: #c43b58;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-store-navy: var(--store-navy);
+  --color-store-navy-dark: var(--store-brand-dark);
+  --color-store-navy-deeper: var(--store-brand-deeper);
+  --color-store-logo: var(--store-logo-blue);
   --color-store-ink: var(--store-ink);
   --color-store-muted: var(--store-muted);
   --color-store-line: var(--store-line);
   --color-store-paper: var(--store-paper);
   --color-store-surface: var(--store-surface);
+  --color-store-accent: var(--store-accent);
+  --color-store-rose-soft: var(--store-rose-soft);
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -53,7 +69,7 @@ body {
 
 .admin-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #3b82f6 #1f1f1f;
+  scrollbar-color: #1d6fb8 #1f1f1f;
 }
 
 .admin-scrollbar::-webkit-scrollbar {
@@ -67,13 +83,13 @@ body {
 }
 
 .admin-scrollbar::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 100%);
+  background: linear-gradient(180deg, #4d9ad4 0%, #1d6fb8 100%);
   border: 2px solid #111111;
   border-radius: 999px;
 }
 
 .admin-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #93c5fd 0%, #2563eb 100%);
+  background: linear-gradient(180deg, #6eb0e0 0%, #155a96 100%);
 }
 
 @keyframes toast-in {
@@ -119,8 +135,26 @@ body {
   animation: brand-marquee 32s linear infinite;
 }
 
+@keyframes bottom-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.bottom-marquee {
+  animation: bottom-marquee 38s linear infinite;
+}
+
+.bottom-marquee:hover {
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .brand-marquee {
+  .brand-marquee,
+  .bottom-marquee {
     animation: none;
   }
 }

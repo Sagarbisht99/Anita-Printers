@@ -172,7 +172,7 @@ function QuotePopupModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="relative z-10 max-h-[92vh] w-full overflow-y-auto rounded-t-3xl border border-store-line bg-white shadow-[0_24px_80px_-24px_rgba(11,31,74,0.55)] sm:max-w-lg sm:rounded-3xl"
+        className="relative z-10 max-h-[92vh] w-full overflow-y-auto rounded-t-3xl border border-store-line bg-white shadow-[0_24px_80px_-24px_rgba(29,111,184,0.55)] sm:max-w-lg sm:rounded-3xl"
       >
         <div className="sticky top-0 flex items-start justify-between gap-4 border-b border-store-line bg-white px-5 py-4 sm:px-6">
           <div>
@@ -293,7 +293,7 @@ function QuotePopupModal({
 
             <button
               type="submit"
-              className="w-full rounded-full bg-store-navy px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#071536]"
+              className="w-full rounded-full bg-store-navy px-5 py-3 text-sm font-semibold text-white transition hover:bg-store-navy-dark"
             >
               Submit quote request
             </button>

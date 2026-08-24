@@ -92,21 +92,11 @@ export function QuickQuoteForm({ compact = false }: { compact?: boolean }) {
 
       <button
         type="submit"
-        className="mt-5 rounded-full bg-store-navy px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#071536]"
+        className="mt-5 rounded-full bg-store-navy px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-store-navy-dark"
       >
         Get a quick callback
       </button>
     </form>
-  );
-}
-
-export function QuickQuoteSection() {
-  return (
-    <section className="border-b border-store-line bg-store-surface">
-      <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16">
-        <QuickQuoteForm />
-      </div>
-    </section>
   );
 }
 

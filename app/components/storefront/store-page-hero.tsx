@@ -15,7 +15,7 @@ export function StorePageHero({
   actions?: Array<{ href: string; label: string; primary?: boolean }>;
 }) {
   return (
-    <div className="border-b border-store-line bg-[linear-gradient(180deg,#f7f6f3_0%,#efeae2_100%)]">
+    <div className="border-b border-store-line bg-[linear-gradient(180deg,#f7f8fa_0%,#eef2f6_100%)]">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
         <p className="text-xs font-semibold tracking-[0.16em] text-store-muted uppercase">
           {eyebrow}
@@ -30,14 +30,13 @@ export function StorePageHero({
           <div className="mt-7 flex flex-wrap gap-3">
             {actions.map((action) => {
               const className = action.primary
-                ? "rounded-full bg-store-navy px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#071536]"
+                ? "rounded-full bg-store-navy px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-store-navy-dark"
                 : "rounded-full border border-store-navy/25 bg-white px-5 py-2.5 text-sm font-semibold text-store-navy transition hover:bg-store-paper";
-              const isQuote =
+              const isQuotePopup =
                 action.href === "/quote" ||
-                action.href.startsWith("/quote?") ||
-                /quote|rfq|talk to sales|corporate account/i.test(action.label);
+                action.href.startsWith("/quote?");
 
-              if (isQuote) {
+              if (isQuotePopup) {
                 return (
                   <QuoteButton
                     key={action.href + action.label}

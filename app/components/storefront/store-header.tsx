@@ -3,13 +3,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { HeaderSearch } from "@/app/components/storefront/header-search";
-import { QuoteButton } from "@/app/components/storefront/quote-popup";
 import { siteContact } from "@/app/lib/storefront/b2b-content";
 
 const navLinks = [
   { href: "/products", label: "Catalog" },
-  { href: "/portfolio", label: "Portfolio" },
-  { href: "/enterprise", label: "Enterprise" },
+  { href: "/#faq", label: "FAQ" },
+  { href: "/contact", label: "Contact" },
   { href: "/about", label: "About" },
 ];
 
@@ -17,15 +16,23 @@ export function StoreHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-store-line bg-store-surface">
       <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:gap-4 sm:px-6">
-        <Link href="/" className="shrink-0" aria-label="Anita Printers home">
+        <Link
+          href="/"
+          className="flex shrink-0 items-center gap-2.5 sm:gap-3"
+          aria-label="Anita Printers home"
+        >
           <Image
-            src="/logo.png"
-            alt="Anita Printers"
-            width={180}
-            height={56}
-            className="h-9 w-auto object-contain sm:h-11"
+            src="/logo.svg"
+            alt=""
+            width={44}
+            height={44}
+            className="h-9 w-9 object-contain sm:h-10 sm:w-10"
             priority
+            unoptimized
           />
+          <span className="hidden text-base font-bold tracking-tight text-store-navy min-[400px]:inline sm:text-lg">
+            Anita Printers
+          </span>
         </Link>
 
         <HeaderSearch className="mx-2 mr-4 hidden min-w-0 flex-1 max-w-xl md:block lg:mr-6" />
@@ -53,9 +60,12 @@ export function StoreHeader() {
             </span>
           </a>
 
-          <QuoteButton className="rounded-full bg-store-navy px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#071536]">
-            Request Quote
-          </QuoteButton>
+          <Link
+            href="/contact"
+            className="rounded-full bg-store-navy px-3 py-2 text-xs font-semibold text-white transition hover:bg-store-navy-dark sm:px-4 sm:text-sm"
+          >
+            Get in touch
+          </Link>
         </div>
       </div>
 

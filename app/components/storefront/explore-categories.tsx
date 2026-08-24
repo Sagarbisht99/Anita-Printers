@@ -52,7 +52,7 @@ export function ExploreCategories({
                 href={`/products?categoryId=${category.id}`}
                 className="group flex w-[160px] shrink-0 flex-col items-center sm:w-[180px] md:w-auto"
               >
-                <div className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-[#f6e9e4] to-[#efe4dc] p-4 transition group-hover:from-[#f0e0d9] group-hover:to-[#e8d8cf]">
+                <div className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-[#eef3f8] to-[#e4ebf2] p-4 transition group-hover:from-[#e6edf4] group-hover:to-[#dce5ee]">
                   {category.image ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img

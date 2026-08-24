@@ -54,7 +54,7 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
 
       <div className="mt-8 grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
         <div>
-          <div className="relative aspect-square overflow-hidden rounded-2xl border border-store-line bg-[#f3f1ec]">
+          <div className="relative aspect-square overflow-hidden rounded-2xl border border-store-line bg-[#eef2f6]">
             {gallery[activeImage] ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img

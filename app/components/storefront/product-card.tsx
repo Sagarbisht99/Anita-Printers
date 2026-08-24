@@ -13,7 +13,7 @@ function formatInr(amount: number) {
   });
 }
 
-const swatches = ["#1f2937", "#0b1f4a", "#ffffff", "#b45309", "#166534"];
+const swatches = ["#0f3d66", "#1d6fb8", "#c43b58", "#ffffff", "#5c6b7a"];
 
 export function StoreProductCard({ product }: { product: StoreProductItem }) {
   const detailHref = `/products/${encodeURIComponent(product.slug)}`;
@@ -23,10 +23,10 @@ export function StoreProductCard({ product }: { product: StoreProductItem }) {
   }));
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-store-line bg-white transition hover:border-store-navy/30 hover:shadow-[0_18px_40px_-28px_rgba(11,31,74,0.45)]">
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-store-line bg-white transition hover:border-store-navy/30 hover:shadow-[0_18px_40px_-28px_rgba(29,111,184,0.45)]">
       <Link
         href={detailHref}
-        className="relative aspect-square shrink-0 overflow-hidden bg-[#f3f1ec]"
+        className="relative aspect-square shrink-0 overflow-hidden bg-[#eef2f6]"
       >
         {product.image ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -90,7 +90,7 @@ export function StoreProductCard({ product }: { product: StoreProductItem }) {
           <QuoteButton
             product={product.titleName}
             category={product.categoryName ?? undefined}
-            className="flex-1 rounded-full bg-store-navy px-3 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-[#071536]"
+            className="flex-1 rounded-full bg-store-navy px-3 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-store-navy-dark"
           >
             Order
           </QuoteButton>
