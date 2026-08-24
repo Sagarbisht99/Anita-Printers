@@ -10,8 +10,9 @@ import { ExploreCategories } from "@/app/components/storefront/explore-categorie
 import { FaqSection } from "@/app/components/storefront/faq-section";
 import { HeroSlider } from "@/app/components/storefront/hero-slider";
 import { HowItWorks } from "@/app/components/storefront/how-it-works";
-import { QuickQuoteSection } from "@/app/components/storefront/quick-quote";
+import { PrintingShowcase } from "@/app/components/storefront/printing-showcase";
 import { TestimonialsPartners } from "@/app/components/storefront/testimonials-partners";
+import { VisionHomegrown } from "@/app/components/storefront/vision-homegrown";
 import { WhyChooseUs } from "@/app/components/storefront/why-choose-us";
 
 export default async function HomePage() {
@@ -32,8 +33,9 @@ export default async function HomePage() {
       </Suspense>
       <ExploreCategories initialCategories={categories} />
       <WhyChooseUs />
+      <VisionHomegrown />
       <HowItWorks />
-      <QuickQuoteSection />
+      <PrintingShowcase />
       <TestimonialsPartners />
       <BulkSavings />
       <FaqSection />

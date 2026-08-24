@@ -50,12 +50,13 @@ export default async function AdminLoginPage() {
         <div className="mb-8 flex flex-col items-center text-center">
           <div className="mb-5 h-[76px] w-[76px] overflow-hidden rounded-full bg-white ring-2 ring-white/15 ring-offset-2 ring-offset-[#12151C]">
             <Image
-              src="/favicon.png"
+              src="/logo.svg"
               alt="Anita Printers"
               width={76}
               height={76}
-              className="h-full w-full scale-110 object-cover"
+              className="h-full w-full object-contain p-1.5"
               priority
+              unoptimized
             />
           </div>
           <h1 className="text-2xl font-semibold tracking-tight text-white">

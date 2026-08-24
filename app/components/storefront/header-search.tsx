@@ -117,7 +117,7 @@ export function HeaderSearch({
         <div
           id={listId}
           role="listbox"
-          className="absolute top-[calc(100%+0.5rem)] right-0 left-0 z-50 overflow-hidden rounded-2xl border border-store-line bg-white shadow-[0_18px_40px_-24px_rgba(11,31,74,0.45)]"
+          className="absolute top-[calc(100%+0.5rem)] right-0 left-0 z-50 overflow-hidden rounded-2xl border border-store-line bg-white shadow-[0_18px_40px_-24px_rgba(29,111,184,0.45)]"
         >
           {isLoading ? (
             <p className="px-4 py-3 text-sm text-store-muted">Searching…</p>

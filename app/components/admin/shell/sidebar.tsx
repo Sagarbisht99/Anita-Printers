@@ -138,12 +138,13 @@ export function AdminSidebar({
       >
         <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full bg-white ring-1 ring-white/15">
           <Image
-            src="/favicon.png"
+            src="/logo.svg"
             alt="Anita Printers"
             width={44}
             height={44}
-            className="h-full w-full scale-[1.15] object-cover"
+            className="h-full w-full object-contain p-1"
             priority
+            unoptimized
           />
         </div>
         {!collapsed ? (

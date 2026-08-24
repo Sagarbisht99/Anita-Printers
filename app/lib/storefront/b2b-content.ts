@@ -20,7 +20,7 @@ export const homeHero = {
   headline: "High-Volume B2B Printing & Custom Apparel",
   support:
     "From 50-piece sample runs to 50,000-unit production — screen print, DTF, embroidery, offset, and UV under one roof with GST-ready invoicing.",
-  primaryCta: { label: "Request a Quote", href: "/quote" },
+  primaryCta: { label: "Request a Quote", href: "/contact" },
   secondaryCta: { label: "Explore Catalog", href: "/products" },
   trust: ["GST invoices", "Pan-India dispatch", "Dedicated B2B desk", "Proof before print"],
 };
@@ -67,19 +67,19 @@ export const categoryHighlights = [
 export const usps = [
   {
     title: "Flexible MOQs",
-    body: "Start small with samples or pilot kits, then scale the same artwork into bulk runs without redesign fees.",
+    body: "Pilot from samples, then scale the same artwork into bulk — no redesign fees.",
   },
   {
     title: "Reliable turnaround",
-    body: "Standard bulk apparel in 5–12 working days after proof approval. Rush slots available for events.",
+    body: "Bulk apparel in 5–12 working days after proof. Rush slots for events.",
   },
   {
-    title: "In-house print capacity",
-    body: "Direct-to-garment, screen print, DTF, embroidery, UV, and offset — matched to fabric and finish.",
+    title: "In-house capacity",
+    body: "Screen, DTF, embroidery, UV, and offset — matched to fabric and finish.",
   },
   {
     title: "Nationwide delivery",
-    body: "Packed cartons with packing lists, GST invoices, and optional multi-location office dropshipping.",
+    body: "Cartons with packing lists, GST invoices, and multi-city dropship options.",
   },
 ];
 
@@ -156,18 +156,45 @@ export const testimonials = [
       "Anita handled our 3,200-piece conference tee run with colour-accurate proofs and on-time venue delivery. The B2B desk felt like an extension of our events team.",
     name: "Meera Kapoor",
     role: "Head of Events, Orbit Events",
+    rating: 5,
+    image:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=240&q=80",
   },
   {
     quote:
       "We needed flexible MOQs while we tested merch SKUs. Samples arrived fast, and bulk pricing stayed predictable once we scaled.",
     name: "Arjun Mehta",
     role: "Brand Ops, Verde Goods",
+    rating: 5,
+    image:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=240&q=80",
   },
   {
     quote:
       "GST invoices, packing lists, and multi-city splits made finance and warehouse happy. Rare to get that discipline from a print partner.",
     name: "Sana Qureshi",
     role: "Procurement, Atlas Retail",
+    rating: 5,
+    image:
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=240&q=80",
+  },
+  {
+    quote:
+      "Private-label tags and recurring hoodie drops run on schedule every quarter. Account management is responsive and detail-obsessed.",
+    name: "Rohan Desai",
+    role: "People Ops, Lumina Labs",
+    rating: 5,
+    image:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=240&q=80",
+  },
+  {
+    quote:
+      "From franchise kits to loyalty cards, one partner handled print, packing lists, and pan-India dispatch without drama.",
+    name: "Neha Iyer",
+    role: "Brand Lead, Cafe Bloom",
+    rating: 5,
+    image:
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=240&q=80",
   },
 ];
 
@@ -328,6 +355,22 @@ export const faqs = [
   {
     q: "Do you support GST and purchase orders?",
     a: "Yes. We issue GST invoices and can work against company POs. Net 30/60 terms are available for approved enterprise accounts.",
+  },
+  {
+    q: "Which print techniques do you offer?",
+    a: "Screen print, DTF, embroidery, UV, offset, and sublimation under one roof. We recommend the best method based on fabric, quantity, and artwork detail.",
+  },
+  {
+    q: "What artwork files do you need?",
+    a: "Vector AI/PDF/EPS for logos, or high-res PNG/TIFF at 300 DPI. Share pantone codes when brand colour must match. Our team helps clean files before proof.",
+  },
+  {
+    q: "How do payments work for bulk orders?",
+    a: "Most jobs start with an advance against the quote, with balance before dispatch. Enterprises can request invoice terms after credit approval.",
+  },
+  {
+    q: "Can you reprint the same order later?",
+    a: "Yes. We archive approved artwork and specs so reorders are faster and colour-matched. Just share the previous PO or job reference.",
   },
 ];
 

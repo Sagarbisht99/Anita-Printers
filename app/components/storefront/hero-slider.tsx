@@ -2,27 +2,63 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { heroSlides } from "@/app/lib/storefront/hero-slides";
+import { useDragSlide } from "@/app/lib/storefront/use-drag-slide";
 
 export function HeroSlider() {
   const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
   const total = heroSlides.length;
 
+  const go = useCallback(
+    (delta: number) => {
+      setIndex((current) => (current + delta + total) % total);
+    },
+    [total],
+  );
+
+  const goTo = useCallback(
+    (next: number) => {
+      setIndex((next + total) % total);
+    },
+    [total],
+  );
+
+  const { bindDrag, wasDragged } = useDragSlide({
+    onSwipe: go,
+    onDragStart: () => setPaused(true),
+    onDragEnd: () => {
+      window.setTimeout(() => setPaused(false), 600);
+    },
+  });
+
   useEffect(() => {
+    if (paused || total < 2) return;
     const id = window.setInterval(() => {
       setIndex((current) => (current + 1) % total);
     }, 5000);
     return () => window.clearInterval(id);
-  }, [total]);
-
-  function goTo(next: number) {
-    setIndex((next + total) % total);
-  }
+  }, [paused, total]);
 
   return (
-    <section className="relative border-b border-store-line bg-[#f2ebe1]">
-      <div className="relative overflow-hidden">
+    <section className="relative border-b border-store-line bg-store-paper">
+      <div
+        className="relative cursor-grab overflow-hidden active:cursor-grabbing"
+        role="region"
+        aria-label="Hero slideshow"
+        onMouseEnter={() => setPaused(true)}
+        onMouseDown={bindDrag.onMouseDown}
+        onMouseMove={bindDrag.onMouseMove}
+        onMouseUp={bindDrag.onMouseUp}
+        onMouseLeave={() => {
+          bindDrag.onMouseLeave();
+          setPaused(false);
+        }}
+        onTouchStart={bindDrag.onTouchStart}
+        onTouchMove={bindDrag.onTouchMove}
+        onTouchEnd={bindDrag.onTouchEnd}
+      >
         <div
           className="flex transition-transform duration-500 ease-out"
           style={{ transform: `translateX(-${index * 100}%)` }}
@@ -33,43 +69,32 @@ export function HeroSlider() {
               href={slide.href}
               className="relative block w-full shrink-0"
               aria-label={slide.title}
+              draggable={false}
+              onClick={(e) => {
+                if (wasDragged()) e.preventDefault();
+              }}
             >
-              <div className="relative h-[220px] w-full sm:h-[280px] md:h-[340px] lg:h-[400px]">
+              <div className="relative h-[260px] w-full sm:h-[320px] md:h-[400px] lg:h-[480px]">
                 <Image
                   src={slide.image}
                   alt={slide.title}
                   fill
                   priority={i === 0}
+                  draggable={false}
                   sizes="100vw"
-                  className="object-cover object-center"
+                  className="pointer-events-none object-cover object-center select-none"
                 />
               </div>
             </Link>
           ))}
         </div>
 
-        <button
-          type="button"
-          onClick={() => goTo(index - 1)}
-          className="absolute top-1/2 left-2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 text-lg text-store-navy shadow-sm transition hover:bg-white sm:left-4 sm:h-10 sm:w-10"
-          aria-label="Previous slide"
-        >
-          ‹
-        </button>
-        <button
-          type="button"
-          onClick={() => goTo(index + 1)}
-          className="absolute top-1/2 right-2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 text-lg text-store-navy shadow-sm transition hover:bg-white sm:right-4 sm:h-10 sm:w-10"
-          aria-label="Next slide"
-        >
-          ›
-        </button>
-
         <div className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 gap-2 sm:bottom-4">
           {heroSlides.map((item, i) => (
             <button
               key={item.id}
               type="button"
+              data-no-drag
               onClick={() => goTo(i)}
               aria-label={`Go to slide ${i + 1}`}
               aria-current={i === index}
