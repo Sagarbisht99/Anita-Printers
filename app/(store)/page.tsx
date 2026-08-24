@@ -7,7 +7,12 @@ import { BrandStrip } from "@/app/components/storefront/brand-strip";
 import { BulkSavings } from "@/app/components/storefront/bulk-savings";
 import { CuratedPicks } from "@/app/components/storefront/curated-picks";
 import { ExploreCategories } from "@/app/components/storefront/explore-categories";
+import { FaqSection } from "@/app/components/storefront/faq-section";
 import { HeroSlider } from "@/app/components/storefront/hero-slider";
+import { HowItWorks } from "@/app/components/storefront/how-it-works";
+import { QuickQuoteSection } from "@/app/components/storefront/quick-quote";
+import { TestimonialsPartners } from "@/app/components/storefront/testimonials-partners";
+import { WhyChooseUs } from "@/app/components/storefront/why-choose-us";
 
 export default async function HomePage() {
   const [categories, products] = await Promise.all([
@@ -26,7 +31,12 @@ export default async function HomePage() {
         />
       </Suspense>
       <ExploreCategories initialCategories={categories} />
+      <WhyChooseUs />
+      <HowItWorks />
+      <QuickQuoteSection />
+      <TestimonialsPartners />
       <BulkSavings />
+      <FaqSection />
     </>
   );
 }
