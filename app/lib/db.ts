@@ -1,12 +1,23 @@
 import "server-only";
+import dns from "node:dns";
+import net from "node:net";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@/app/generated/prisma";
+
+/**
+ * Neon DNS returns AAAA + A records. Node's default Happy Eyeballs
+ * (`autoSelectFamily`) often tries IPv6 first; many home/ISP networks
+ * can't reach Neon over IPv6 and fail with ETIMEDOUT.
+ * Prefer IPv4 so `pg` (which calls `socket.connect(port, host)`) works.
+ */
+dns.setDefaultResultOrder("ipv4first");
+net.setDefaultAutoSelectFamily(false);
 
 /**
  * Bump this whenever Prisma schema fields change.
  * Prevents a stale global PrismaClient from querying dropped columns in `next dev`.
  */
-const PRISMA_SCHEMA_STAMP = "2026-08-23-category-image";
+const PRISMA_SCHEMA_STAMP = "2026-08-26-ipv4-neon";
 
 const globalForPrisma = globalThis as unknown as {
   prisma?: PrismaClient;
