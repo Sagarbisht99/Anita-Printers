@@ -1,7 +1,13 @@
 import "dotenv/config";
+import dns from "node:dns";
+import net from "node:net";
 import bcrypt from "bcryptjs";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../app/generated/prisma";
+
+// Same Neon IPv4 preference as app/lib/db.ts — see comment there.
+dns.setDefaultResultOrder("ipv4first");
+net.setDefaultAutoSelectFamily(false);
 
 const MIN_ADMIN_PASSWORD_LENGTH = 12;
 

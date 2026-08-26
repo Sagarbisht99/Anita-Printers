@@ -10,8 +10,9 @@ export default function TermsPage() {
     <LegalPage title="Terms & Conditions" updated="23 August 2026">
       <p>
         These Terms & Conditions govern your use of the Anita Printers website
-        and any print, apparel, or related services you request from us. By
-        placing an order or using this site, you agree to these terms.
+        and any offset printing, screen printing, apparel, packaging, stationery,
+        or related services you request from us. By placing an order or using
+        this site, you agree to these terms.
       </p>
 
       <h2>1. Orders & quotations</h2>

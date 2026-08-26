@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     template: "%s | Anita Printers",
   },
   description:
-    "High-volume B2B printing & custom apparel — bulk cards, stationery, promotional merch, GST invoices, and pan-India delivery.",
+    "Anita Printers — barcode, sticker, label, tag, letterhead, visiting card, plastic printing, brochures, posters, leaflets, carry bags, boxes, flex, and shadi cards. Offset & screen for corporate, retail, events, and schools.",
 };
 
 export default function StoreLayout({

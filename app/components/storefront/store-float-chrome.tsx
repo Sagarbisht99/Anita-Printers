@@ -5,18 +5,23 @@ import { Phone, Package } from "lucide-react";
 import { siteContact } from "@/app/lib/storefront/b2b-content";
 
 const marqueeItems = [
-  { label: "Custom Apparel", href: "/products?q=apparel" },
-  { label: "Bulk Visiting Cards", href: "/products?q=card" },
-  { label: "Hoodies & Sweatshirts", href: "/products?q=hoodie" },
-  { label: "Tote Bags", href: "/products?q=bag" },
-  { label: "Screen Print", href: "/products?q=screen" },
-  { label: "DTF Printing", href: "/products?q=dtf" },
-  { label: "Embroidery", href: "/products?q=embroidery" },
-  { label: "Corporate Merch Kits", href: "/contact" },
+  { label: "Barcode", href: "/services#what-we-print" },
+  { label: "Sticker", href: "/services#what-we-print" },
+  { label: "Label", href: "/services#what-we-print" },
+  { label: "Tag", href: "/services#what-we-print" },
+  { label: "Letterhead", href: "/products?q=letterhead" },
+  { label: "Visiting Card", href: "/products?q=card" },
+  { label: "Plastic Material Printing", href: "/services#screen" },
+  { label: "Brochures", href: "/products?q=brochure" },
+  { label: "Posters", href: "/products?q=poster" },
+  { label: "Leaflets", href: "/products?q=leaflet" },
+  { label: "Carry Bag", href: "/products?q=bag" },
+  { label: "Box", href: "/products?q=box" },
+  { label: "Flex", href: "/products?q=flex" },
+  { label: "Shadi Card", href: "/products?q=wedding" },
+  { label: "Offset Printing", href: "/services#offset" },
+  { label: "Screen Printing", href: "/services#screen" },
   { label: "Request a Quote", href: "/contact" },
-  { label: "Sample Box", href: "/contact" },
-  { label: "Pan-India Delivery", href: "/shipping" },
-  { label: "GST Invoicing", href: "/contact" },
 ];
 
 export function StoreFloatChrome() {

@@ -4,10 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { siteContact } from "@/app/lib/storefront/b2b-content";
 
 const highlights = [
-  "Printing your brand since day one",
-  "Everything is personalised",
-  "Proof-first, production-ready quality",
-  "Pan-India bulk dispatch",
+  "Offset for bulk stationery & packaging",
+  "Screen for apparel, bags & specialty",
+  "Corporate · retail · events · schools",
+  "Proof-first, pan-India bulk dispatch",
 ];
 
 const stats = [
@@ -70,14 +70,15 @@ export function VisionHomegrown() {
               Our Vision
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-store-muted sm:text-[15px]">
-              We aim to be the printing partner brands trust for creative
-              solutions, reliable innovation, and finish quality that holds up
-              in bulk.
+              We aim to be the printing partner brands trust for offset
+              commercial print and screen specialty work — creative solutions,
+              reliable innovation, and finish quality that holds up in bulk.
             </p>
             <p className="mt-3 text-sm leading-relaxed text-store-muted sm:text-[15px]">
-              From apparel and stationery to packaging and merch, Anita Printers
-              keeps raising the bar for B2B print — tailored runs, clear proofs,
-              and on-time dispatch across India.
+              From visiting cards, brochures, and product boxes to tees,
+              uniforms, tote bags, and wedding stationery, Anita Printers keeps
+              raising the bar for B2B print — clear proofs and on-time dispatch
+              across India.
             </p>
           </div>
 
@@ -135,8 +136,9 @@ export function VisionHomegrown() {
               Need Bulk Quantities?
             </h3>
             <p className="mt-1 max-w-xl text-sm text-store-muted">
-              We&apos;ve got you covered! Competitive B2B pricing and fast
-              delivery on apparel, stationery, and custom print runs.
+              We&apos;ve got you covered! Competitive B2B pricing on offset
+              stationery & packaging and screen apparel & specialty — fast
+              delivery for corporate, retail, events, and schools.
             </p>
           </div>
           <a

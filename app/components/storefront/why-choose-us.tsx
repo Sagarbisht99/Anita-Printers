@@ -1,4 +1,3 @@
-import Image from "next/image";
 import {
   Clock3,
   Factory,
@@ -19,15 +18,15 @@ export function WhyChooseUs() {
           {/* Left: copy + featured media */}
           <div>
             <p className="text-sm font-semibold tracking-wide text-store-navy">
-              Transparent process
+              Offset · Screen · Bulk
             </p>
             <h2 className="mt-3 text-3xl font-bold tracking-tight text-store-ink sm:text-4xl lg:text-[2.6rem] lg:leading-tight">
               Why people choose us
             </h2>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-store-muted sm:text-base">
-              Clear MOQs, proof-first discipline, and production capacity that
-              holds when your launch date is fixed — built for B2B procurement
-              teams.
+              Visiting cards, letterheads, barcodes, stickers, labels, tags,
+              brochures, posters, leaflets, carry bags, boxes, flex, plastic
+              printing, and shadi cards — offset for volume, screen for specialty.
             </p>
 
             <div className="relative mt-10 max-w-md">
@@ -46,22 +45,22 @@ export function WhyChooseUs() {
                 }}
               />
 
-              <div className="relative overflow-hidden rounded-[46%_54%_48%_52%/56%_44%_56%_44%] shadow-[0_24px_50px_-28px_rgba(15,61,102,0.4)]">
+              <div className="group/media relative overflow-hidden rounded-[46%_54%_48%_52%/56%_44%_56%_44%] shadow-[0_24px_50px_-28px_rgba(15,61,102,0.4)]">
                 <div className="relative aspect-[4/5] w-full min-h-[320px]">
-                  <Image
-                    src="https://images.unsplash.com/photo-1562157873-818bc0726f68?auto=format&fit=crop&w=900&q=80"
-                    alt="Anita Printers production and B2B print desk"
-                    fill
-                    sizes="(max-width: 1024px) 90vw, 420px"
-                    className="object-cover"
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="https://www.printvenue.com/cdn/shop/files/a-man-make-print-on-the-tshirt-with-the-help-of-machine.webp?v=1769671661&width=900"
+                    alt="Custom t-shirt printing on production machine"
+                    className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover/media:scale-[1.04]"
                   />
+                  <div className="absolute inset-0 bg-store-navy/0 transition duration-300 group-hover/media:bg-store-navy/15" />
                 </div>
               </div>
 
               <button
                 type="button"
                 aria-label="Watch how we work"
-                className="absolute right-4 bottom-6 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-store-navy text-white shadow-lg transition hover:bg-store-navy-dark sm:right-6 sm:bottom-8"
+                className="absolute right-4 bottom-6 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-store-navy text-white shadow-lg transition hover:scale-105 hover:bg-store-logo sm:right-6 sm:bottom-8"
               >
                 <Play className="ml-0.5 h-5 w-5 fill-current" aria-hidden />
               </button>
@@ -76,21 +75,21 @@ export function WhyChooseUs() {
               return (
                 <article
                   key={item.title}
-                  className="rounded-2xl border border-store-line bg-store-paper px-5 pt-8 pb-7 text-center sm:px-6"
+                  className="group cursor-default rounded-2xl border border-store-line bg-store-paper px-5 pt-8 pb-7 text-center transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-store-navy hover:bg-store-navy hover:shadow-[0_22px_40px_-20px_rgba(15,61,102,0.55)] sm:px-6"
                 >
                   <div className="relative mx-auto mb-5 flex h-16 w-24 items-start justify-center">
                     <div
                       aria-hidden
-                      className="absolute top-0 h-14 w-24 rounded-b-full bg-store-rose-soft"
+                      className="absolute top-0 h-14 w-24 rounded-b-full bg-store-rose-soft transition-colors duration-300 group-hover:bg-white/15"
                     />
-                    <div className="relative z-10 mt-5 flex h-12 w-12 items-center justify-center rounded-full bg-store-navy text-white shadow-md">
+                    <div className="relative z-10 mt-5 flex h-12 w-12 items-center justify-center rounded-full bg-store-navy text-white shadow-md transition-all duration-300 group-hover:scale-110 group-hover:bg-white group-hover:text-store-navy group-hover:shadow-lg">
                       <Icon className="h-5 w-5" strokeWidth={1.8} aria-hidden />
                     </div>
                   </div>
-                  <h3 className="text-lg font-bold tracking-tight text-store-ink">
+                  <h3 className="text-lg font-bold tracking-tight text-store-ink transition-colors duration-300 group-hover:text-white">
                     {item.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-store-muted">
+                  <p className="mt-2 text-sm leading-relaxed text-store-muted transition-colors duration-300 group-hover:text-white/75">
                     {item.body}
                   </p>
                 </article>

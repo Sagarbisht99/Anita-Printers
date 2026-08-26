@@ -26,7 +26,7 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
   }, [product.image, product.imageGallery]);
 
   const [activeImage, setActiveImage] = useState(0);
-  const [method, setMethod] = useState("Screen Print");
+  const [method, setMethod] = useState("Offset");
   const [locations, setLocations] = useState<string[]>(["Front chest"]);
   const [fileName, setFileName] = useState("");
 
@@ -110,9 +110,9 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
               </p>
             ) : (
               <p className="mt-3 text-sm leading-relaxed text-store-muted">
-                B2B-ready decoration with proof-before-print workflow. Choose
-                volume tier, upload artwork, and request a sample box before
-                full production.
+                Offset or screen decoration with proof-before-print workflow.
+                Pick volume tier, upload artwork, and request a sample before
+                bulk — ideal for corporate, retail, events, and schools.
               </p>
             )}
           </div>
@@ -156,12 +156,11 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
                 onChange={(e) => setMethod(e.target.value)}
                 className="mt-1.5 w-full rounded-xl border border-store-line bg-store-paper px-3 py-2.5"
               >
-                {["Screen Print", "DTF", "Embroidery", "UV Printing", "Offset"].map(
+                {["Offset", "Screen Print", "DTF", "Embroidery", "UV Printing"].map(
                   (item) => (
                     <option key={item}>{item}</option>
                   ),
-                )}
-              </select>
+                )}              </select>
             </label>
             <p className="mt-4 text-sm font-medium text-store-ink">
               Print locations

@@ -14,24 +14,24 @@ import { aboutProfile, siteContact } from "@/app/lib/storefront/b2b-content";
 
 const gallery = [
   {
-    src: "https://images.unsplash.com/photo-1562157873-818bc0726f68?auto=format&fit=crop&w=900&q=80",
-    alt: "Apparel print run on the floor",
-    label: "Apparel lines",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=900&q=80",
-    alt: "Production machinery",
-    label: "Press bay",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=900&q=80",
-    alt: "Embroidery close-up",
-    label: "Embroidery",
-  },
-  {
     src: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&w=900&q=80",
-    alt: "Business card printing",
-    label: "Cards & stationery",
+    alt: "Offset stationery and card printing",
+    label: "Offset stationery",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1562157873-818bc0726f68?auto=format&fit=crop&w=900&q=80",
+    alt: "Screen print apparel run on the floor",
+    label: "Screen apparel",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1607083206968-13611e3d76db?auto=format&fit=crop&w=900&q=80",
+    alt: "Custom packaging and product boxes",
+    label: "Packaging",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=900&q=80",
+    alt: "Business stationery and catalogs",
+    label: "Corporate kits",
   },
 ];
 
@@ -63,20 +63,19 @@ const timeline = [
   {
     year: "Start",
     title: "Homegrown print desk",
-    body: "Built around proof-first discipline for local brands and agencies.",
+    body: "Built around proof-first discipline for local brands, shops, and agencies.",
   },
   {
     year: "Scale",
-    title: "Multi-technique floor",
-    body: "Screen, DTF, embroidery, UV, and offset under one Gurugram roof.",
+    title: "Offset + screen floor",
+    body: "Commercial offset for bulk paper jobs and screen for apparel, bags, and specialty — under one Noida roof.",
   },
   {
     year: "Today",
     title: "Pan-India B2B partner",
-    body: "GST invoices, multi-city splits, and dedicated account managers.",
+    body: "Corporate, retail, events, and schools — GST invoices, multi-city splits, dedicated account managers.",
   },
 ];
-
 export function AboutPageContent() {
   return (
     <>
@@ -107,8 +106,8 @@ export function AboutPageContent() {
             className="store-fade-up mt-3 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg"
             style={{ animationDelay: "160ms" }}
           >
-            {aboutProfile.headline} One accountable partner from proof to
-            invoice — apparel, stationery, and merch at scale.
+            {aboutProfile.headline} Stationery, packaging, apparel, and
+            specialty print for corporate, retail, events, and schools.
           </p>
           <div
             className="store-fade-up mt-6 flex flex-wrap gap-3"
@@ -121,10 +120,10 @@ export function AboutPageContent() {
               Talk to sales
             </Link>
             <Link
-              href="/products"
+              href="/services"
               className="rounded-full border border-white/35 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/15"
             >
-              Browse catalog
+              View services
             </Link>
           </div>
         </div>
@@ -144,9 +143,11 @@ export function AboutPageContent() {
               {aboutProfile.body}
             </p>
             <p className="mt-4 text-[15px] leading-7 text-store-muted">
-              Our Gurugram hub houses screen carousels, DTF lines, embroidery
-              heads, UV/offset presses, and a finishing bay for packing,
-              tagging, and multi-city splits.
+              Our Noida hub houses offset presses for commercial stationery
+              and packaging, screen carousels for apparel and specialty
+              materials, plus DTF, embroidery, UV finishing, and a packing bay
+              for multi-city splits — serving companies, shops, weddings, and
+              institutes.
             </p>
             <div className="mt-6 flex items-start gap-2.5 text-sm text-store-ink">
               <MapPin

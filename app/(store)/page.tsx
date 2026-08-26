@@ -10,6 +10,7 @@ import { ExploreCategories } from "@/app/components/storefront/explore-categorie
 import { FaqSection } from "@/app/components/storefront/faq-section";
 import { HeroSlider } from "@/app/components/storefront/hero-slider";
 import { HowItWorks } from "@/app/components/storefront/how-it-works";
+import { PrintingServicesPreview } from "@/app/components/storefront/printing-services-preview";
 import { PrintingShowcase } from "@/app/components/storefront/printing-showcase";
 import { TestimonialsPartners } from "@/app/components/storefront/testimonials-partners";
 import { VisionHomegrown } from "@/app/components/storefront/vision-homegrown";
@@ -36,8 +37,9 @@ export default async function HomePage() {
       <VisionHomegrown />
       <HowItWorks />
       <PrintingShowcase />
-      <TestimonialsPartners />
+      <PrintingServicesPreview />
       <BulkSavings />
+      <TestimonialsPartners />
       <FaqSection />
     </>
   );

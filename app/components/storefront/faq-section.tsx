@@ -15,8 +15,8 @@ export function FaqSection() {
           Frequently asked questions
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-center text-sm leading-relaxed text-store-muted">
-          MOQs, lead times, shipping, samples, and returns — answered for B2B
-          buyers.
+          MOQs, lead times, offset vs screen, shipping, samples, and returns —
+          answered for corporate, retail, event, and school buyers.
         </p>
 
         <div className="mt-10 grid gap-3 md:grid-cols-2 md:gap-x-5 md:gap-y-3">

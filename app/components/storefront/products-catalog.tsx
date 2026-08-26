@@ -98,15 +98,28 @@ export function ProductsCatalog() {
     <main className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
       <div className="mb-8">
         <p className="text-xs font-semibold tracking-[0.14em] text-store-muted uppercase">
-          B2B catalog
+          Offset · Screen · Bulk catalog
         </p>
         <h1 className="mt-2 text-3xl font-bold tracking-tight text-store-navy sm:text-4xl">
           Shop / Catalog
         </h1>
         <p className="mt-2 max-w-2xl text-sm text-store-muted">
-          {search
-            ? `Results for “${search}”`
-            : "Filter by category, print technique, GSM, MOQ, and lead time — then open a product for tiered pricing and instant quote."}
+          {search ? (
+            `Results for “${search}”`
+          ) : (
+            <>
+              Stationery, packaging, apparel, bags, and gifting — filter by
+              category, offset/screen technique, GSM, MOQ, and lead time. Need
+              the full service list?{" "}
+              <a
+                href="/services"
+                className="font-semibold text-store-navy hover:underline"
+              >
+                Visit Services
+              </a>
+              .
+            </>
+          )}
         </p>
       </div>
 
