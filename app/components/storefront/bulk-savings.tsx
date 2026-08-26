@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { bulkPromoTiles } from "@/app/lib/storefront/mock-catalog";
 
 function PromoTile({
@@ -14,14 +13,13 @@ function PromoTile({
       href={tile.href}
       className={`group relative flex flex-col justify-end overflow-hidden rounded-2xl p-6 text-white ${className}`}
     >
-      <Image
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
         src={tile.image}
         alt=""
-        fill
-        sizes="(max-width: 768px) 100vw, 50vw"
-        className="object-cover transition duration-500 group-hover:scale-[1.03]"
+        className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-black/5" />
+      <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/25 to-black/5" />
 
       {tile.eyebrow ? (
         <span className="absolute top-4 left-4 z-10 rounded-md bg-white/85 px-2.5 py-1 text-[10px] font-semibold tracking-wide text-store-ink uppercase">
@@ -49,23 +47,26 @@ export function BulkSavings() {
     <section id="bulk-savings" className="bg-store-surface">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
         <h2 className="text-center text-2xl font-bold tracking-tight text-store-navy sm:text-3xl">
-          Scale Your Order, Maximize Savings.
+          Scale your order — offset &amp; screen savings
         </h2>
+        <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-store-muted">
+          Higher quantities bring lower unit costs on stationery, packaging,
+          apparel, and promotional print for corporate, retail, events, and
+          schools.
+        </p>
 
         <div className="mt-10 grid gap-4 lg:grid-cols-2 lg:gap-5">
           <Link
             href={mainPromo.href}
             className="group relative flex min-h-[320px] flex-col justify-end overflow-hidden rounded-2xl p-7 text-white sm:min-h-[420px] sm:p-8"
           >
-            <Image
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src={mainPromo.image}
               alt=""
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover transition duration-500 group-hover:scale-[1.03]"
+              className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-black/10" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/75 via-black/30 to-black/10" />
             <div className="relative z-10">
               <h3 className="text-3xl font-bold tracking-tight sm:text-4xl">
                 {mainPromo.title}

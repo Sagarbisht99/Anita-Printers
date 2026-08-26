@@ -7,6 +7,7 @@ import { siteContact } from "@/app/lib/storefront/b2b-content";
 
 const navLinks = [
   { href: "/products", label: "Catalog" },
+  { href: "/services", label: "Services" },
   { href: "/#faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
   { href: "/about", label: "About" },

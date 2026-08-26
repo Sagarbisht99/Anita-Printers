@@ -25,9 +25,19 @@ export function ExploreCategories({
     <section id="explore-categories" className="border-t border-store-line bg-store-paper">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-14">
         <div className="flex items-end justify-between gap-4">
-          <h2 className="text-2xl font-bold tracking-tight text-store-navy sm:text-3xl">
-            Explore Our Categories
-          </h2>
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight text-store-navy sm:text-3xl">
+              Explore our categories
+            </h2>
+            <p className="mt-2 max-w-xl text-sm text-store-muted">
+              From offset cards and packaging to screen apparel, bags, and
+              gifting — pick a category or browse{" "}
+              <Link href="/services" className="font-semibold text-store-navy hover:underline">
+                offset &amp; screen services
+              </Link>
+              .
+            </p>
+          </div>
           <Link
             href="/products"
             className="shrink-0 text-sm font-semibold text-store-navy hover:underline"
@@ -42,7 +52,11 @@ export function ExploreCategories({
           </p>
         ) : categories.length === 0 ? (
           <p className="mt-8 text-sm text-store-muted">
-            No categories yet. Add some from admin.
+            Categories will appear here once added. Meanwhile explore{" "}
+            <Link href="/services" className="font-semibold text-store-navy hover:underline">
+              offset &amp; screen printing services
+            </Link>
+            .
           </p>
         ) : (
           <div className="mt-8 flex gap-5 overflow-x-auto pb-2 sm:gap-6 md:grid md:grid-cols-3 md:overflow-visible lg:grid-cols-4 xl:grid-cols-5">

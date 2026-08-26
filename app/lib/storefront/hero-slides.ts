@@ -7,21 +7,31 @@ export type HeroSlide = {
 
 export const heroSlides: HeroSlide[] = [
   {
-    id: "backpack",
-    title: "Everyday Backpack",
-    href: "/#products",
-    image: "https://www.arcprint.in/images/main-banner/bag/1920.webp",
+    id: "offset-bulk",
+    title: "Offset Printing — Bulk Stationery & Packaging",
+    href: "/services#offset",
+    image:
+      "https://ik.imagekit.io/0qbkwaf3x/anita-printers/banner/image.png",
   },
   {
-    id: "joining-kit",
-    title: "Smart Joining Kit",
-    href: "/#products",
-    image: "https://www.arcprint.in/images/main-banner/combo/1920.webp",
+    id: "screen-apparel",
+    title: "Screen Printing — Apparel, Bags & Specialty",
+    href: "/services#screen",
+    image:
+      "https://ik.imagekit.io/0qbkwaf3x/anita-printers/banner/1920%20(1).webp",
   },
   {
-    id: "pens",
-    title: "Custom Pens",
-    href: "/#products",
-    image: "https://www.arcprint.in/images/main-banner/new-pen/1920.webp",
+    id: "corporate-kits",
+    title: "Corporate, Retail, Events & Schools",
+    href: "/services#who-we-serve",
+    image:
+      "https://ik.imagekit.io/0qbkwaf3x/anita-printers/banner/Gemini_Generated_Image_9nxola9nxola9nxo.png",
+  },
+  {
+    id: "corporate-branding",
+    title: "Elevate Corporate Image — Branded Essentials",
+    href: "/contact",
+    image:
+      "https://ik.imagekit.io/0qbkwaf3x/anita-printers/banner/Gemini_Generated_Image_7sjpob7sjpob7sjp.png",
   },
 ];

@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { useDragSlide } from "@/app/lib/storefront/use-drag-slide";
@@ -9,46 +8,51 @@ import { useDragSlide } from "@/app/lib/storefront/use-drag-slide";
 /** Production showcase — replace image URLs anytime. */
 const slides = [
   {
-    id: "floor",
-    alt: "Print production team at work",
+    id: "bill-books",
+    alt: "Bill books and invoice pads — business stationery",
     image:
-      "https://images.unsplash.com/photo-1562157873-818bc0726f68?auto=format&fit=crop&w=1400&q=80",
+      "https://cms.cloudinary.vpsvc.com/image/upload/if_ar_gt_1.1/c_scale,t_pdpHeroGallery_Gallery/if_else/c_scale,w_816/if_end/f_auto,q_auto:best,dpr_1.0/India%20LOB/Stationery%2C%20Letterheads%20and%20Stamps/Bill%20Books%20A4%20and%20A5/IN_Bill-Books-A4-A5_Hero-image_01",
   },
   {
-    id: "embroidery",
-    alt: "Embroidery machine close-up",
+    id: "brochures",
+    alt: "Brochures and fold styles — marketing print",
     image:
-      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=1400&q=80",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZPT_0x1oQN_ogsq-NIugEZB2JF9lrqCLD14MrMhbEEj8RmbBAddBJu78&s=10",
   },
   {
-    id: "bottle",
-    alt: "Custom bottle branding on press",
+    id: "catalogs",
+    alt: "Catalogs, magazines, and product books",
     image:
-      "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=1400&q=80",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdvts2qdafgD6J7ptVSUlhB1lPCoNbWxPIGB5fB4UtNuzszs9PfaqOeEE&s=10",
   },
   {
-    id: "cards",
-    alt: "Bulk card printing",
-    image:
-      "https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&w=1400&q=80",
+    id: "publishing",
+    alt: "Books, magazines, and publishing print",
+    image: "https://3.imimg.com/data3/IU/EB/MY-10841785/imgbooksmags-500x500.jpg",
   },
   {
-    id: "apparel",
-    alt: "Custom apparel finishing",
+    id: "pocket-notes",
+    alt: "Pocket notebooks and diaries",
     image:
-      "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=1400&q=80",
+      "https://rukminim3.flixcart.com/image/480/640/xif0q/diary-notebook/u/f/l/pocket-notes-03-pocket-notes-03-mudrit-original-imaheebheqakfxzp.jpeg?q=20",
+  },
+  {
+    id: "folders",
+    alt: "Presentation folders and annual report covers",
+    image:
+      "https://5.imimg.com/data5/SELLER/Default/2026/6/619245064/DB/YN/WO/35983597/presentation-folder-printing-500x500.jpeg",
   },
   {
     id: "packaging",
-    alt: "Branded packaging and boxes",
+    alt: "Eco-friendly kraft product boxes and packaging",
     image:
-      "https://images.unsplash.com/photo-1607083206968-13611e3d76db?auto=format&fit=crop&w=1400&q=80",
+      "https://dxqrsynswv8av.cloudfront.net/images/products_gallery_images/6_1750304563048_1755156873140.jpg",
   },
   {
-    id: "stationery",
-    alt: "Business stationery set",
+    id: "wedding",
+    alt: "Wedding invitation and premium stationery",
     image:
-      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=80",
+      "https://img.magnific.com/free-psd/watercolor-wedding-design-poster-template_23-2149648273.jpg?semt=ais_hybrid&w=740&q=80",
   },
 ];
 
@@ -98,7 +102,7 @@ export function PrintingShowcase() {
         <h2 className="text-[1.65rem] leading-tight font-bold tracking-tight text-[#1a1a1a] sm:text-4xl sm:leading-[1.2] lg:text-[2.75rem]">
           Anita Printers&apos; Promise:
           <br />
-          Printing at its Best. Period
+          Offset &amp; screen at their best
           <span
             aria-hidden
             className="ml-1.5 inline-block h-2.5 w-2.5 translate-y-[-2px] bg-store-accent align-middle sm:h-3 sm:w-3 sm:translate-y-[-3px]"
@@ -106,16 +110,16 @@ export function PrintingShowcase() {
         </h2>
 
         <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-7 text-[#555] sm:mt-6 sm:text-base sm:leading-8">
-          Every print, every order — Anita Printers has poured heart and soul
-          into each one, with unwavering pride in delivering exceptional quality
-          that brings your brand&apos;s vision to life.
+          Every bulk stationery run, every apparel print, every packaging job —
+          proofed with care so corporate, retail, event, and school brands ship
+          work that looks the way it was meant to.
         </p>
 
         <Link
-          href="/products"
+          href="/services"
           className="mt-5 inline-flex items-center gap-1.5 text-[15px] font-medium text-[#1a1a1a] transition hover:text-store-navy sm:mt-6"
         >
-          Continue exploring
+          Explore offset &amp; screen services
           <ArrowUpRight className="h-4 w-4" strokeWidth={2} aria-hidden />
         </Link>
       </div>
@@ -177,14 +181,12 @@ export function PrintingShowcase() {
                 aria-label={isCenter ? slide.alt : `Show ${slide.alt}`}
                 aria-current={isCenter}
               >
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={slide.image}
                   alt={isCenter ? slide.alt : ""}
-                  fill
                   draggable={false}
-                  sizes="(max-width: 768px) 35vw, 240px"
-                  className="pointer-events-none object-cover select-none"
-                  priority={isCenter}
+                  className="pointer-events-none absolute inset-0 h-full w-full object-cover select-none"
                 />
               </button>
             );

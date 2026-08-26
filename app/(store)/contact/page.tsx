@@ -4,7 +4,7 @@ import { ContactPageContent } from "@/app/components/storefront/contact-page-con
 export const metadata: Metadata = {
   title: "Contact Us",
   description:
-    "Address, phone, WhatsApp, map location, and inquiry form for Anita Printers.",
+    "Request a quote for offset stationery, packaging, or screen apparel — phone, WhatsApp, map, and inquiry form for Anita Printers.",
 };
 
 export default function ContactPage() {

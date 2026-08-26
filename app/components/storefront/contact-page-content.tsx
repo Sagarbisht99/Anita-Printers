@@ -2,17 +2,24 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Clock3, Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { QuickQuoteForm } from "@/app/components/storefront/quick-quote";
 import { siteContact } from "@/app/lib/storefront/b2b-content";
 
 const channels = [
   {
-    title: "Call the desk",
-    detail: siteContact.phone,
+    title: "Call mobile",
+    detail: siteContact.phones.map((p) => p.display).join(" · "),
     href: siteContact.phoneHref,
     Icon: Phone,
     cta: "Call now",
+  },
+  {
+    title: "Landline",
+    detail: siteContact.landline.display,
+    href: siteContact.landline.href,
+    Icon: Phone,
+    cta: "Call landline",
   },
   {
     title: "Email orders",
@@ -22,14 +29,7 @@ const channels = [
     cta: "Send email",
   },
   {
-    title: "Visit hours",
-    detail: siteContact.hours,
-    href: null,
-    Icon: Clock3,
-    cta: null,
-  },
-  {
-    title: "Production hub",
+    title: "Visit us",
     detail: siteContact.addressLines.slice(1).join(", "),
     href: null,
     Icon: MapPin,
@@ -67,8 +67,9 @@ export function ContactPageContent() {
             className="store-fade-up mt-3 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg"
             style={{ animationDelay: "160ms" }}
           >
-            Share product, quantity, and deadline — or call / WhatsApp for
-            same-day direction on MOQ and technique.
+            Share product, quantity, and deadline — we&apos;ll recommend offset,
+            screen, or a hybrid and quote MOQ for corporate, retail, event, or
+            school jobs.
           </p>
           <div
             className="store-fade-up mt-6 flex flex-wrap gap-3"
@@ -134,8 +135,9 @@ export function ContactPageContent() {
               Send a quick inquiry
             </h2>
             <p className="mt-3 max-w-lg text-sm leading-relaxed text-store-muted">
-              Prefer a full RFQ with artwork upload? Use the quote form — or
-              drop a quick note here and we&apos;ll call back.
+              Tell us if you need offset stationery/packaging or screen
+              apparel/specialty — we&apos;ll call back with MOQ and lead time.
+              Prefer a full RFQ with artwork? Use the quote form below.
             </p>
             <div className="mt-6">
               <QuickQuoteForm compact />
@@ -185,7 +187,10 @@ export function ContactPageContent() {
                     Find the hub
                   </h3>
                   <p className="mt-1 text-xs text-store-muted">
-                    {siteContact.addressLines[0]}
+                    {siteContact.addressLines.join(", ")}
+                  </p>
+                  <p className="mt-1 text-xs font-medium text-store-ink">
+                    GSTIN: {siteContact.gstin}
                   </p>
                 </div>
                 <MapPin className="h-5 w-5 text-store-accent" aria-hidden />

@@ -16,6 +16,13 @@ export function StoreTopBar() {
             <span>{siteContact.phone}</span>
           </a>
           <a
+            href={siteContact.landline.href}
+            className="hidden items-center gap-1.5 text-white/90 transition hover:text-white md:inline-flex"
+          >
+            <Phone className="h-3.5 w-3.5 shrink-0" strokeWidth={2} aria-hidden />
+            <span>{siteContact.landline.display}</span>
+          </a>
+          <a
             href={`mailto:${siteContact.email}`}
             className="hidden items-center gap-1.5 truncate text-white/90 transition hover:text-white sm:inline-flex"
           >

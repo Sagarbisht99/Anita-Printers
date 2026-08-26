@@ -3,20 +3,26 @@ import Link from "next/link";
 const steps = [
   {
     n: "1",
-    title: "Select Product",
-    body: "Browse apparel, cards, stationery, or merch — or share a custom brief with our B2B desk.",
-    href: "/products",
+    title: "Pick technique & product",
+    body: "Choose offset stationery/packaging or screen apparel & specialty — or browse the full catalog and services list.",
+    href: "/services",
   },
   {
     n: "2",
-    title: "Upload & Approve",
-    body: "Send AI, PDF, or PNG. We share a proof with placements — optional sample before print.",
+    title: "Upload your design",
+    body: "Send AI, PDF, or PNG. We prepare placements and colour notes for a clear digital proof.",
     href: "/contact",
   },
   {
     n: "3",
-    title: "Produce & Deliver",
-    body: "We print, QC, pack, and ship with tracking — one warehouse or multi-city drops.",
+    title: "Approve the proof",
+    body: "Confirm colours, sizes, and packing — optional physical sample before we start bulk production.",
+    href: "/contact",
+  },
+  {
+    n: "4",
+    title: "Produce & deliver",
+    body: "We print, QC, pack, and ship with tracking — offices, shops, venues, or school campuses across India.",
     href: "/contact",
   },
 ];
@@ -101,12 +107,12 @@ export function HowItWorks() {
             How to use this site?
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-white/60 sm:text-base">
-            Three simple steps from catalog to bulk delivery — proof first, then
-            production at scale.
+            From offset bulk jobs to screen specialty runs — four clear steps
+            from brief to pan-India delivery, proof first.
           </p>
         </div>
 
-        <ol className="mt-14 grid gap-12 sm:grid-cols-3 sm:gap-6 lg:gap-8">
+        <ol className="mt-14 grid gap-12 sm:grid-cols-2 sm:gap-8 lg:grid-cols-4 lg:gap-6">
           {steps.map((step, index) => (
             <li
               key={step.n}
