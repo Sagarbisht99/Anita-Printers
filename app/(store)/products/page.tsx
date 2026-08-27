@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { ProductsCatalog } from "@/app/components/storefront/products-catalog";
+import { ProductsCatalog } from "@/app/components/store/pages";
 
 export const metadata: Metadata = {
   title: "Products",

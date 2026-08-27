@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ContactPageContent } from "@/app/components/storefront/contact-page-content";
+import { ContactPageContent } from "@/app/components/store/pages";
 
 export const metadata: Metadata = {
   title: "Contact Us",

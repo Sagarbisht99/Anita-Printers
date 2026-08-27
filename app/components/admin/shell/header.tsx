@@ -17,8 +17,8 @@ import {
   UserRound,
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { logout } from "@/app/actions/auth";
-import { fetchAdminHeaderStats } from "@/app/actions/admin-data";
+import { logout } from "@/app/actions/admin/auth";
+import { fetchAdminHeaderStats } from "@/app/actions/admin/data";
 import type { HeaderStats } from "@/app/lib/admin/header-stats";
 import { adminKeys } from "@/app/lib/query/keys";
 
@@ -45,12 +45,17 @@ const titles: Record<string, { title: string; subtitle: string }> = {
     title: "Enquiries",
     subtitle: "Leads submitted from the website.",
   },
+  "/admin/offer-banner": {
+    title: "Offer Banner",
+    subtitle: "Toggle and upload the center storefront popup.",
+  },
 };
 
 const pages = [
   { href: "/admin/dashboard", label: "Dashboard", hint: "Overview" },
   { href: "/admin/products", label: "Products", hint: "Catalog" },
   { href: "/admin/categories", label: "Categories", hint: "Content" },
+  { href: "/admin/offer-banner", label: "Offer Banner", hint: "Popup" },
   { href: "/admin/orders", label: "Orders", hint: "Fulfillment" },
   { href: "/admin/enquiries", label: "Enquiries", hint: "Leads" },
 ];

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { fetchStoreProductBySlug } from "@/app/actions/storefront";
-import { ProductDetailView } from "@/app/components/storefront/product-detail";
+import { fetchStoreProductBySlug } from "@/app/actions/store/catalog";
+import { ProductDetailView } from "@/app/components/store/pages";
 
 type Props = {
   params: Promise<{ slug: string }>;

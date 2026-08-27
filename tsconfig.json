@@ -19,7 +19,11 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@/store/*": ["./app/components/store/*"],
+      "@/admin-ui/*": ["./app/components/admin/*"],
+      "@/actions/*": ["./app/actions/*"],
+      "@/lib/*": ["./app/lib/*"]
     }
   },
   "include": [
