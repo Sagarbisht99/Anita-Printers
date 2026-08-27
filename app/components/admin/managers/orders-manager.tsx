@@ -18,7 +18,7 @@ import {
   useDeleteOrder,
   useUpdateOrderStatus,
 } from "@/app/hooks/admin";
-import type { AdminOrderRow } from "@/app/actions/admin-data";
+import type { AdminOrderRow } from "@/app/actions/admin/data";
 
 function OrderStatusForm({ order }: { order: AdminOrderRow }) {
   const updateStatus = useUpdateOrderStatus();

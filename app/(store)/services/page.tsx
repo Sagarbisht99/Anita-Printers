@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ServicesPageContent } from "@/app/components/storefront/services-page-content";
+import { ServicesPageContent } from "@/app/components/store/pages";
 
 export const metadata: Metadata = {
   title: "Services — What We Print",

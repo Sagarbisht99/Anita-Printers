@@ -12,7 +12,7 @@ import {
   useAdminEnquiries,
   useDeleteEnquiry,
 } from "@/app/hooks/admin";
-import type { AdminEnquiryRow } from "@/app/actions/admin-data";
+import type { AdminEnquiryRow } from "@/app/actions/admin/data";
 
 export function EnquiriesManager() {
   const [page, setPage] = useState(1);
@@ -62,26 +62,27 @@ export function EnquiriesManager() {
             <tr>
               <th className="px-4 py-3 font-medium">Date</th>
               <th className="px-4 py-3 font-medium">Name</th>
-              <th className="px-4 py-3 font-medium">Email</th>
               <th className="px-4 py-3 font-medium">Phone</th>
+              <th className="px-4 py-3 font-medium">Category</th>
+              <th className="px-4 py-3 font-medium">Qty</th>
               <th className="px-4 py-3 font-medium">Actions</th>
             </tr>
           </thead>
           <tbody>
             {isLoading ? (
-              <TableSkeleton columns={5} rows={6} />
+              <TableSkeleton columns={6} rows={6} />
             ) : error ? (
               <tr>
-                <td colSpan={5} className="px-4 py-10 text-center text-rose-300">
+                <td colSpan={6} className="px-4 py-10 text-center text-rose-300">
                   {error.message}
                 </td>
               </tr>
             ) : rows.length === 0 ? (
               <tr>
-                <td colSpan={5} className="px-4 py-10 text-center text-zinc-500">
+                <td colSpan={6} className="px-4 py-10 text-center text-zinc-500">
                   {search
                     ? `No enquiries match “${search}”`
-                    : "No enquiries yet (public form later)"}
+                    : "No enquiries yet"}
                 </td>
               </tr>
             ) : (
@@ -89,8 +90,9 @@ export function EnquiriesManager() {
                 <tr key={row.id} className="border-b border-white/[0.06] text-zinc-300">
                   <td className="px-4 py-3">{row.createdAt}</td>
                   <td className="px-4 py-3 font-medium text-white">{row.name}</td>
-                  <td className="px-4 py-3">{row.email}</td>
                   <td className="px-4 py-3">{row.number}</td>
+                  <td className="px-4 py-3">{row.category ?? "—"}</td>
+                  <td className="px-4 py-3">{row.quantity ?? "—"}</td>
                   <td className="px-4 py-3">
                     <div className="flex gap-2">
                       <button
@@ -140,6 +142,13 @@ export function EnquiriesManager() {
                 { label: "Name", value: viewing.name },
                 { label: "Email", value: viewing.email },
                 { label: "Phone", value: viewing.number },
+                { label: "Category", value: viewing.category ?? "—" },
+                {
+                  label: "Quantity",
+                  value:
+                    viewing.quantity != null ? String(viewing.quantity) : "—",
+                },
+                { label: "Notes", value: viewing.notes ?? "—" },
               ]
             : []
         }

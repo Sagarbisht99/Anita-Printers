@@ -15,16 +15,16 @@ import {
   fetchAdminOrders,
   fetchAdminProductOptions,
   fetchAdminProducts,
-} from "@/app/actions/admin-data";
+} from "@/app/actions/admin/data";
 import {
   createOrder,
   deleteEnquiry,
   deleteOrder,
   updateOrderStatus,
   type ActionState,
-} from "@/app/actions/orders";
-import { deleteCategory, saveCategory } from "@/app/actions/categories";
-import { deleteProduct, saveProduct } from "@/app/actions/products";
+} from "@/app/actions/admin/orders";
+import { deleteCategory, saveCategory } from "@/app/actions/admin/categories";
+import { deleteProduct, saveProduct } from "@/app/actions/admin/products";
 import { useToast } from "@/app/components/admin/ui/toast";
 import {
   adminKeys,

@@ -3,10 +3,10 @@ import { COOKIE_NAME, decrypt } from "@/app/lib/session-crypto";
 
 export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const isLogin = pathname === "/admin-login";
+  const isLogin = pathname === "/admin/login";
   const isAdminRoot = pathname === "/admin";
   const isProtectedAdmin =
-    pathname.startsWith("/admin/") || isAdminRoot;
+    (pathname.startsWith("/admin/") || isAdminRoot) && !isLogin;
 
   if (!isLogin && !isProtectedAdmin) {
     return NextResponse.next();
@@ -18,7 +18,7 @@ export default async function proxy(request: NextRequest) {
     Boolean(session?.userId) && session?.role === "super_admin";
 
   if (isProtectedAdmin && !isAuthenticated) {
-    return NextResponse.redirect(new URL("/admin-login", request.url));
+    return NextResponse.redirect(new URL("/admin/login", request.url));
   }
 
   if (isLogin && isAuthenticated) {
@@ -33,5 +33,5 @@ export default async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin", "/admin/:path*", "/admin-login"],
+  matcher: ["/admin", "/admin/:path*"],
 };

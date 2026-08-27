@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
-import { OfferPopup } from "@/app/components/storefront/offer-popup";
-import { QuotePopupProvider } from "@/app/components/storefront/quote-popup";
-import { StoreFloatChrome } from "@/app/components/storefront/store-float-chrome";
-import { StoreFooter } from "@/app/components/storefront/store-footer";
-import { StoreHeader } from "@/app/components/storefront/store-header";
-import { StoreTopBar } from "@/app/components/storefront/store-top-bar";
-import { StorefrontQueryProvider } from "@/app/components/storefront/query-provider";
+import { getOfferBannerSettings } from "@/app/actions/store/site-settings";
+import {
+  StoreFloatChrome,
+  StoreFooter,
+  StoreHeader,
+  StoreTopBar,
+} from "@/app/components/store/layout";
+import {
+  OfferPopup,
+  QuotePopupProvider,
+  StorefrontQueryProvider,
+} from "@/app/components/store/ui";
 
 export const metadata: Metadata = {
   title: {
@@ -16,11 +21,13 @@ export const metadata: Metadata = {
     "Anita Printers — barcode, sticker, label, tag, letterhead, visiting card, plastic printing, brochures, posters, leaflets, carry bags, boxes, flex, and shadi cards. Offset & screen for corporate, retail, events, and schools.",
 };
 
-export default function StoreLayout({
+export default async function StoreLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const offer = await getOfferBannerSettings();
+
   return (
     <StorefrontQueryProvider>
       <QuotePopupProvider>
@@ -30,7 +37,7 @@ export default function StoreLayout({
           <div className="flex-1">{children}</div>
           <StoreFooter />
           <StoreFloatChrome />
-          <OfferPopup />
+          <OfferPopup enabled={offer.enabled} imageUrl={offer.imageUrl} />
         </div>
       </QuotePopupProvider>
     </StorefrontQueryProvider>

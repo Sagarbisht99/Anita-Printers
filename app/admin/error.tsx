@@ -26,7 +26,7 @@ export default function AdminError({
           <Button type="button" variant="secondary" onClick={reset}>
             Try again
           </Button>
-          <Button type="button" onClick={() => (window.location.href = "/admin-login")}>
+          <Button type="button" onClick={() => (window.location.href = "/admin/login")}>
             Admin login
           </Button>
         </div>

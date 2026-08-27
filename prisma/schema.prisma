@@ -104,8 +104,20 @@ model Enquiry {
   name      String   @db.VarChar(255)
   email     String   @db.VarChar(255)
   number    String   @db.VarChar(50)
+  category  String?  @db.VarChar(255)
+  quantity  Int?
+  notes     String?
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
 
   @@index([createdAt], map: "idx_enquiries_created_at")
   @@map("enquiries")
+}
+
+model SiteSetting {
+  id                String   @id @default("site")
+  offerPopupEnabled Boolean  @default(false) @map("offer_popup_enabled")
+  offerPopupImage   String?  @map("offer_popup_image")
+  updatedAt         DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("site_settings")
 }

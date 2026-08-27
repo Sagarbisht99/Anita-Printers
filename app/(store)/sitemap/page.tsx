@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SitemapPageContent } from "@/app/components/storefront/sitemap-page-content";
+import { SitemapPageContent } from "@/app/components/store/pages";
 
 export const metadata: Metadata = {
   title: "Sitemap",

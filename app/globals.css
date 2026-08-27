@@ -296,6 +296,25 @@ footer .footer-link-slide:hover {
   color: var(--store-accent);
 }
 
+@keyframes enquiry-hang-sway {
+  0%,
+  100% {
+    transform: rotate(1.2deg);
+  }
+  50% {
+    transform: rotate(-1.4deg);
+  }
+}
+
+.enquiry-hang {
+  transform-origin: top center;
+  animation: enquiry-hang-sway 4.5s ease-in-out infinite;
+}
+
+.enquiry-hang-tag:hover {
+  filter: brightness(1.06);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .brand-marquee,
   .bottom-marquee,
@@ -304,7 +323,8 @@ footer .footer-link-slide:hover {
   .footer-orb-delay,
   .footer-watermark,
   .footer-shimmer,
-  .footer-col {
+  .footer-col,
+  .enquiry-hang {
     animation: none;
   }
 

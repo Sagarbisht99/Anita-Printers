@@ -5,7 +5,7 @@ import { useSaveCategory } from "@/app/hooks/admin";
 import { Button } from "@/app/components/admin/ui/button";
 import { Field, Input, Textarea } from "@/app/components/admin/ui/field";
 import { TodoListField } from "@/app/components/admin/ui/todo-list-field";
-import { ProductImageUploader } from "@/app/components/imagekit/product-image-uploader";
+import { ProductImageUploader } from "@/app/components/shared/imagekit/product-image-uploader";
 import { CATEGORY_IMAGE_FOLDER } from "@/app/lib/imagekit/constants";
 import { slugify } from "@/app/lib/admin/slug";
 

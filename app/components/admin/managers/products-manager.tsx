@@ -22,7 +22,7 @@ import {
   useAdminProducts,
   useDeleteProduct,
 } from "@/app/hooks/admin";
-import type { AdminProductRow } from "@/app/actions/admin-data";
+import type { AdminProductRow } from "@/app/actions/admin/data";
 
 export function ProductsManager() {
   const [page, setPage] = useState(1);

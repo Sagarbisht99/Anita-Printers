@@ -21,7 +21,7 @@ import {
   useAdminCategories,
   useDeleteCategory,
 } from "@/app/hooks/admin";
-import type { AdminCategoryRow } from "@/app/actions/admin-data";
+import type { AdminCategoryRow } from "@/app/actions/admin/data";
 
 export function CategoriesManager() {
   const [page, setPage] = useState(1);

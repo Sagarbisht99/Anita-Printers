@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useSaveProduct } from "@/app/hooks/admin";
-import { ProductImageUploader } from "@/app/components/imagekit/product-image-uploader";
+import { ProductImageUploader } from "@/app/components/shared/imagekit/product-image-uploader";
 import { Button } from "@/app/components/admin/ui/button";
 import { Field, Input, Select, Textarea } from "@/app/components/admin/ui/field";
 import { TodoListField } from "@/app/components/admin/ui/todo-list-field";

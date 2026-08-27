@@ -1,0 +1,12 @@
+export { HeroSlider } from "./hero-slider";
+export { BrandStrip } from "./brand-strip";
+export { CuratedPicks } from "./curated-picks";
+export { ExploreCategories } from "./explore-categories";
+export { WhyChooseUs } from "./why-choose-us";
+export { VisionHomegrown } from "./vision-homegrown";
+export { HowItWorks } from "./how-it-works";
+export { PrintingShowcase } from "./printing-showcase";
+export { PrintingServicesPreview } from "./printing-services-preview";
+export { BulkSavings } from "./bulk-savings";
+export { TestimonialsPartners } from "./testimonials-partners";
+export { FaqSection } from "./faq";

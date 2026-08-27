@@ -6,6 +6,7 @@ import {
   ChevronLeft,
   ChevronRight,
   FolderTree,
+  ImageIcon,
   LayoutDashboard,
   MessageSquareText,
   Package,
@@ -21,6 +22,7 @@ const menu = [
 
 const content = [
   { href: "/admin/categories", label: "Categories", icon: FolderTree },
+  { href: "/admin/offer-banner", label: "Offer Banner", icon: ImageIcon },
 ];
 
 const account = [
@@ -135,14 +137,14 @@ export function AdminSidebar({
           collapsed ? "flex-col gap-3" : "gap-3 px-2"
         }`}
       >
-        <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full bg-white ring-1 ring-white/15">
+        <div className="relative h-11 w-11 shrink-0 overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/logo.svg"
             alt="Anita Printers"
             width={44}
             height={44}
-            className="h-full w-full object-contain p-1"
+            className="h-full w-full object-contain"
           />
         </div>
         {!collapsed ? (
