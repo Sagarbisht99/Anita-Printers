@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 import { AdminLoginForm } from "@/app/admin-login/login-form";
 import { requireSuperAdmin } from "@/app/lib/session";
@@ -49,15 +48,14 @@ export default async function AdminLoginPage() {
       <div className="relative z-10 w-full max-w-md rounded-2xl border border-white/10 bg-[#12151C]/80 p-8 shadow-[0_0_0_1px_rgba(255,255,255,0.03)] backdrop-blur-xl">
         <div className="mb-8 flex flex-col items-center text-center">
           <div className="mb-5 h-[76px] w-[76px] overflow-hidden rounded-full bg-white ring-2 ring-white/15 ring-offset-2 ring-offset-[#12151C]">
-            <Image
-              src="/logo.svg"
-              alt="Anita Printers"
-              width={76}
-              height={76}
-              className="h-full w-full object-contain p-1.5"
-              priority
-              unoptimized
-            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo.svg"
+            alt="Anita Printers"
+            width={76}
+            height={76}
+            className="h-full w-full object-contain p-1.5"
+          />
           </div>
           <h1 className="text-2xl font-semibold tracking-tight text-white">
             Admin Login

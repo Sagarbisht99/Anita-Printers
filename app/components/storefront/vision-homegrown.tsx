@@ -93,12 +93,17 @@ export function VisionHomegrown() {
 
             <ul className="mt-5 grid gap-x-6 gap-y-2.5 text-sm text-white/90 sm:grid-cols-2">
               {highlights.map((item) => (
-                <li key={item} className="flex items-start gap-2">
+                <li
+                  key={item}
+                  className="group/hl flex items-start gap-2 rounded-lg px-2 py-1.5 transition-colors duration-300 hover:bg-white/10"
+                >
                   <span
-                    className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-store-accent"
+                    className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-store-accent transition-transform duration-300 group-hover/hl:scale-150"
                     aria-hidden
                   />
-                  <span>{item}</span>
+                  <span className="transition-colors group-hover/hl:text-white">
+                    {item}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -110,13 +115,13 @@ export function VisionHomegrown() {
               {stats.map((stat, index) => (
                 <div
                   key={stat.label}
-                  className={`px-2 py-2 text-center ${
+                  className={`group/stat px-2 py-2 text-center transition-colors duration-300 hover:bg-white/8 ${
                     index % 2 === 1 ? "border-l border-white/20" : ""
                   } ${index >= 2 ? "border-t border-white/20 sm:border-t-0" : ""} ${
                     index > 0 ? "sm:border-l sm:border-white/25" : ""
                   }`}
                 >
-                  <p className="text-xl font-extrabold tracking-tight tabular-nums sm:text-2xl">
+                  <p className="text-xl font-extrabold tracking-tight tabular-nums transition-colors group-hover/stat:text-store-accent sm:text-2xl">
                     {counts[index].toLocaleString("en-IN")}
                     {stat.suffix}
                   </p>
@@ -145,7 +150,7 @@ export function VisionHomegrown() {
             href={siteContact.whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-store-logo px-5 py-3 text-sm font-bold tracking-wide text-white uppercase transition hover:bg-store-navy"
+            className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-store-logo px-5 py-3 text-sm font-bold tracking-wide text-white uppercase transition-all duration-300 hover:-translate-y-0.5 hover:bg-store-accent hover:shadow-[0_14px_28px_-14px_rgba(196,59,88,0.5)]"
           >
             <WhatsAppIcon />
             Contact Us

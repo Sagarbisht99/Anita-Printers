@@ -23,7 +23,7 @@ export function StoreProductCard({ product }: { product: StoreProductItem }) {
   }));
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-store-line bg-white transition hover:border-store-navy/30 hover:shadow-[0_18px_40px_-28px_rgba(29,111,184,0.45)]">
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-store-line bg-white transition-all duration-300 hover:-translate-y-1.5 hover:border-store-navy hover:shadow-[0_22px_40px_-22px_rgba(15,61,102,0.45)]">
       <Link
         href={detailHref}
         className="relative aspect-square shrink-0 overflow-hidden bg-[#eef2f6]"

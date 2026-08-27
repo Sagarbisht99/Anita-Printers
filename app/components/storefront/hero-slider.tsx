@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { heroSlides } from "@/app/lib/storefront/hero-slides";
@@ -75,14 +74,12 @@ export function HeroSlider() {
               }}
             >
               <div className="relative h-[260px] w-full sm:h-[320px] md:h-[400px] lg:h-[480px]">
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={slide.image}
                   alt={slide.title}
-                  fill
-                  priority={i === 0}
                   draggable={false}
-                  sizes="100vw"
-                  className="pointer-events-none object-cover object-center select-none"
+                  className="absolute inset-0 h-full w-full pointer-events-none object-cover object-center select-none"
                 />
               </div>
             </Link>

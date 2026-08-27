@@ -1,0 +1,75 @@
+/** Shared site map for the /sitemap page and footer. */
+export const siteMapSections = [
+  {
+    id: "main",
+    title: "Main pages",
+    links: [
+      { href: "/", label: "Home" },
+      { href: "/about", label: "About us" },
+      { href: "/services", label: "Services" },
+      { href: "/products", label: "Product catalog" },
+      { href: "/contact", label: "Contact" },
+      { href: "/#faq", label: "FAQs" },
+      { href: "/sitemap", label: "Sitemap" },
+    ],
+  },
+  {
+    id: "services",
+    title: "Printing services",
+    links: [
+      { href: "/services#what-we-print", label: "What we print" },
+      { href: "/services#offset", label: "Offset printing" },
+      { href: "/services#screen", label: "Screen printing" },
+      { href: "/services#who-we-serve", label: "Who we serve" },
+    ],
+  },
+  {
+    id: "products",
+    title: "What we print",
+    links: [
+      { href: "/services#what-we-print", label: "Barcode" },
+      { href: "/services#what-we-print", label: "Sticker" },
+      { href: "/services#what-we-print", label: "Label" },
+      { href: "/services#what-we-print", label: "Tag" },
+      { href: "/services#what-we-print", label: "Letterhead" },
+      { href: "/services#what-we-print", label: "Visiting Card" },
+      { href: "/services#what-we-print", label: "Plastic Material" },
+      { href: "/services#what-we-print", label: "Brochures" },
+      { href: "/services#what-we-print", label: "Posters" },
+      { href: "/services#what-we-print", label: "Leaflets" },
+      { href: "/services#what-we-print", label: "Carry Bag" },
+      { href: "/services#what-we-print", label: "Box" },
+      { href: "/services#what-we-print", label: "Flex" },
+      { href: "/services#what-we-print", label: "Shadi Card" },
+    ],
+  },
+  {
+    id: "legal",
+    title: "Policies",
+    links: [
+      { href: "/privacy", label: "Privacy Policy" },
+      { href: "/terms", label: "Terms of Service" },
+      { href: "/shipping", label: "Shipping Policy" },
+      { href: "/refund", label: "Refund Policy" },
+    ],
+  },
+] as const;
+
+export const footerPrintMarquee = [
+  "Barcode",
+  "Sticker",
+  "Label",
+  "Tag",
+  "Letterhead",
+  "Visiting Card",
+  "Plastic Printing",
+  "Brochures",
+  "Posters",
+  "Leaflets",
+  "Carry Bag",
+  "Box",
+  "Flex",
+  "Shadi Card",
+  "Offset",
+  "Screen",
+] as const;

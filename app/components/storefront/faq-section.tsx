@@ -38,11 +38,11 @@ export function FaqSection() {
 
 function FaqItem({ question, answer }: { question: string; answer: string }) {
   return (
-    <details className="group rounded-2xl border border-store-line bg-store-surface px-5 py-4 open:bg-white">
-      <summary className="cursor-pointer list-none text-base font-semibold text-store-ink marker:content-none">
+    <details className="group rounded-2xl border border-store-line bg-store-surface px-5 py-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-store-navy/25 hover:shadow-[0_12px_28px_-18px_rgba(15,61,102,0.35)] open:border-store-navy/20 open:bg-white open:shadow-[0_12px_28px_-18px_rgba(15,61,102,0.3)]">
+      <summary className="cursor-pointer list-none text-base font-semibold text-store-ink marker:content-none transition-colors group-hover:text-store-navy">
         <span className="flex items-center justify-between gap-4">
           {question}
-          <span className="shrink-0 text-store-muted transition group-open:rotate-45">
+          <span className="shrink-0 text-store-muted transition group-open:rotate-45 group-hover:text-store-accent">
             +
           </span>
         </span>

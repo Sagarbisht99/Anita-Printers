@@ -5,54 +5,51 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { useDragSlide } from "@/app/lib/storefront/use-drag-slide";
 
-/** Production showcase — replace image URLs anytime. */
+/** Production showcase — paste your image URLs in `image` for each type. */
 const slides = [
+  { id: "barcode", title: "Barcode", alt: "Barcode printing", image: "https://sumanlabels.com/wp-content/uploads/2026/04/How-to-Create-Print-MRP-Sticker-with-Barcode.png" },
+  { id: "sticker", title: "Sticker", alt: "Sticker printing", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTu-qOJHnR8XNcLx7d0xh43cHu7YTHohu0J9j6o-34_A0VW4Y1y9cwy0GU&s=10" },
+  { id: "label", title: "Label", alt: "Label printing", image: "https://5.imimg.com/data5/SELLER/Default/2024/11/464438609/HG/JR/DM/13753960/roll-form-label-500x500.png" },
+  { id: "tag", title: "Tag", alt: "Tag printing", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHUP00UD_xF-r04ynGH9LtZYUnl6QScoShKz5upeBYDByisFOvv3lYOCEy&s=10" },
   {
-    id: "bill-books",
-    alt: "Bill books and invoice pads — business stationery",
-    image:
-      "https://cms.cloudinary.vpsvc.com/image/upload/if_ar_gt_1.1/c_scale,t_pdpHeroGallery_Gallery/if_else/c_scale,w_816/if_end/f_auto,q_auto:best,dpr_1.0/India%20LOB/Stationery%2C%20Letterheads%20and%20Stamps/Bill%20Books%20A4%20and%20A5/IN_Bill-Books-A4-A5_Hero-image_01",
+    id: "letterhead",
+    title: "Letterhead",
+    alt: "Letterhead printing",
+    image: "https://quapri.in/_next/image?url=https%3A%2F%2Fwp.quapri.in%2Fwp-content%2Fuploads%2F2024%2F04%2FCustom-Letterheads.webp&w=1920&q=75",
+  },
+  {
+    id: "visiting-card",
+    title: "Visiting Card",
+    alt: "Visiting card printing",
+    image: "https://quapri.in/_next/image?url=https%3A%2F%2Fwp.quapri.in%2Fwp-content%2Fuploads%2F2024%2F04%2FMatteVisitingCards_3.webp&w=1920&q=75",
+  },
+  {
+    id: "plastic",
+    title: "Plastic Material",
+    alt: "Plastic material printing",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRE9LnPe9BIjt3xDmPm66GmbZ0VrruGA9VzwkmIHC5O4byMcp7fHTS9Mg&s=10",
   },
   {
     id: "brochures",
-    alt: "Brochures and fold styles — marketing print",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZPT_0x1oQN_ogsq-NIugEZB2JF9lrqCLD14MrMhbEEj8RmbBAddBJu78&s=10",
+    title: "Brochures",
+    alt: "Brochure printing",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbggsmrf3AGcg7U5czIVaginc7CaXgNcpAv4DnkR61XPanfKLQek32AHo&s=10",
   },
+  { id: "posters", title: "Posters", alt: "Poster printing", image: "https://i.pinimg.com/736x/0b/08/ca/0b08cac9aa11850132899984f1a623f5.jpg" },
+  { id: "leaflets", title: "Leaflets", alt: "Leaflet printing", image: "https://cms-artifacts.motionarray.com/content/motion_array/1927369/Stack_Of_Flyers_Mockup_high_resolution_preview_1927369.jpg?Expires=2079235643&Key-Pair-Id=K2ZDLYDZI2R1DF&Signature=Qx3tqWHYZawRBLWWMcW8~4rXjQfcseHtvOTZPJTUrlhI4DhLc6YVyShBlgYANiw0Lt0-~zkQRx9cOo1YEYRHOi9PDWzl00fXPMvoZF4vINqJhivLfEJoPFMcSs1POQKW4OOAHpwYuxsSLfmHuD7NcIi4iWZCvyxBtlnz-f7VWTlw~t6OQfwGDSh4reNwMmsaJW3fzy7GPEP707f-Zyx1v1QF0nmii-Bs05jrSts~MTgLiR1g7RtaiVGTrVxMyvR-4cb4n6eig7T5zEoow1E2n8~KHDI7ZpH4Dw7RxPC6IheJWLXtpRQnlJ8bqkFzOh99DK0YQzdRUR9NAXui1pCSgA__" },
   {
-    id: "catalogs",
-    alt: "Catalogs, magazines, and product books",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdvts2qdafgD6J7ptVSUlhB1lPCoNbWxPIGB5fB4UtNuzszs9PfaqOeEE&s=10",
+    id: "carry-bag",
+    title: "Carry Bag",
+    alt: "Carry bag printing",
+    image: "https://cms.cloudinary.vpsvc.com/image/upload/if_ar_gt_1.1/c_scale,t_pdpHeroGallery_Gallery/if_else/c_scale,w_816/if_end/f_auto,q_auto:best,dpr_1.0/India%20LOB/Premium%20option%20in%20paper%20bag/Premium_option_in_Paper_bags_02",
   },
+  { id: "box", title: "Box", alt: "Box packaging printing", image: "https://cms.cloudinary.vpsvc.com/image/upload/c_scale,dpr_1.0,f_auto,q_auto:good,w_700/India%20LOB/marketing%20Materials/Full%20Print%20Mailer%20Boxes/IN_Full-Print-Mailer-Boxes_Overview" },
+  { id: "flex", title: "Flex", alt: "Flex banner printing", image: "https://5.imimg.com/data5/SELLER/Default/2025/8/535534704/CL/ZW/AR/118380186/flex-banner-printing-services-500x500.png" },
   {
-    id: "publishing",
-    alt: "Books, magazines, and publishing print",
-    image: "https://3.imimg.com/data3/IU/EB/MY-10841785/imgbooksmags-500x500.jpg",
-  },
-  {
-    id: "pocket-notes",
-    alt: "Pocket notebooks and diaries",
-    image:
-      "https://rukminim3.flixcart.com/image/480/640/xif0q/diary-notebook/u/f/l/pocket-notes-03-pocket-notes-03-mudrit-original-imaheebheqakfxzp.jpeg?q=20",
-  },
-  {
-    id: "folders",
-    alt: "Presentation folders and annual report covers",
-    image:
-      "https://5.imimg.com/data5/SELLER/Default/2026/6/619245064/DB/YN/WO/35983597/presentation-folder-printing-500x500.jpeg",
-  },
-  {
-    id: "packaging",
-    alt: "Eco-friendly kraft product boxes and packaging",
-    image:
-      "https://dxqrsynswv8av.cloudfront.net/images/products_gallery_images/6_1750304563048_1755156873140.jpg",
-  },
-  {
-    id: "wedding",
-    alt: "Wedding invitation and premium stationery",
-    image:
-      "https://img.magnific.com/free-psd/watercolor-wedding-design-poster-template_23-2149648273.jpg?semt=ais_hybrid&w=740&q=80",
+    id: "shadi-card",
+    title: "Shadi Card",
+    alt: "Shadi / wedding card printing",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH1E8C0l_vqK5JEorEAoxkELOswVrcTPgItK4vYdSWl4YrlpN_sMlOXGb_&s=10",
   },
 ];
 
@@ -70,7 +67,7 @@ const SHIFT_BY_OFFSET: Record<number, string> = {
 
 export function PrintingShowcase() {
   const total = slides.length;
-  const [index, setIndex] = useState(3);
+  const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
   const go = useCallback(
@@ -110,9 +107,9 @@ export function PrintingShowcase() {
         </h2>
 
         <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-7 text-[#555] sm:mt-6 sm:text-base sm:leading-8">
-          Every bulk stationery run, every apparel print, every packaging job —
-          proofed with care so corporate, retail, event, and school brands ship
-          work that looks the way it was meant to.
+          Barcode, sticker, label, tag, letterhead, visiting card, plastic
+          printing, brochures, posters, leaflets, carry bag, box, flex, and
+          shadi card — offset &amp; screen under one roof.
         </p>
 
         <Link
@@ -181,13 +178,36 @@ export function PrintingShowcase() {
                 aria-label={isCenter ? slide.alt : `Show ${slide.alt}`}
                 aria-current={isCenter}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={slide.image}
-                  alt={isCenter ? slide.alt : ""}
-                  draggable={false}
-                  className="pointer-events-none absolute inset-0 h-full w-full object-cover select-none"
-                />
+                {slide.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={slide.image}
+                    alt={isCenter ? slide.alt : ""}
+                    draggable={false}
+                    className="pointer-events-none absolute inset-0 h-full w-full object-cover select-none"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center bg-store-navy px-2">
+                    <span
+                      className={`text-center font-semibold text-white ${
+                        isCenter ? "text-sm sm:text-base" : "text-[10px] sm:text-xs"
+                      }`}
+                    >
+                      {slide.title}
+                    </span>
+                  </div>
+                )}
+                {slide.image ? (
+                  <span
+                    className={`absolute inset-x-0 bottom-0 bg-store-navy/75 text-center font-semibold text-white ${
+                      isCenter
+                        ? "px-2 py-1.5 text-xs sm:text-sm"
+                        : "px-1 py-1 text-[9px] sm:text-[10px]"
+                    }`}
+                  >
+                    {slide.title}
+                  </span>
+                ) : null}
               </button>
             );
           })}

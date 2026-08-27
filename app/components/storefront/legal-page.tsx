@@ -22,7 +22,10 @@ export function LegalPage({
         {children}
       </div>
       <div className="mt-12 border-t border-store-line pt-6">
-        <Link href="/" className="text-sm font-medium text-store-navy hover:underline">
+        <Link
+          href="/"
+          className="inline-flex rounded-full border border-store-navy/20 bg-store-paper px-4 py-2 text-sm font-medium text-store-navy transition-all duration-300 hover:-translate-y-0.5 hover:border-store-navy hover:bg-store-navy hover:text-white"
+        >
           ← Back to home
         </Link>
       </div>

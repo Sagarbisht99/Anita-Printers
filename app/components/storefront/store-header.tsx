@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { HeaderSearch } from "@/app/components/storefront/header-search";
 import { siteContact } from "@/app/lib/storefront/b2b-content";
 
@@ -22,14 +21,13 @@ export function StoreHeader() {
           className="flex shrink-0 items-center gap-2.5 sm:gap-3"
           aria-label="Anita Printers home"
         >
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src="/logo.svg"
             alt=""
             width={44}
             height={44}
             className="h-9 w-9 object-contain sm:h-10 sm:w-10"
-            priority
-            unoptimized
           />
           <span className="hidden text-base font-bold tracking-tight text-store-navy min-[400px]:inline sm:text-lg">
             Anita Printers
@@ -43,7 +41,7 @@ export function StoreHeader() {
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-full px-3 py-2 text-sm font-semibold text-store-navy transition hover:bg-store-paper"
+              className="rounded-full px-3 py-2 text-sm font-semibold text-store-navy transition-all duration-300 hover:bg-store-navy hover:text-white"
             >
               {link.label}
             </Link>
@@ -63,7 +61,7 @@ export function StoreHeader() {
 
           <Link
             href="/contact"
-            className="rounded-full bg-store-navy px-3 py-2 text-xs font-semibold text-white transition hover:bg-store-navy-dark sm:px-4 sm:text-sm"
+            className="rounded-full bg-store-navy px-3 py-2 text-xs font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-store-accent sm:px-4 sm:text-sm"
           >
             Get in touch
           </Link>
@@ -75,7 +73,7 @@ export function StoreHeader() {
           <Link
             key={link.href}
             href={link.href}
-            className="shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold text-store-navy hover:bg-store-paper"
+            className="shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold text-store-navy transition-colors hover:bg-store-navy hover:text-white"
           >
             {link.label}
           </Link>

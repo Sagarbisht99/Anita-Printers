@@ -188,18 +188,18 @@ export const bulkPromoTiles = [
   {
     id: "bulk-main",
     eyebrow: null as string | null,
-    title: "Posters that scale",
+    title: "Barcode",
     body: "A0 to A3 large-format posters for shops, events, and campaigns — volume discounts when you buy more.",
     cta: "Order Now",
     href: "/contact",
     tone: "navy" as const,
     span: "main" as const,
     image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDEgUjMDDk17T8_iJ-lvD-ItsrIJw6GKvd1iIJLMmXaPQ_LspZLsTmOZI&s=10",
+      "https://5.imimg.com/data5/GLADMIN/Default/2022/12/KP/PI/ZG/3544741/flexo-rotary-label-printing-machine.jpg",
   },
   {
     id: "bulk-packaging",
-    eyebrow: "wedding & events",
+    eyebrow: "sticker printing machine roll production",
     title: "Wedding invitations",
     body: "Custom wedding cards and banners for shaadi season — festive prints that feel premium.",
     cta: null as string | null,
@@ -207,31 +207,31 @@ export const bulkPromoTiles = [
     tone: "kraft" as const,
     span: "wide" as const,
     image:
-      "https://graphicbud.com/wp-content/uploads/2025/05/car-poster-design-design-cdr-file.cdr_-600x600.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxt07I8B20tFX7p_GcAmhULZL3Npl61fjHxqtBQXRSPDbdoe0E0Z8hZ6s&s=10",
   },
   {
     id: "bulk-cards",
     eyebrow: null as string | null,
-    title: "Rigid mithai boxes",
+    title: "abel printing press roll converting machine",
     body: "Premium gift boxes and return packaging for sweets brands and wedding favours.",
     cta: null as string | null,
     href: "/services#offset",
     tone: "olive" as const,
     span: "half" as const,
     image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9blyxB0AR6Dc-tHkbMeDj1h7mNlb1Bmdci1clLqF6Ig&s=10",
+      "https://5.imimg.com/data5/SELLER/Default/2024/1/379681212/HG/JP/FJ/202238679/multicolor-offset-printing-services-500x500.png",
   },
   {
     id: "bulk-gifts",
     eyebrow: null as string | null,
-    title: "Folders & annual reports",
+    title: "letterhead printing offset press machine",
     body: "Presentation folders and report covers for corporate kits, institutes, and pitches.",
     cta: null as string | null,
     href: "/services#offset",
     tone: "teal" as const,
     span: "half" as const,
     image:
-      "https://contentful.helloprint.com/wm1n7oady8a5/4zyr9N1i67OyJKiCKkLHvK/5721be1db5dae31d119d9e3afacf49d7/folders_PLP.webp?q=75&h=346&w=300&fit=pad",
+      "https://5.imimg.com/data5/SELLER/Default/2025/4/506278987/ML/IB/UB/107253930/paper-offset-printing-press-500x500.jpg",
   },
 ];
 

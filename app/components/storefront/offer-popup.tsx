@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -78,14 +77,13 @@ export function OfferPopup() {
           onClick={dismiss}
           className="block overflow-hidden rounded-xl bg-white shadow-[0_24px_60px_-20px_rgba(0,0,0,0.45)] ring-1 ring-black/10"
         >
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src="/offer.png"
             alt="Special business card offer — tap to request a quote"
             width={840}
             height={1180}
             className="h-auto w-full object-contain"
-            priority
-            unoptimized
           />
         </Link>
       </div>
