@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { QuickQuoteForm } from "@/app/components/storefront/quick-quote";
@@ -37,19 +36,24 @@ const channels = [
   },
 ];
 
+/** Each channel card gets a different hover colour */
+const channelHoverStyles = [
+  "hover:-translate-y-1.5 hover:border-store-navy hover:bg-store-navy hover:shadow-[0_20px_36px_-18px_rgba(15,61,102,0.5)] [&_.ch-icon]:group-hover:bg-white [&_.ch-icon]:group-hover:text-store-navy [&_.ch-title]:group-hover:text-white/65 [&_.ch-detail]:group-hover:text-white [&_.ch-cta]:group-hover:text-white",
+  "hover:-translate-y-1.5 hover:border-store-accent hover:bg-store-accent hover:shadow-[0_20px_36px_-18px_rgba(196,59,88,0.45)] [&_.ch-icon]:group-hover:bg-white [&_.ch-icon]:group-hover:text-store-accent [&_.ch-title]:group-hover:text-white/70 [&_.ch-detail]:group-hover:text-white [&_.ch-cta]:group-hover:text-white",
+  "hover:-translate-y-1.5 hover:border-store-logo hover:bg-store-logo hover:shadow-[0_20px_36px_-18px_rgba(29,111,184,0.5)] [&_.ch-icon]:group-hover:bg-white [&_.ch-icon]:group-hover:text-store-logo [&_.ch-title]:group-hover:text-white/70 [&_.ch-detail]:group-hover:text-white [&_.ch-cta]:group-hover:text-white",
+  "hover:-translate-y-1.5 hover:border-store-navy hover:bg-white hover:shadow-[0_20px_36px_-18px_rgba(15,61,102,0.35)] [&_.ch-icon]:group-hover:bg-store-accent [&_.ch-title]:group-hover:text-store-accent [&_.ch-detail]:group-hover:text-store-navy",
+] as const;
+
 export function ContactPageContent() {
   return (
     <>
-      {/* Hero */}
       <section className="relative isolate min-h-[48vh] overflow-hidden border-b border-store-line sm:min-h-[52vh]">
-        <Image
-          src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=2000&q=80"
-          alt=""
-          fill
-          priority
-          className="object-cover object-[center_30%]"
-          sizes="100vw"
-        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=2000&q=80"
+                  alt=""
+                  className="absolute inset-0 h-full w-full object-cover object-[center_30%]"
+                />
         <div className="absolute inset-0 bg-[linear-gradient(105deg,rgba(8,31,54,0.92)_0%,rgba(15,61,102,0.8)_50%,rgba(8,31,54,0.55)_100%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(196,59,88,0.2),transparent_45%)]" />
 
@@ -77,7 +81,7 @@ export function ContactPageContent() {
           >
             <a
               href="#inquiry"
-              className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-store-navy transition hover:bg-store-paper"
+              className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-store-navy transition-all duration-300 hover:scale-[1.03] hover:bg-store-accent hover:text-white"
             >
               Send inquiry
             </a>
@@ -85,7 +89,7 @@ export function ContactPageContent() {
               href={siteContact.whatsapp}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-white/35 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/15"
+              className="inline-flex items-center gap-2 rounded-full border border-white/35 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white hover:bg-white hover:text-store-navy"
             >
               <WhatsAppIcon />
               WhatsApp business
@@ -94,27 +98,26 @@ export function ContactPageContent() {
         </div>
       </section>
 
-      {/* Channel cards */}
       <section className="border-b border-store-line bg-store-paper">
         <div className="mx-auto grid max-w-6xl gap-4 px-4 py-10 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:py-12">
-          {channels.map(({ title, detail, href, Icon, cta }) => (
+          {channels.map(({ title, detail, href, Icon, cta }, i) => (
             <div
               key={title}
-              className="rounded-2xl border border-store-line bg-white p-5"
+              className={`group rounded-2xl border border-store-line bg-white p-5 transition-all duration-300 ${channelHoverStyles[i] ?? channelHoverStyles[0]}`}
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-store-navy text-white">
+              <div className="ch-icon flex h-10 w-10 items-center justify-center rounded-full bg-store-navy text-white transition-all duration-300 group-hover:scale-110">
                 <Icon className="h-5 w-5" aria-hidden />
               </div>
-              <h2 className="mt-4 text-sm font-semibold tracking-wide text-store-muted uppercase">
+              <h2 className="ch-title mt-4 text-sm font-semibold tracking-wide text-store-muted uppercase transition-colors">
                 {title}
               </h2>
-              <p className="mt-2 text-sm leading-relaxed font-medium text-store-ink">
+              <p className="ch-detail mt-2 text-sm leading-relaxed font-medium text-store-ink transition-colors">
                 {detail}
               </p>
               {href && cta ? (
                 <a
                   href={href}
-                  className="mt-4 inline-block text-sm font-semibold text-store-navy hover:underline"
+                  className="ch-cta mt-4 inline-block text-sm font-semibold text-store-navy underline-offset-4 transition-colors hover:underline"
                 >
                   {cta}
                 </a>
@@ -124,7 +127,6 @@ export function ContactPageContent() {
         </div>
       </section>
 
-      {/* Form + map */}
       <section className="border-b border-store-line bg-store-surface">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 sm:py-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
           <div id="inquiry">
@@ -144,23 +146,38 @@ export function ContactPageContent() {
             </div>
             <p className="mt-5 text-sm text-store-muted">
               Policies:{" "}
-              <Link href="/terms" className="text-store-navy hover:underline">
+              <Link
+                href="/terms"
+                className="font-medium text-store-navy transition-colors hover:text-store-accent hover:underline"
+              >
                 Terms
               </Link>
               ,{" "}
-              <Link href="/privacy" className="text-store-navy hover:underline">
+              <Link
+                href="/privacy"
+                className="font-medium text-store-navy transition-colors hover:text-store-accent hover:underline"
+              >
                 Privacy
               </Link>
               ,{" "}
-              <Link href="/shipping" className="text-store-navy hover:underline">
+              <Link
+                href="/shipping"
+                className="font-medium text-store-navy transition-colors hover:text-store-accent hover:underline"
+              >
                 Shipping
               </Link>
               ,{" "}
-              <Link href="/refund" className="text-store-navy hover:underline">
+              <Link
+                href="/refund"
+                className="font-medium text-store-navy transition-colors hover:text-store-accent hover:underline"
+              >
                 Refunds
               </Link>
               ,{" "}
-              <Link href="/#faq" className="text-store-navy hover:underline">
+              <Link
+                href="/#faq"
+                className="font-medium text-store-navy transition-colors hover:text-store-accent hover:underline"
+              >
                 FAQ
               </Link>
               .
@@ -168,19 +185,19 @@ export function ContactPageContent() {
           </div>
 
           <div className="space-y-5">
-            <div className="relative overflow-hidden rounded-2xl">
+            <div className="group relative overflow-hidden rounded-2xl">
               <div className="relative aspect-[16/10]">
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80"
                   alt="Anita Printers workspace"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 45vw"
+                  className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
                 />
+                <div className="absolute inset-0 bg-store-navy/0 transition duration-300 group-hover:bg-store-navy/15" />
               </div>
             </div>
 
-            <div className="overflow-hidden rounded-2xl border border-store-line bg-store-paper">
+            <div className="overflow-hidden rounded-2xl border border-store-line bg-store-paper transition-all duration-300 hover:border-store-navy/25 hover:shadow-[0_16px_32px_-20px_rgba(15,61,102,0.35)]">
               <div className="flex items-center justify-between px-5 py-4">
                 <div>
                   <h3 className="text-base font-semibold text-store-navy">
@@ -208,7 +225,7 @@ export function ContactPageContent() {
               href={siteContact.whatsapp}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 rounded-2xl bg-[#128C7E] px-5 py-4 text-sm font-semibold text-white transition hover:bg-[#0f7a6e]"
+              className="flex items-center justify-center gap-2 rounded-2xl bg-[#128C7E] px-5 py-4 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#0f7a6e] hover:shadow-[0_14px_28px_-12px_rgba(18,140,126,0.55)]"
             >
               <WhatsAppIcon />
               Chat on WhatsApp — usually fastest for MOQ checks
@@ -217,7 +234,6 @@ export function ContactPageContent() {
         </div>
       </section>
 
-      {/* Bottom CTA */}
       <section className="bg-store-navy-deeper">
         <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-5 px-4 py-10 sm:flex-row sm:items-center sm:px-6 sm:py-12">
           <div>
@@ -231,7 +247,7 @@ export function ContactPageContent() {
           </div>
           <Link
             href="/#faq"
-            className="shrink-0 rounded-full bg-white px-6 py-3 text-sm font-semibold text-store-navy transition hover:bg-store-paper"
+            className="shrink-0 rounded-full bg-white px-6 py-3 text-sm font-semibold text-store-navy transition-all duration-300 hover:scale-[1.03] hover:bg-store-accent hover:text-white"
           >
             View FAQs
           </Link>

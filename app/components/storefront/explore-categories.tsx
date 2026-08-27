@@ -66,13 +66,13 @@ export function ExploreCategories({
                 href={`/products?categoryId=${category.id}`}
                 className="group flex w-[160px] shrink-0 flex-col items-center sm:w-[180px] md:w-auto"
               >
-                <div className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-[#eef3f8] to-[#e4ebf2] p-4 transition group-hover:from-[#e6edf4] group-hover:to-[#dce5ee]">
+                <div className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl border border-transparent bg-gradient-to-br from-[#eef3f8] to-[#e4ebf2] p-4 transition-all duration-300 group-hover:-translate-y-1 group-hover:border-store-navy/20 group-hover:from-[#e6edf4] group-hover:to-[#dce5ee] group-hover:shadow-[0_16px_32px_-18px_rgba(15,61,102,0.4)]">
                   {category.image ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={category.image}
                       alt=""
-                      className="h-full w-full object-contain transition duration-300 group-hover:scale-105"
+                      className="h-full w-full object-contain transition duration-300 group-hover:scale-110"
                     />
                   ) : (
                     <span className="px-2 text-center text-xs font-medium tracking-wide text-store-muted uppercase">
@@ -80,7 +80,7 @@ export function ExploreCategories({
                     </span>
                   )}
                 </div>
-                <p className="mt-3.5 line-clamp-2 text-center text-base font-medium text-store-ink group-hover:text-store-navy">
+                <p className="mt-3.5 line-clamp-2 text-center text-base font-medium text-store-ink transition-colors group-hover:text-store-accent">
                   {category.name}
                 </p>
               </Link>

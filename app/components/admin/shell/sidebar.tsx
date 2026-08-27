@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -137,14 +136,13 @@ export function AdminSidebar({
         }`}
       >
         <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full bg-white ring-1 ring-white/15">
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src="/logo.svg"
             alt="Anita Printers"
             width={44}
             height={44}
             className="h-full w-full object-contain p-1"
-            priority
-            unoptimized
           />
         </div>
         {!collapsed ? (

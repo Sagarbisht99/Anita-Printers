@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { partnerBrands } from "@/app/lib/storefront/partner-brands";
 
 export function BrandStrip() {
@@ -16,14 +15,14 @@ export function BrandStrip() {
               className="flex shrink-0 items-center gap-3.5 sm:gap-4"
             >
               <span className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-store-line bg-white shadow-sm sm:h-16 sm:w-16">
-                <Image
-                  src={brand.logo}
-                  alt=""
-                  width={64}
-                  height={64}
-                  unoptimized
-                  className="h-full w-full object-contain p-1.5"
-                />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={brand.logo}
+            alt=""
+            width={64}
+            height={64}
+            className="h-full w-full object-contain p-1.5"
+          />
               </span>
               <span className="max-w-[9rem] truncate text-sm font-bold tracking-wide text-black select-none sm:max-w-none sm:text-lg">
                 {brand.name}

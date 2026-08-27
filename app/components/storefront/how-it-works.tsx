@@ -116,21 +116,23 @@ export function HowItWorks() {
           {steps.map((step, index) => (
             <li
               key={step.n}
-              className="relative flex flex-col items-center text-center"
+              className="group relative flex flex-col items-center rounded-2xl px-3 py-4 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-white/8"
             >
               {index < steps.length - 1 ? <SketchArrow /> : null}
 
-              <SketchCircle n={step.n} />
+              <div className="transition duration-300 group-hover:scale-105">
+                <SketchCircle n={step.n} />
+              </div>
 
-              <h3 className="mt-6 text-xl font-bold tracking-tight text-white">
+              <h3 className="mt-6 text-xl font-bold tracking-tight text-white transition-colors group-hover:text-store-accent">
                 {step.title}
               </h3>
-              <p className="mt-3 max-w-[260px] text-sm leading-relaxed text-white/55">
+              <p className="mt-3 max-w-[260px] text-sm leading-relaxed text-white/55 transition-colors group-hover:text-white/75">
                 {step.body}
               </p>
               <Link
                 href={step.href}
-                className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-store-accent"
+                className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-white transition group-hover:gap-3 hover:text-store-accent"
               >
                 See More
                 <span aria-hidden className="text-store-accent">

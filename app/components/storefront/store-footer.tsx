@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import { siteContact } from "@/app/lib/storefront/b2b-content";
+import { footerPrintMarquee } from "@/app/lib/storefront/sitemap-links";
 
 const companyLinks = [
   { href: "/", label: "Home" },
@@ -9,6 +9,7 @@ const companyLinks = [
   { href: "/products", label: "Catalog" },
   { href: "/contact", label: "Contact" },
   { href: "/#faq", label: "FAQs" },
+  { href: "/sitemap", label: "Sitemap" },
 ];
 
 const printLinks = [
@@ -30,27 +31,47 @@ const socialLinks = [
 
 export function StoreFooter() {
   const year = new Date().getFullYear();
+  const marquee = [...footerPrintMarquee, ...footerPrintMarquee];
 
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-store-navy-deeper text-white">
+      {/* Ambient orbs */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-24 left-[12%] h-56 w-56 rounded-full bg-store-accent/20 blur-3xl footer-orb"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute top-1/3 -right-10 h-64 w-64 rounded-full bg-store-logo/25 blur-3xl footer-orb-delay"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 left-1/2 h-40 w-[70%] -translate-x-1/2 bg-[radial-gradient(ellipse_at_center,rgba(196,59,88,0.12),transparent_70%)]"
+      />
+
+      {/* Drifting watermark */}
       <p
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-8 translate-y-1/3 text-center text-[16vw] leading-none font-bold tracking-tight text-white/[0.035] select-none sm:text-[12vw]"
+        className="footer-watermark pointer-events-none absolute inset-x-0 bottom-6 text-center text-[18vw] leading-none font-bold tracking-tight text-white/[0.04] select-none sm:text-[13vw]"
       >
         Anita
       </p>
 
+
       <div className="relative mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8 lg:py-14">
         {/* Brand */}
-        <div>
-          <Link href="/" className="inline-flex items-center gap-2.5">
-            <Image
+        <div className="footer-col" style={{ animationDelay: "0ms" }}>
+          <Link
+            href="/"
+            className="group inline-flex items-center gap-2.5 transition-transform duration-300 hover:scale-[1.02]"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src="/logo.svg"
               alt="Anita Printers"
               width={44}
               height={44}
-              className="h-10 w-10 object-contain"
-              unoptimized
+              className="h-10 w-10 object-contain transition duration-500 group-hover:rotate-6"
             />
             <span className="text-lg font-bold tracking-tight text-white">
               Anita Printers
@@ -74,7 +95,7 @@ export function StoreFooter() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-store-accent text-white transition hover:bg-white hover:text-store-accent"
+                className="footer-social flex h-9 w-9 items-center justify-center rounded-full bg-store-accent text-white"
               >
                 <SocialIcon name={icon} />
               </a>
@@ -83,17 +104,14 @@ export function StoreFooter() {
         </div>
 
         {/* Company */}
-        <div>
+        <div className="footer-col" style={{ animationDelay: "80ms" }}>
           <p className="text-xs font-semibold tracking-[0.16em] text-store-accent uppercase">
             Company
           </p>
           <ul className="mt-4 space-y-2.5">
             {companyLinks.map((link) => (
               <li key={link.href + link.label}>
-                <Link
-                  href={link.href}
-                  className="text-sm text-white/70 transition hover:text-white"
-                >
+                <Link href={link.href} className="footer-link-slide text-sm text-white/70">
                   {link.label}
                 </Link>
               </li>
@@ -102,17 +120,14 @@ export function StoreFooter() {
         </div>
 
         {/* What we print */}
-        <div>
+        <div className="footer-col" style={{ animationDelay: "160ms" }}>
           <p className="text-xs font-semibold tracking-[0.16em] text-store-accent uppercase">
             What we print
           </p>
           <ul className="mt-4 space-y-2.5">
             {printLinks.map((link) => (
               <li key={link.label}>
-                <Link
-                  href={link.href}
-                  className="text-sm text-white/70 transition hover:text-white"
-                >
+                <Link href={link.href} className="footer-link-slide text-sm text-white/70">
                   {link.label}
                 </Link>
               </li>
@@ -121,7 +136,7 @@ export function StoreFooter() {
         </div>
 
         {/* Contact */}
-        <div>
+        <div className="footer-col" style={{ animationDelay: "240ms" }}>
           <p className="text-xs font-semibold tracking-[0.16em] text-store-accent uppercase">
             Contact
           </p>
@@ -135,20 +150,20 @@ export function StoreFooter() {
               <a
                 key={phone.href}
                 href={phone.href}
-                className="block font-semibold text-white transition hover:text-store-accent"
+                className="footer-link-slide block font-semibold text-white"
               >
                 {phone.display}
               </a>
             ))}
             <a
               href={siteContact.landline.href}
-              className="block text-white/80 transition hover:text-white"
+              className="footer-link-slide block text-white/80"
             >
               {siteContact.landline.display}
             </a>
             <a
               href={`mailto:${siteContact.email}`}
-              className="block break-all text-white/80 transition hover:text-white"
+              className="footer-link-slide block break-all text-white/80"
             >
               {siteContact.email}
             </a>
@@ -157,23 +172,28 @@ export function StoreFooter() {
         </div>
       </div>
 
+      {/* Bottom bar with shimmer line */}
       <div className="relative border-t border-white/10">
+        <div aria-hidden className="footer-shimmer absolute inset-x-0 top-0 h-px" />
         <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <p className="text-xs text-white/55">
             © {year} Anita Printers. All Rights Reserved.
           </p>
           <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/45">
-            <Link href="/privacy" className="hover:text-white">
+            <Link href="/privacy" className="footer-link-slide">
               Privacy
             </Link>
-            <Link href="/terms" className="hover:text-white">
+            <Link href="/terms" className="footer-link-slide">
               Terms
             </Link>
-            <Link href="/shipping" className="hover:text-white">
+            <Link href="/shipping" className="footer-link-slide">
               Shipping
             </Link>
-            <Link href="/refund" className="hover:text-white">
+            <Link href="/refund" className="footer-link-slide">
               Refunds
+            </Link>
+            <Link href="/sitemap" className="footer-link-slide text-store-accent/80">
+              Sitemap
             </Link>
           </div>
         </div>

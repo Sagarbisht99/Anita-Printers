@@ -382,7 +382,7 @@ export const printingServiceCatalog = {
       summary:
         "Best for mass production and bulk orders. As quantity rises, per-unit cost falls — ideal for visiting cards, letterheads, brochures, posters, leaflets, boxes, carry bags, and high-volume paper jobs.",
       image:
-        "https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&w=1400&q=80",
+        "https://content.jdmagicbox.com/v2/comp/kolkata/t8/033pxx33.xx33.260122143452.v1t8/catalogue/quality-digital-technology-kolkata-dry-offset-printing-machine-manufacturers-634w10nlzt.jpg",
       groups: [
         {
           title: "Business & marketing stationery",
@@ -435,7 +435,7 @@ export const printingServiceCatalog = {
       summary:
         "Best for printing on fabric, plastic, wood, metal, glass, and thick paper. Screen inks are deep and durable — built for apparel, plastic material printing, bags, signage, and premium stationery.",
       image:
-        "https://images.unsplash.com/photo-1562157873-818bc0726f68?auto=format&fit=crop&w=1400&q=80",
+        "/banner.png",
       groups: [
         {
           title: "Apparel & textiles",

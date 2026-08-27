@@ -1,6 +1,21 @@
-import Image from "next/image";
 import Link from "next/link";
 import { printingServiceCatalog } from "@/app/lib/storefront/b2b-content";
+
+/** Sticky nav — soft paper fill + accent underline (not navy flip) */
+const navChipClass =
+  "shrink-0 rounded-full border border-store-navy/15 bg-white px-4 py-2 text-sm font-semibold text-store-navy transition-all duration-300 hover:border-store-accent/40 hover:bg-store-rose-soft hover:text-store-accent hover:shadow-[0_8px_18px_-12px_rgba(196,59,88,0.45)]";
+
+/** Who we serve — each card gets its own hover language */
+const audienceHoverStyles = [
+  // Corporate: full navy flip
+  "hover:-translate-y-1.5 hover:border-store-navy hover:bg-store-navy hover:shadow-[0_22px_40px_-20px_rgba(15,61,102,0.55)] [&_.aud-num]:group-hover:text-white/65 [&_.aud-title]:group-hover:text-white [&_.aud-body]:group-hover:text-white/75",
+  // Retail: rose/accent wash
+  "hover:-translate-y-1.5 hover:border-store-accent hover:bg-store-accent hover:shadow-[0_22px_40px_-20px_rgba(196,59,88,0.45)] [&_.aud-num]:group-hover:text-white/70 [&_.aud-title]:group-hover:text-white [&_.aud-body]:group-hover:text-white/80",
+  // Events: white lift + navy ring
+  "hover:-translate-y-1.5 hover:border-store-navy hover:bg-white hover:shadow-[0_22px_40px_-18px_rgba(15,61,102,0.4)] [&_.aud-num]:group-hover:text-store-accent [&_.aud-title]:group-hover:text-store-navy [&_.aud-body]:group-hover:text-store-muted",
+  // Institutes: logo-blue tint
+  "hover:-translate-y-1.5 hover:border-store-logo hover:bg-store-logo hover:shadow-[0_22px_40px_-20px_rgba(29,111,184,0.5)] [&_.aud-num]:group-hover:text-white/70 [&_.aud-title]:group-hover:text-white [&_.aud-body]:group-hover:text-white/80",
+] as const;
 
 export function ServicesPageContent() {
   const { headline, support, techniques, audiences, coreProducts } =
@@ -9,13 +24,11 @@ export function ServicesPageContent() {
   return (
     <>
       <section className="relative isolate min-h-[48vh] overflow-hidden border-b border-store-line sm:min-h-[52vh]">
-        <Image
-          src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=2000&q=80"
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="https://5.imimg.com/data5/SELLER/Default/2024/7/436867535/ID/YF/LL/9941788/autoprint-1520-colt-7k-offset-printing-machine-500x500.jpeg"
           alt=""
-          fill
-          priority
-          className="object-cover object-center"
-          sizes="100vw"
+          className="absolute inset-0 h-full w-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-[linear-gradient(105deg,rgba(8,31,54,0.92)_0%,rgba(15,61,102,0.78)_48%,rgba(8,31,54,0.55)_100%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(196,59,88,0.22),transparent_45%)]" />
@@ -42,19 +55,19 @@ export function ServicesPageContent() {
           >
             <Link
               href="#what-we-print"
-              className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-store-navy transition hover:bg-store-paper"
+              className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-store-navy transition-all duration-300 hover:scale-[1.03] hover:bg-store-paper"
             >
               What we print
             </Link>
             <Link
               href="#offset"
-              className="rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+              className="rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:border-store-accent hover:bg-store-accent hover:text-white"
             >
               Offset printing
             </Link>
             <Link
               href="#screen"
-              className="rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+              className="rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:border-white hover:bg-white hover:text-store-navy"
             >
               Screen printing
             </Link>
@@ -64,33 +77,28 @@ export function ServicesPageContent() {
 
       <nav
         aria-label="Service sections"
-        className="border-b border-store-line bg-store-surface"
+        className="sticky top-0 z-20 border-b border-store-line bg-store-surface/95 backdrop-blur-sm"
       >
         <div className="mx-auto flex max-w-6xl gap-2 overflow-x-auto px-4 py-3 sm:px-6">
-          <a
-            href="#what-we-print"
-            className="shrink-0 rounded-full border border-store-navy/15 px-4 py-2 text-sm font-semibold text-store-navy transition hover:bg-store-paper"
-          >
+          <a href="#what-we-print" className={navChipClass}>
             What we print
           </a>
           {techniques.map((technique) => (
             <a
               key={technique.id}
               href={`#${technique.id}`}
-              className="shrink-0 rounded-full border border-store-navy/15 px-4 py-2 text-sm font-semibold text-store-navy transition hover:bg-store-paper"
+              className={navChipClass}
             >
               {technique.name}
             </a>
           ))}
-          <a
-            href="#who-we-serve"
-            className="shrink-0 rounded-full border border-store-navy/15 px-4 py-2 text-sm font-semibold text-store-navy transition hover:bg-store-paper"
-          >
+          <a href="#who-we-serve" className={navChipClass}>
             Who we serve
           </a>
         </div>
       </nav>
 
+      {/* What we print — left accent bar + rose soft wash */}
       <section
         id="what-we-print"
         className="scroll-mt-28 border-b border-store-line bg-store-surface"
@@ -108,17 +116,24 @@ export function ServicesPageContent() {
             item.
           </p>
 
-          <div className="mt-10 grid gap-10 lg:grid-cols-2">
+          <div className="mt-10 grid gap-6 lg:grid-cols-2">
             {coreProducts.map((line) => (
-              <div key={line.id} className="border-t border-store-navy/15 pt-6">
-                <h3 className="text-lg font-semibold text-store-navy">
+              <div
+                key={line.id}
+                className="group relative overflow-hidden rounded-2xl border border-store-navy/10 bg-store-paper p-6 pl-7 transition-all duration-300 hover:border-store-accent/30 hover:bg-store-rose-soft hover:shadow-[0_18px_36px_-22px_rgba(196,59,88,0.35)]"
+              >
+                <span
+                  aria-hidden
+                  className="absolute top-0 left-0 h-full w-1 origin-top scale-y-50 bg-store-accent transition-transform duration-300 group-hover:scale-y-100"
+                />
+                <h3 className="text-lg font-semibold text-store-navy transition-colors group-hover:text-store-accent">
                   {line.title}
                 </h3>
                 <ul className="mt-4 flex flex-wrap gap-2">
                   {line.items.map((item) => (
                     <li
                       key={item}
-                      className="rounded-full border border-store-navy/15 bg-store-paper px-3.5 py-1.5 text-sm font-medium text-store-ink"
+                      className="rounded-full border border-store-navy/15 bg-white px-3.5 py-1.5 text-sm font-medium text-store-ink transition-all duration-300 hover:border-store-accent hover:bg-store-accent hover:text-white"
                     >
                       {item}
                     </li>
@@ -132,26 +147,39 @@ export function ServicesPageContent() {
 
       {techniques.map((technique, index) => {
         const reverse = index % 2 === 1;
+        const isOffset = technique.id === "offset";
+
         return (
           <section
             key={technique.id}
             id={technique.id}
-            className="scroll-mt-28 border-b border-store-line bg-store-paper"
+            className={`scroll-mt-28 border-b border-store-line ${
+              isOffset ? "bg-store-paper" : "bg-store-surface"
+            }`}
           >
             <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-12 lg:gap-12 lg:py-16">
               <div
-                className={`relative min-h-60 overflow-hidden lg:col-span-5 lg:min-h-105 ${
+                className={`group relative min-h-60 overflow-hidden rounded-2xl lg:col-span-5 lg:min-h-105 ${
                   reverse ? "lg:order-2" : ""
                 }`}
               >
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={technique.image}
                   alt=""
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  className={`absolute inset-0 h-full w-full object-cover transition duration-500 ${
+                    isOffset
+                      ? "group-hover:scale-[1.06]"
+                      : "group-hover:scale-[1.03] group-hover:brightness-110"
+                  }`}
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-store-navy-deeper/55 to-transparent" />
+                <div
+                  className={`absolute inset-0 transition duration-300 ${
+                    isOffset
+                      ? "bg-linear-to-t from-store-navy-deeper/55 to-transparent group-hover:from-store-navy-deeper/75"
+                      : "bg-linear-to-t from-store-accent/50 to-transparent group-hover:from-store-accent/70"
+                  }`}
+                />
                 <p className="absolute bottom-5 left-5 text-sm font-semibold tracking-[0.18em] text-white uppercase">
                   {technique.eyebrow}
                 </p>
@@ -178,11 +206,19 @@ export function ServicesPageContent() {
                         {group.items.map((item) => (
                           <li
                             key={item}
-                            className="flex gap-2 text-sm leading-relaxed text-store-ink"
+                            className={
+                              isOffset
+                                ? "group/item flex gap-2 rounded-r-xl border-l-2 border-transparent px-3 py-2 text-sm leading-relaxed text-store-ink transition-all duration-300 hover:border-store-navy hover:bg-white hover:pl-4"
+                                : "group/item flex gap-2 rounded-xl bg-transparent px-3 py-2 text-sm leading-relaxed text-store-ink transition-all duration-300 hover:bg-store-rose-soft hover:text-store-navy"
+                            }
                           >
                             <span
                               aria-hidden
-                              className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-store-accent"
+                              className={`mt-2 h-1.5 w-1.5 shrink-0 rounded-full transition-all duration-300 ${
+                                isOffset
+                                  ? "bg-store-navy group-hover/item:scale-125"
+                                  : "bg-store-accent group-hover/item:scale-150 group-hover/item:bg-store-accent"
+                              }`}
                             />
                             <span>{item}</span>
                           </li>
@@ -195,13 +231,17 @@ export function ServicesPageContent() {
                 <div className="mt-10 flex flex-wrap gap-3">
                   <Link
                     href="/contact"
-                    className="rounded-full bg-store-navy px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-store-navy-dark"
+                    className={
+                      isOffset
+                        ? "rounded-full bg-store-navy px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-store-logo hover:shadow-[0_14px_28px_-14px_rgba(29,111,184,0.55)]"
+                        : "rounded-full bg-store-accent px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-store-navy hover:shadow-[0_14px_28px_-14px_rgba(15,61,102,0.55)]"
+                    }
                   >
                     Request a quote
                   </Link>
                   <Link
                     href="/products"
-                    className="rounded-full border border-store-navy/25 bg-white px-5 py-2.5 text-sm font-semibold text-store-navy transition hover:bg-store-surface"
+                    className="rounded-full border border-store-navy/25 bg-white px-5 py-2.5 text-sm font-semibold text-store-navy transition-all duration-300 hover:border-store-navy hover:bg-store-paper"
                   >
                     Browse catalog
                   </Link>
@@ -212,6 +252,7 @@ export function ServicesPageContent() {
         );
       })}
 
+      {/* Who we serve — 4 different hover colours */}
       <section
         id="who-we-serve"
         className="scroll-mt-28 border-b border-store-line bg-store-surface"
@@ -227,22 +268,22 @@ export function ServicesPageContent() {
             One production partner for the print jobs each audience needs most.
           </p>
 
-          <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {audiences.map((audience, i) => (
-              <div
+              <article
                 key={audience.id}
-                className="border-t border-store-navy/15 pt-5"
+                className={`group cursor-default rounded-2xl border border-store-line bg-store-paper px-5 pt-6 pb-6 transition-all duration-300 ease-out ${audienceHoverStyles[i] ?? audienceHoverStyles[0]}`}
               >
-                <p className="text-xs font-semibold tracking-[0.14em] text-store-accent uppercase">
+                <p className="aud-num text-xs font-semibold tracking-[0.14em] text-store-accent uppercase transition-colors">
                   {String(i + 1).padStart(2, "0")}
                 </p>
-                <h3 className="mt-2 text-lg font-semibold text-store-navy">
+                <h3 className="aud-title mt-2 text-lg font-semibold text-store-navy transition-colors">
                   {audience.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-store-muted">
+                <p className="aud-body mt-2 text-sm leading-relaxed text-store-muted transition-colors">
                   {audience.body}
                 </p>
-              </div>
+              </article>
             ))}
           </div>
         </div>
@@ -262,13 +303,13 @@ export function ServicesPageContent() {
           <div className="flex flex-wrap gap-3">
             <Link
               href="/contact"
-              className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-store-navy transition hover:bg-store-paper"
+              className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-store-navy transition-all duration-300 hover:scale-[1.03] hover:bg-store-accent hover:text-white"
             >
               Contact the B2B desk
             </Link>
             <Link
               href="/products"
-              className="rounded-full border border-white/35 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+              className="rounded-full border border-white/35 px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:border-store-logo hover:bg-store-logo"
             >
               Explore products
             </Link>
