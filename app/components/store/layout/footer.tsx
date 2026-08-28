@@ -1,6 +1,6 @@
 import Link from "next/link";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { siteContact } from "@/app/lib/store/b2b-content";
-import { footerPrintMarquee } from "@/app/lib/store/sitemap-links";
 
 const companyLinks = [
   { href: "/", label: "Home" },
@@ -31,7 +31,6 @@ const socialLinks = [
 
 export function StoreFooter() {
   const year = new Date().getFullYear();
-  const marquee = [...footerPrintMarquee, ...footerPrintMarquee];
 
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-store-navy-deeper text-white">
@@ -58,7 +57,7 @@ export function StoreFooter() {
       </p>
 
 
-      <div className="relative mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8 lg:py-14">
+      <div className="relative mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:grid-cols-2 sm:gap-10 sm:px-6 sm:py-12 lg:grid-cols-4 lg:gap-8 lg:py-14">
         {/* Brand */}
         <div className="footer-col" style={{ animationDelay: "0ms" }}>
           <Link
@@ -136,38 +135,70 @@ export function StoreFooter() {
         </div>
 
         {/* Contact */}
-        <div className="footer-col" style={{ animationDelay: "240ms" }}>
+        <div
+          className="footer-col sm:col-span-2 lg:col-span-1"
+          style={{ animationDelay: "240ms" }}
+        >
           <p className="text-xs font-semibold tracking-[0.16em] text-store-accent uppercase">
             Contact
           </p>
-          <div className="mt-4 space-y-2.5 text-sm text-white/75">
-            {siteContact.addressLines.map((line) => (
-              <p key={line}>{line}</p>
-            ))}
-          </div>
-          <div className="mt-4 space-y-2 text-sm">
-            {siteContact.phones.map((phone) => (
+
+          <div className="mt-4 space-y-4 text-sm text-white/75">
+            <div className="flex items-start gap-2.5">
+              <MapPin
+                className="mt-0.5 h-4 w-4 shrink-0 text-store-accent"
+                strokeWidth={2}
+                aria-hidden
+              />
+              <address className="not-italic leading-relaxed">
+                {siteContact.addressLines.map((line) => (
+                  <span key={line} className="block">
+                    {line}
+                  </span>
+                ))}
+              </address>
+            </div>
+
+            <div className="flex items-start gap-2.5">
+              <Phone
+                className="mt-0.5 h-4 w-4 shrink-0 text-store-accent"
+                strokeWidth={2}
+                aria-hidden
+              />
+              <div className="min-w-0 space-y-1">
+                {siteContact.phones.map((phone) => (
+                  <a
+                    key={phone.href}
+                    href={phone.href}
+                    className="block text-sm text-white/90 transition hover:text-white"
+                  >
+                    {phone.display}
+                  </a>
+                ))}
+                <a
+                  href={siteContact.landline.href}
+                  className="block text-sm text-white/75 transition hover:text-white"
+                >
+                  {siteContact.landline.display}
+                </a>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-2.5">
+              <Mail
+                className="mt-0.5 h-4 w-4 shrink-0 text-store-accent"
+                strokeWidth={2}
+                aria-hidden
+              />
               <a
-                key={phone.href}
-                href={phone.href}
-                className="footer-link-slide block font-semibold text-white"
+                href={`mailto:${siteContact.email}`}
+                className="min-w-0 text-sm break-all text-white/75 transition hover:text-white"
               >
-                {phone.display}
+                {siteContact.email}
               </a>
-            ))}
-            <a
-              href={siteContact.landline.href}
-              className="footer-link-slide block text-white/80"
-            >
-              {siteContact.landline.display}
-            </a>
-            <a
-              href={`mailto:${siteContact.email}`}
-              className="footer-link-slide block break-all text-white/80"
-            >
-              {siteContact.email}
-            </a>
-            <p className="text-white/50">{siteContact.hours}</p>
+            </div>
+
+            <p className="text-xs text-white/50">{siteContact.hours}</p>
           </div>
         </div>
       </div>

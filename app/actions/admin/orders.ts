@@ -5,6 +5,7 @@ import { assertSuperAdmin, isUnauthorizedError } from "@/app/lib/admin/guard";
 import {
   orderCreateSchema,
   orderStatusSchema,
+  recordIdSchema,
 } from "@/app/lib/admin/validations";
 import { prisma } from "@/app/lib/db";
 
@@ -105,12 +106,17 @@ export async function updateOrderStatus(
 export async function deleteOrder(id: number): Promise<ActionState> {
   try {
     await assertSuperAdmin();
-    await prisma.order.delete({ where: { id } });
+
+    const parsedId = recordIdSchema.safeParse(id);
+    if (!parsedId.success) return { error: "Invalid order." };
+
+    await prisma.order.delete({ where: { id: parsedId.data } });
     revalidatePath("/admin/orders");
     revalidatePath("/admin/dashboard");
     return { ok: true };
   } catch (error) {
     if (isUnauthorizedError(error)) return { error: "Unauthorized." };
+    console.error("deleteOrder error", error);
     return { error: "Could not delete order." };
   }
 }
@@ -118,12 +124,17 @@ export async function deleteOrder(id: number): Promise<ActionState> {
 export async function deleteEnquiry(id: number): Promise<ActionState> {
   try {
     await assertSuperAdmin();
-    await prisma.enquiry.delete({ where: { id } });
+
+    const parsedId = recordIdSchema.safeParse(id);
+    if (!parsedId.success) return { error: "Invalid enquiry." };
+
+    await prisma.enquiry.delete({ where: { id: parsedId.data } });
     revalidatePath("/admin/enquiries");
     revalidatePath("/admin/dashboard");
     return { ok: true };
   } catch (error) {
     if (isUnauthorizedError(error)) return { error: "Unauthorized." };
+    console.error("deleteEnquiry error", error);
     return { error: "Could not delete enquiry." };
   }
 }

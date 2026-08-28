@@ -15,8 +15,11 @@ const emptyStats: HeaderStats = {
 };
 
 export async function getHeaderStats(): Promise<HeaderStats> {
+  // Auth failures must propagate; only DB hiccups degrade to zeros so a badge
+  // outage never blanks the whole admin shell.
+  await assertSuperAdmin();
+
   try {
-    await assertSuperAdmin();
     const [enquiries, pendingOrders, activeProducts] = await Promise.all([
       prisma.enquiry.count(),
       prisma.order.count({ where: { status: "pending" } }),

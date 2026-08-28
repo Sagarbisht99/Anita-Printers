@@ -92,6 +92,17 @@ body {
   background: linear-gradient(180deg, #6eb0e0 0%, #155a96 100%);
 }
 
+.catalog-chip-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+}
+
+.catalog-chip-scroll::-webkit-scrollbar {
+  display: none;
+}
+
 @keyframes toast-in {
   from {
     opacity: 0;
@@ -281,6 +292,11 @@ footer .footer-link-slide:hover {
 
 .footer-link-slide:hover::after {
   transform: scaleX(1);
+}
+
+.footer-contact-link {
+  display: flex;
+  width: 100%;
 }
 
 .footer-social {

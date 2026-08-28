@@ -1,6 +1,61 @@
 "use server";
 
+import { z } from "zod";
 import { prisma } from "@/app/lib/db";
+
+/**
+ * These actions are public POST endpoints once compiled, so every argument is
+ * attacker-controlled. Schemas coerce, clamp and cap instead of throwing so a
+ * malformed call degrades to a sane default page rather than a 500.
+ */
+const MAX_CATEGORIES = 200;
+
+const optionalCategoryId = z.coerce
+  .number()
+  .int()
+  .positive()
+  .max(2147483647)
+  .nullable()
+  .catch(null);
+
+/** Truncate rather than reject so a long paste still returns results. */
+const searchTerm = z
+  .string()
+  .catch("")
+  .transform((value) => value.trim().slice(0, 100));
+
+const clampedInt = (min: number, max: number, fallback: number) =>
+  z.coerce.number().int().min(min).max(max).catch(fallback);
+
+const productsInputSchema = z.object({
+  categoryId: optionalCategoryId,
+  take: clampedInt(1, 24, 10),
+});
+
+const productsPageInputSchema = z.object({
+  categoryId: optionalCategoryId,
+  search: searchTerm,
+  page: clampedInt(1, 1000, 1),
+  pageSize: clampedInt(1, 24, 12),
+});
+
+const slugSchema = z
+  .string()
+  .trim()
+  .min(1)
+  .max(255)
+  .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/i);
+
+const productListSelect = {
+  id: true,
+  titleName: true,
+  slug: true,
+  image: true,
+  pricing: true,
+  quantities: true,
+  categoryId: true,
+  category: { select: { name: true } },
+} as const;
 
 export type StoreCategoryItem = {
   id: number;
@@ -62,6 +117,7 @@ export async function fetchStoreCategories(): Promise<StoreCategoryItem[]> {
   return prisma.category.findMany({
     where: { status: "active" },
     orderBy: { name: "asc" },
+    take: MAX_CATEGORIES,
     select: {
       id: true,
       name: true,
@@ -75,11 +131,7 @@ export async function fetchStoreProducts(input?: {
   categoryId?: number | null;
   take?: number;
 }): Promise<StoreProductItem[]> {
-  const categoryId =
-    typeof input?.categoryId === "number" && input.categoryId > 0
-      ? input.categoryId
-      : undefined;
-  const take = Math.min(24, Math.max(1, input?.take ?? 10));
+  const { categoryId, take } = productsInputSchema.parse(input ?? {});
 
   const products = await prisma.product.findMany({
     where: {
@@ -88,16 +140,7 @@ export async function fetchStoreProducts(input?: {
     },
     orderBy: { createdAt: "desc" },
     take,
-    select: {
-      id: true,
-      titleName: true,
-      slug: true,
-      image: true,
-      pricing: true,
-      quantities: true,
-      categoryId: true,
-      category: { select: { name: true } },
-    },
+    select: productListSelect,
   });
 
   return products.map(mapProduct);
@@ -109,13 +152,9 @@ export async function fetchStoreProductsPage(input?: {
   page?: number;
   pageSize?: number;
 }): Promise<StoreProductsPage> {
-  const categoryId =
-    typeof input?.categoryId === "number" && input.categoryId > 0
-      ? input.categoryId
-      : undefined;
-  const search = String(input?.search ?? "").trim();
-  const page = Math.max(1, Number(input?.page) || 1);
-  const pageSize = Math.min(24, Math.max(1, Number(input?.pageSize) || 12));
+  const { categoryId, search, page, pageSize } = productsPageInputSchema.parse(
+    input ?? {},
+  );
   const skip = (page - 1) * pageSize;
 
   const where = {
@@ -138,16 +177,7 @@ export async function fetchStoreProductsPage(input?: {
       orderBy: { createdAt: "desc" },
       skip,
       take: pageSize,
-      select: {
-        id: true,
-        titleName: true,
-        slug: true,
-        image: true,
-        pricing: true,
-        quantities: true,
-        categoryId: true,
-        category: { select: { name: true } },
-      },
+      select: productListSelect,
     }),
   ]);
 
@@ -163,11 +193,11 @@ export async function fetchStoreProductsPage(input?: {
 export async function fetchStoreProductBySlug(
   slug: string,
 ): Promise<StoreProductDetail | null> {
-  const normalized = String(slug ?? "").trim();
-  if (!normalized) return null;
+  const parsedSlug = slugSchema.safeParse(slug);
+  if (!parsedSlug.success) return null;
 
   const product = await prisma.product.findFirst({
-    where: { status: "active", slug: normalized },
+    where: { status: "active", slug: parsedSlug.data },
     select: {
       id: true,
       titleName: true,

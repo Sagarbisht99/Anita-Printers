@@ -6,15 +6,33 @@ import { useQuery } from "@tanstack/react-query";
 import {
   fetchStoreCategories,
   fetchStoreProductsPage,
+  type StoreCategoryItem,
+  type StoreProductsPage,
 } from "@/app/actions/store/catalog";
 import { StoreProductCard } from "@/app/components/store/ui/product-card";
 import { StorePagination } from "@/app/components/store/ui/pagination";
 import { catalogFilters } from "@/app/lib/store/b2b-content";
 import { storefrontKeys } from "@/app/lib/query/keys";
 
-const PAGE_SIZE = 12;
+export const PRODUCTS_PAGE_SIZE = 12;
+const PAGE_SIZE = PRODUCTS_PAGE_SIZE;
 
-export function ProductsCatalog() {
+export type ProductsCatalogProps = {
+  initialCategories?: StoreCategoryItem[];
+  initialProducts?: StoreProductsPage;
+  /** Filters the server prefetch was built from; `initialProducts` is only reused while these still match. */
+  initialFilters?: {
+    categoryId: number | null;
+    search: string;
+    page: number;
+  };
+};
+
+export function ProductsCatalog({
+  initialCategories,
+  initialProducts,
+  initialFilters,
+}: ProductsCatalogProps = {}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const search = searchParams.get("q")?.trim() ?? "";
@@ -59,10 +77,23 @@ export function ProductsCatalog() {
     router.replace(query ? `/products?${query}` : "/products");
   }
 
+  function selectCategory(nextCategoryId: number | null) {
+    setCategoryId(nextCategoryId);
+    setPage(1);
+    updateUrl({ categoryId: nextCategoryId, page: 1 });
+  }
+
   const categoriesQuery = useQuery({
     queryKey: storefrontKeys.categories.lists(),
     queryFn: fetchStoreCategories,
+    initialData: initialCategories,
   });
+
+  const matchesInitialFilters =
+    initialFilters !== undefined &&
+    initialFilters.categoryId === categoryId &&
+    initialFilters.search === search &&
+    initialFilters.page === page;
 
   const productsQuery = useQuery({
     queryKey: storefrontKeys.products.list({
@@ -78,6 +109,7 @@ export function ProductsCatalog() {
         page,
         pageSize: PAGE_SIZE,
       }),
+    initialData: matchesInitialFilters ? initialProducts : undefined,
     placeholderData: (prev) => prev,
   });
 
@@ -88,7 +120,7 @@ export function ProductsCatalog() {
   const totalPages = result?.totalPages ?? 1;
   const loading = productsQuery.isLoading || productsQuery.isFetching;
 
-  const activeFilters = useMemo(
+  const activeBuyerFilters = useMemo(
     () =>
       [technique, material, moq, leadTime].filter((value) => value !== "Any"),
     [technique, material, moq, leadTime],
@@ -123,93 +155,70 @@ export function ProductsCatalog() {
         </p>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-[240px_1fr]">
-        <aside className="h-fit rounded-2xl border border-store-line bg-store-surface p-5 lg:sticky lg:top-24">
+      <div className="grid gap-8 lg:grid-cols-[220px_1fr]">
+        <aside className="h-fit rounded-lg border border-store-line bg-store-surface p-4 lg:sticky lg:top-24">
           <p className="text-sm font-semibold text-store-navy">Filters</p>
 
-          <div className="mt-5 space-y-5">
-            <FilterGroup label="Category">
-              <button
-                type="button"
-                onClick={() => {
-                  setCategoryId(null);
-                  setPage(1);
-                  updateUrl({ categoryId: null, page: 1 });
-                }}
-                className={chipClass(categoryId === null)}
-              >
-                All
-              </button>
-              {categories.map((category) => (
-                <button
-                  key={category.id}
-                  type="button"
-                  onClick={() => {
-                    setCategoryId(category.id);
-                    setPage(1);
-                    updateUrl({ categoryId: category.id, page: 1 });
-                  }}
-                  className={chipClass(categoryId === category.id)}
-                >
-                  {category.name}
-                </button>
-              ))}
-            </FilterGroup>
+          <div className="mt-4 space-y-6">
+            <FilterSection title="Category">
+              <CategoryTabs
+                categories={categories}
+                categoryId={categoryId}
+                onSelect={selectCategory}
+              />
+            </FilterSection>
 
-            <FilterSelect
-              label="Print technique"
-              value={technique}
-              onChange={setTechnique}
-              options={["Any", ...catalogFilters.techniques]}
-            />
-            <FilterSelect
-              label="Material / GSM"
-              value={material}
-              onChange={setMaterial}
-              options={["Any", ...catalogFilters.materials]}
-            />
-            <FilterSelect
-              label="MOQ range"
-              value={moq}
-              onChange={setMoq}
-              options={["Any", ...catalogFilters.moqRanges]}
-            />
-            <FilterSelect
-              label="Lead time"
-              value={leadTime}
-              onChange={setLeadTime}
-              options={["Any", ...catalogFilters.leadTimes]}
-            />
+            <FilterSection title="Print technique">
+              <FilterSelect
+                value={technique}
+                onChange={setTechnique}
+                options={["Any", ...catalogFilters.techniques]}
+              />
+            </FilterSection>
+
+            <FilterSection title="Material / GSM">
+              <FilterSelect
+                value={material}
+                onChange={setMaterial}
+                options={["Any", ...catalogFilters.materials]}
+              />
+            </FilterSection>
+
+            <FilterSection title="MOQ range">
+              <FilterSelect
+                value={moq}
+                onChange={setMoq}
+                options={["Any", ...catalogFilters.moqRanges]}
+              />
+            </FilterSection>
+
+            <FilterSection title="Lead time">
+              <FilterSelect
+                value={leadTime}
+                onChange={setLeadTime}
+                options={["Any", ...catalogFilters.leadTimes]}
+              />
+            </FilterSection>
           </div>
 
-          {activeFilters.length > 0 ? (
-            <p className="mt-5 text-xs text-store-muted">
-              Buyer filters applied: {activeFilters.join(" · ")}. Product list
-              stays live from inventory; filter tags guide your RFQ.
+          {activeBuyerFilters.length > 0 ? (
+            <p className="mt-5 border-t border-store-line pt-4 text-xs text-store-muted">
+              Buyer filters: {activeBuyerFilters.join(", ")}
             </p>
           ) : null}
         </aside>
 
         <div>
+          <p className="mb-4 text-sm text-store-muted">
+            {total} product{total === 1 ? "" : "s"} found
+          </p>
+
           {productsQuery.isError ? (
             <p className="text-sm text-rose-600">Could not load products.</p>
           ) : loading && products.length === 0 ? (
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
-              {Array.from({ length: 6 }).map((_, index) => (
-                <div
-                  key={index}
-                  className="overflow-hidden rounded-2xl border border-store-line bg-store-surface"
-                >
-                  <div className="aspect-square animate-pulse bg-store-line/60" />
-                  <div className="space-y-2 p-4">
-                    <div className="h-4 w-3/4 animate-pulse rounded bg-store-line/60" />
-                    <div className="h-3 w-1/2 animate-pulse rounded bg-store-line/50" />
-                  </div>
-                </div>
-              ))}
-            </div>
+            <ProductGridSkeleton />
           ) : products.length === 0 ? (
-            <p className="rounded-2xl border border-store-line bg-store-surface px-5 py-10 text-center text-sm text-store-muted">
+            <p className="rounded-lg border border-store-line bg-store-surface px-5 py-10 text-center text-sm text-store-muted">
               No products found.
             </p>
           ) : (
@@ -246,58 +255,116 @@ export function ProductsCatalog() {
   );
 }
 
-function chipClass(active: boolean) {
-  return `mr-2 mb-2 rounded-full px-3 py-1.5 text-xs font-medium transition ${
-    active
-      ? "bg-store-navy text-white"
-      : "border border-store-line text-store-ink hover:border-store-navy/30"
-  }`;
-}
-
-function FilterGroup({
-  label,
+function FilterSection({
+  title,
   children,
 }: {
-  label: string;
+  title: string;
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      <p className="text-xs font-semibold tracking-wide text-store-muted uppercase">
-        {label}
-      </p>
-      <div className="mt-2">{children}</div>
+    <section className="border-b border-store-line pb-5 last:border-b-0 last:pb-0">
+      <h2 className="mb-2 text-xs font-semibold text-store-muted uppercase">
+        {title}
+      </h2>
+      {children}
+    </section>
+  );
+}
+
+function CategoryTabs({
+  categories,
+  categoryId,
+  onSelect,
+}: {
+  categories: StoreCategoryItem[];
+  categoryId: number | null;
+  onSelect: (categoryId: number | null) => void;
+}) {
+  return (
+    <div className="flex flex-col gap-1">
+      <CategoryTab
+        active={categoryId === null}
+        onClick={() => onSelect(null)}
+      >
+        All
+      </CategoryTab>
+      {categories.map((category) => (
+        <CategoryTab
+          key={category.id}
+          active={categoryId === category.id}
+          onClick={() => onSelect(category.id)}
+        >
+          {category.name}
+        </CategoryTab>
+      ))}
     </div>
   );
 }
 
+function CategoryTab({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`w-full rounded-md border px-3 py-2 text-left text-sm ${
+        active
+          ? "border-store-navy bg-store-navy font-semibold text-white"
+          : "border-store-line bg-store-paper text-store-ink hover:border-store-navy/40"
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
+
 function FilterSelect({
-  label,
   value,
   onChange,
   options,
 }: {
-  label: string;
   value: string;
   onChange: (value: string) => void;
   options: string[];
 }) {
   return (
-    <label className="block text-xs">
-      <span className="font-semibold tracking-wide text-store-muted uppercase">
-        {label}
-      </span>
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="mt-2 w-full rounded-xl border border-store-line bg-store-paper px-3 py-2 text-sm text-store-ink"
-      >
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-    </label>
+    <select
+      value={value}
+      onChange={(event) => onChange(event.target.value)}
+      className="w-full rounded-md border border-store-line bg-store-paper px-3 py-2 text-sm text-store-ink"
+    >
+      {options.map((option) => (
+        <option key={option} value={option}>
+          {option}
+        </option>
+      ))}
+    </select>
+  );
+}
+
+function ProductGridSkeleton() {
+  return (
+    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+      {Array.from({ length: 6 }).map((_, index) => (
+        <div
+          key={index}
+          className="overflow-hidden rounded-lg border border-store-line bg-store-surface"
+        >
+          <div className="aspect-square animate-pulse bg-store-line/60" />
+          <div className="space-y-2 p-4">
+            <div className="h-4 w-3/4 animate-pulse rounded bg-store-line/60" />
+            <div className="h-3 w-1/2 animate-pulse rounded bg-store-line/50" />
+          </div>
+        </div>
+      ))}
+    </div>
   );
 }

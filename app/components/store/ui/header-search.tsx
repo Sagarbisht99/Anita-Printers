@@ -29,9 +29,11 @@ function useDebouncedValue<T>(value: T, delayMs: number) {
 export function HeaderSearch({
   className = "",
   inputClassName = "",
+  onNavigate,
 }: {
   className?: string;
   inputClassName?: string;
+  onNavigate?: () => void;
 }) {
   const router = useRouter();
   const listId = useId();
@@ -79,6 +81,7 @@ export function HeaderSearch({
   function goToProducts(search: string) {
     const q = search.trim();
     setOpen(false);
+    onNavigate?.();
     router.push(q ? `/products?q=${encodeURIComponent(q)}` : "/products");
   }
 
@@ -135,7 +138,10 @@ export function HeaderSearch({
                 <li key={product.id} role="option">
                   <Link
                     href={`/products/${encodeURIComponent(product.slug)}`}
-                    onClick={() => setOpen(false)}
+                    onClick={() => {
+                      setOpen(false);
+                      onNavigate?.();
+                    }}
                     className="flex items-center gap-3 px-3 py-2.5 transition hover:bg-store-paper"
                   >
                     <div className="h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-store-paper">

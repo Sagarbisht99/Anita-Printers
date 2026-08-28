@@ -70,32 +70,45 @@ export function CuratedPicks({
           .
         </p>
 
-        <div className="mt-8 flex justify-center">
-          <div className="inline-flex max-w-full flex-wrap items-center justify-center gap-1 rounded-full border border-store-line bg-store-paper p-1">
-            <button
-              type="button"
+        <div className="mx-auto mt-8 max-w-md md:max-w-none">
+          <label className="mb-2 block text-xs font-semibold text-store-muted uppercase md:text-center">
+            Category
+          </label>
+
+          {/* Phone: compact dropdown */}
+          <select
+            value={categoryId === null ? "" : String(categoryId)}
+            onChange={(event) => {
+              const value = event.target.value;
+              setCategoryId(value ? Number(value) : null);
+            }}
+            className="w-full rounded-md border border-store-line bg-store-paper px-3 py-2.5 text-sm text-store-ink md:hidden"
+            aria-label="Filter by category"
+          >
+            <option value="">All products</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+
+          {/* Tablet & desktop: simple tabs */}
+          <div className="hidden flex-wrap justify-center gap-2 md:flex">
+            <CategoryTab
+              active={categoryId === null}
               onClick={() => setCategoryId(null)}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition ${
-                categoryId === null
-                  ? "bg-store-navy text-white"
-                  : "text-store-ink hover:bg-white"
-              }`}
             >
               All products
-            </button>
+            </CategoryTab>
             {categories.map((category) => (
-              <button
+              <CategoryTab
                 key={category.id}
-                type="button"
+                active={categoryId === category.id}
                 onClick={() => setCategoryId(category.id)}
-                className={`rounded-full px-4 py-2 text-sm font-medium transition ${
-                  categoryId === category.id
-                    ? "bg-store-navy text-white"
-                    : "text-store-ink hover:bg-white"
-                }`}
               >
                 {category.name}
-              </button>
+              </CategoryTab>
             ))}
           </div>
         </div>
@@ -109,7 +122,7 @@ export function CuratedPicks({
             {Array.from({ length: 4 }).map((_, index) => (
               <div
                 key={index}
-                className="overflow-hidden rounded-2xl border border-store-line bg-store-paper"
+                className="overflow-hidden rounded-lg border border-store-line bg-store-paper"
               >
                 <div className="aspect-square animate-pulse bg-store-line/60" />
                 <div className="space-y-2 p-4">
@@ -140,5 +153,29 @@ export function CuratedPicks({
         )}
       </div>
     </section>
+  );
+}
+
+function CategoryTab({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`rounded-md border px-4 py-2.5 text-sm ${
+        active
+          ? "border-store-navy bg-store-navy font-semibold text-white"
+          : "border-store-line bg-store-paper text-store-ink hover:border-store-navy/40"
+      }`}
+    >
+      {children}
+    </button>
   );
 }

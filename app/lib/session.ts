@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import { cookies } from "next/headers";
 import { prisma } from "@/app/lib/db";
 import {
@@ -49,13 +50,20 @@ export async function deleteSession() {
   });
 }
 
-export async function getSession() {
+export const getSession = cache(async () => {
   const cookieStore = await cookies();
   const token = cookieStore.get(COOKIE_NAME)?.value;
   return decrypt(token);
-}
+});
 
-export async function requireSuperAdmin() {
+/**
+ * Verifies the session cookie against the DB so a revoked admin (bumped
+ * `sessionVersion`) loses access before their JWT expires.
+ *
+ * `cache()` dedupes the lookup within a single request — layouts, actions and
+ * nested guards can all call this without extra round-trips.
+ */
+export const requireSuperAdmin = cache(async () => {
   const session = await getSession();
 
   if (!session?.userId || session.role !== "super_admin") {
@@ -87,4 +95,4 @@ export async function requireSuperAdmin() {
     sessionVersion: admin.sessionVersion,
     expiresAt: session.expiresAt,
   };
-}
+});
