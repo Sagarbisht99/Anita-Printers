@@ -47,7 +47,7 @@ export function OfferPopup({
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:p-6"
       role="dialog"
       aria-modal="true"
       aria-label="Special offer"
@@ -59,7 +59,7 @@ export function OfferPopup({
         onClick={dismiss}
       />
 
-      <div className="relative z-10 max-h-[min(85vh,720px)] w-full max-w-[min(92vw,420px)] overflow-y-auto animate-[store-fade-up_0.45s_ease-out]">
+      <div className="relative z-10 flex w-full max-w-[min(92vw,420px)] flex-col items-center animate-[store-fade-up_0.45s_ease-out]">
         <button
           type="button"
           onClick={dismiss}
@@ -85,7 +85,7 @@ export function OfferPopup({
             alt="Special offer — tap to request a quote"
             width={840}
             height={1180}
-            className="h-auto w-full object-contain"
+            className="max-h-[78dvh] w-full object-contain"
           />
         </button>
       </div>
