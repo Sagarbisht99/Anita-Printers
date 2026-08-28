@@ -1,20 +1,10 @@
 "use server";
 
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { verifyAdminCredentials } from "@/app/lib/admin";
-import { consumeRateLimit } from "@/app/lib/admin/rate-limit";
+import { clientIp, consumeRateLimit } from "@/app/lib/security/rate-limit";
 import type { LoginFormState } from "@/app/lib/definitions";
 import { createSession, deleteSession } from "@/app/lib/session";
-
-async function clientKey() {
-  const headerStore = await headers();
-  return (
-    headerStore.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    headerStore.get("x-real-ip") ||
-    "unknown"
-  );
-}
 
 export async function login(
   _prevState: LoginFormState,
@@ -27,17 +17,21 @@ export async function login(
     return { error: "Username and password are required." };
   }
 
-  const ip = await clientKey();
-  const limited = consumeRateLimit({
-    key: `login:${ip}:${username.toLowerCase()}`,
-    limit: 5,
-    windowMs: 15 * 60 * 1000,
-  });
+  const ip = await clientIp();
 
-  if (!limited.ok) {
-    return {
-      error: `Too many login attempts. Try again in ${limited.retryAfterSec}s.`,
-    };
+  // Per-IP cap blunts credential stuffing that rotates usernames.
+  for (const key of [`login:ip:${ip}`, `login:${ip}:${username.toLowerCase()}`]) {
+    const limited = consumeRateLimit({
+      key,
+      limit: key.startsWith("login:ip:") ? 20 : 5,
+      windowMs: 15 * 60 * 1000,
+    });
+
+    if (!limited.ok) {
+      return {
+        error: `Too many login attempts. Try again in ${limited.retryAfterSec}s.`,
+      };
+    }
   }
 
   let admin;

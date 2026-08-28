@@ -3,7 +3,10 @@
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@/app/generated/prisma";
 import { assertSuperAdmin, isUnauthorizedError } from "@/app/lib/admin/guard";
-import { productFormSchema } from "@/app/lib/admin/validations";
+import {
+  productFormSchema,
+  recordIdSchema,
+} from "@/app/lib/admin/validations";
 import { prisma } from "@/app/lib/db";
 
 export type ActionState = {
@@ -108,7 +111,11 @@ export async function saveProduct(
 export async function deleteProduct(id: number): Promise<ActionState> {
   try {
     await assertSuperAdmin();
-    await prisma.product.delete({ where: { id } });
+
+    const parsedId = recordIdSchema.safeParse(id);
+    if (!parsedId.success) return { error: "Invalid product." };
+
+    await prisma.product.delete({ where: { id: parsedId.data } });
     revalidatePath("/admin/products");
     revalidatePath("/admin/dashboard");
     return { ok: true };

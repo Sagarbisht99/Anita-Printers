@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getUploadAuthParams } from "@imagekit/next/server";
 import { headers } from "next/headers";
-import { consumeRateLimit } from "@/app/lib/admin/rate-limit";
+import { consumeRateLimit } from "@/app/lib/security/rate-limit";
 import {
   getImageKitPrivateKey,
   getImageKitPublicConfig,

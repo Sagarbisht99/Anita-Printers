@@ -88,10 +88,15 @@ export type PaginatedResult<T> = {
   totalPages: number;
 };
 
+/** Upper bound for dropdown option lists so a large catalog can't blow up a form payload. */
+const MAX_OPTIONS = 500;
+
 function normalizePagination(input?: PaginationInput) {
-  const page = Math.max(1, Number(input?.page) || 1);
+  const page = Math.min(10000, Math.max(1, Number(input?.page) || 1));
   const pageSize = Math.min(50, Math.max(1, Number(input?.pageSize) || 10));
-  const search = String(input?.search ?? "").trim();
+  const search = String(input?.search ?? "")
+    .trim()
+    .slice(0, 100);
   return {
     page,
     pageSize,
@@ -208,6 +213,7 @@ export async function fetchAdminCategoryOptions(): Promise<AdminCategoryOption[]
 
   return prisma.category.findMany({
     orderBy: { name: "asc" },
+    take: MAX_OPTIONS,
     select: { id: true, name: true },
   });
 }
@@ -218,6 +224,7 @@ export async function fetchAdminProductOptions(): Promise<AdminProductOption[]> 
   const products = await prisma.product.findMany({
     where: { status: "active" },
     orderBy: { titleName: "asc" },
+    take: MAX_OPTIONS,
     select: { id: true, titleName: true, pricing: true },
   });
 

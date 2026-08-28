@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+/** Row identifier arriving from a client call — never trust it raw. */
+export const recordIdSchema = z.coerce.number().int().positive().max(2147483647);
+
 const optionalText = z.string().trim().max(5000).optional().or(z.literal(""));
 const optionalUrl = z
   .string()
@@ -45,7 +48,7 @@ export const productFormSchema = z.object({
 });
 
 export const orderStatusSchema = z.object({
-  id: z.coerce.number().int().positive(),
+  id: recordIdSchema,
   status: z.enum(["pending", "cancelled", "dispatched", "delivered"]),
 });
 

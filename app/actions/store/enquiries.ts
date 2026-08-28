@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { prisma } from "@/app/lib/db";
 import { sendEnquiryAdminEmail } from "@/app/lib/email/resend";
+import { clientIp, consumeRateLimit } from "@/app/lib/security/rate-limit";
 import { revalidatePath } from "next/cache";
 
 const enquirySchema = z.object({
@@ -36,34 +37,53 @@ export async function submitEnquiry(
     };
   }
 
+  // Public endpoint: throttle before touching the DB or the mail provider.
+  const ip = await clientIp();
+  const limited = consumeRateLimit({
+    key: `enquiry:${ip}`,
+    limit: 5,
+    windowMs: 10 * 60 * 1000,
+  });
+
+  if (!limited.ok) {
+    return {
+      error: `Too many requests. Please try again in ${limited.retryAfterSec}s.`,
+    };
+  }
+
   const data = parsed.data;
-  const email = data.email?.trim() || "not-provided@local";
+  const email = data.email?.trim() || null;
 
   try {
     await prisma.enquiry.create({
       data: {
         name: data.name,
-        email,
+        email: email ?? "not-provided@local",
         number: data.phone,
         category: data.category || null,
         quantity: data.quantity ?? null,
         notes: data.notes || null,
       },
     });
+  } catch (error) {
+    console.error("[enquiry] save failed:", error);
+    return { error: "Could not submit enquiry. Please try again." };
+  }
 
+  // Enquiry is already persisted — a mail failure must not fail the request.
+  try {
     await sendEnquiryAdminEmail({
       name: data.name,
-      email: data.email || "",
+      email: email ?? "",
       phone: data.phone,
       category: data.category,
       quantity: data.quantity,
       notes: data.notes,
     });
-
-    revalidatePath("/admin/enquiries");
-    return { ok: true };
   } catch (error) {
-    console.error("[enquiry] submit failed:", error);
-    return { error: "Could not submit enquiry. Please try again." };
+    console.error("[enquiry] admin email failed:", error);
   }
+
+  revalidatePath("/admin/enquiries");
+  return { ok: true };
 }

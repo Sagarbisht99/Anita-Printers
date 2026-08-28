@@ -3,7 +3,10 @@
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@/app/generated/prisma";
 import { assertSuperAdmin, isUnauthorizedError } from "@/app/lib/admin/guard";
-import { categoryFormSchema } from "@/app/lib/admin/validations";
+import {
+  categoryFormSchema,
+  recordIdSchema,
+} from "@/app/lib/admin/validations";
 import { prisma } from "@/app/lib/db";
 
 export type ActionState = {
@@ -123,24 +126,24 @@ export async function saveCategory(
     }
 
     console.error("saveCategory error", error);
-    return {
-      error:
-        error instanceof Error
-          ? error.message
-          : "Could not save category. Please try again.",
-    };
+    return { error: "Could not save category. Please try again." };
   }
 }
 
 export async function deleteCategory(id: number): Promise<ActionState> {
   try {
     await assertSuperAdmin();
-    await prisma.category.delete({ where: { id } });
+
+    const parsedId = recordIdSchema.safeParse(id);
+    if (!parsedId.success) return { error: "Invalid category." };
+
+    await prisma.category.delete({ where: { id: parsedId.data } });
     revalidatePath("/admin/categories");
     revalidatePath("/admin/dashboard");
     return { ok: true };
   } catch (error) {
     if (isUnauthorizedError(error)) return { error: "Unauthorized." };
+    console.error("deleteCategory error", error);
     return { error: "Could not delete category." };
   }
 }
