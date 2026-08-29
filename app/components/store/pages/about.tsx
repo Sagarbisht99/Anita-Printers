@@ -2,9 +2,7 @@
 
 import Link from "next/link";
 import {
-  BadgeCheck,
   Factory,
-  Leaf,
   MapPin,
   ShieldCheck,
   Users,
@@ -32,6 +30,11 @@ const gallery = [
     src: "https://content.jdmagicbox.com/v2/comp/jaunpur/b6/9999p5452.5452.241129205629.f4b6/catalogue/kamal-press-rizwikhan-jaunpur-printing-press-o8xkaz0okj.jpg",
     alt: "Business stationery and catalogs",
     label: "Corporate kits",
+  },
+  {
+    src: "https://omkarprintlab.in/wp-content/uploads/2023/04/How-to-Print-Your-Logo-on-a-Box-The-Ultimate-Guide.jpg",
+    alt: "Wedding cards and event print materials",
+    label: "Wedding & events",
   },
 ];
 
@@ -90,7 +93,7 @@ export function AboutPageContent() {
         <div className="absolute inset-0 bg-[linear-gradient(105deg,rgba(8,31,54,0.92)_0%,rgba(15,61,102,0.78)_48%,rgba(8,31,54,0.55)_100%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(196,59,88,0.22),transparent_45%)]" />
 
-        <div className="relative mx-auto flex min-h-[52vh] max-w-6xl flex-col justify-end px-4 py-12 sm:min-h-[56vh] sm:px-6 sm:py-14 lg:justify-center">
+        <div className="relative mx-auto flex min-h-[52vh] max-w-6xl flex-col items-center justify-center px-4 py-12 text-center sm:min-h-[56vh] sm:px-6 sm:py-14">
           <p className="store-fade-up text-sm font-semibold tracking-[0.2em] text-store-accent uppercase">
             About us
           </p>
@@ -108,7 +111,7 @@ export function AboutPageContent() {
             specialty print for corporate, retail, events, and schools.
           </p>
           <div
-            className="store-fade-up mt-6 flex flex-wrap gap-3"
+            className="store-fade-up mt-6 flex flex-wrap justify-center gap-3"
             style={{ animationDelay: "240ms" }}
           >
             <QuoteButton
@@ -222,12 +225,14 @@ export function AboutPageContent() {
             </p>
           </div>
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2">
             {gallery.map((item, i) => (
               <figure
-                key={item.src}
+                key={item.label}
                 className={`group relative overflow-hidden rounded-2xl ${
-                  i === 0 ? "sm:col-span-2 sm:row-span-2 min-h-[280px]" : "min-h-[180px]"
+                  i === 0
+                    ? "sm:col-span-2 sm:row-span-2 min-h-[280px] lg:min-h-0"
+                    : "min-h-[180px]"
                 }`}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -326,50 +331,6 @@ export function AboutPageContent() {
                 </div>
               </article>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Eco + certifications */}
-      <section className="border-b border-store-line bg-store-surface">
-        <div className="mx-auto grid max-w-6xl items-stretch gap-8 px-4 py-14 sm:px-6 sm:py-16 lg:grid-cols-[0.95fr_1.05fr]">
-          <div className="group relative min-h-[320px] overflow-hidden rounded-2xl">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="https://5.imimg.com/data5/SELLER/Default/2022/1/PZ/WU/CI/142005548/sp-idf-346-500x500.jpg"
-                  alt="Sustainable materials and packaging"
-                  className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
-                />
-            <div className="absolute inset-0 bg-gradient-to-t from-store-navy-deeper/80 via-transparent to-transparent" />
-            <div className="absolute bottom-5 left-5 flex items-center gap-2 text-white">
-              <Leaf className="h-5 w-5 text-store-accent" aria-hidden />
-              <span className="text-sm font-semibold">
-                Better inks. Smarter stock.
-              </span>
-            </div>
-          </div>
-
-          <div>
-            <p className="text-xs font-semibold tracking-[0.16em] text-store-muted uppercase">
-              Responsibility
-            </p>
-            <h2 className="mt-2 text-3xl font-bold tracking-tight text-store-navy">
-              Certifications & eco-initiatives
-            </h2>
-            <ul className="mt-6 space-y-3">
-              {aboutProfile.certifications.map((item) => (
-                <li
-                  key={item}
-                  className="group flex items-start gap-3 rounded-xl border border-store-line bg-store-paper px-4 py-3.5 text-sm leading-relaxed text-store-ink transition-all duration-300 hover:-translate-x-0 hover:border-store-accent/30 hover:bg-store-rose-soft hover:pl-5"
-                >
-                  <BadgeCheck
-                    className="mt-0.5 h-4 w-4 shrink-0 text-store-accent transition-transform duration-300 group-hover:scale-110"
-                    aria-hidden
-                  />
-                  {item}
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
       </section>

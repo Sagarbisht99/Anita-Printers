@@ -7,13 +7,11 @@ import {
   BrandStrip,
   BulkSavings,
   CuratedPicks,
-  ExploreCategories,
   FaqSection,
   HeroSlider,
   HowItWorks,
   PrintingServicesPreview,
   PrintingShowcase,
-  TestimonialsPartners,
   VisionHomegrown,
   WhyChooseUs,
 } from "@/app/components/store/sections";
@@ -34,14 +32,12 @@ export default async function HomePage() {
           initialProducts={products}
         />
       </Suspense>
-      <ExploreCategories initialCategories={categories} />
       <WhyChooseUs />
       <VisionHomegrown />
       <HowItWorks />
       <PrintingShowcase />
       <PrintingServicesPreview />
       <BulkSavings />
-      <TestimonialsPartners />
       <FaqSection />
     </>
   );

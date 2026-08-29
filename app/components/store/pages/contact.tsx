@@ -58,7 +58,7 @@ export function ContactPageContent() {
         <div className="absolute inset-0 bg-[linear-gradient(105deg,rgba(8,31,54,0.92)_0%,rgba(15,61,102,0.8)_50%,rgba(8,31,54,0.55)_100%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(196,59,88,0.2),transparent_45%)]" />
 
-        <div className="relative mx-auto flex min-h-[48vh] max-w-6xl flex-col justify-end px-4 py-12 sm:min-h-[52vh] sm:px-6 sm:py-14 lg:justify-center">
+        <div className="relative mx-auto flex min-h-[48vh] max-w-6xl flex-col items-center justify-center px-4 py-12 text-center sm:min-h-[52vh] sm:px-6 sm:py-14">
           <p className="store-fade-up text-sm font-semibold tracking-[0.2em] text-store-accent uppercase">
             Contact
           </p>
@@ -77,7 +77,7 @@ export function ContactPageContent() {
             school jobs.
           </p>
           <div
-            className="store-fade-up mt-6 flex flex-wrap gap-3"
+            className="store-fade-up mt-6 flex flex-wrap justify-center gap-3"
             style={{ animationDelay: "240ms" }}
           >
             <QuoteButton
@@ -190,7 +190,7 @@ export function ContactPageContent() {
               <div className="relative aspect-[16/10]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80"
+                  src="https://img.magnific.com/free-photo/contact-register-feedback-support-help-concept_53876-124243.jpg"
                   alt="Anita Printers workspace"
                   className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
                 />

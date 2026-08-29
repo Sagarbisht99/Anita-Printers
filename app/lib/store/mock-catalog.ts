@@ -188,7 +188,7 @@ export const bulkPromoTiles = [
   {
     id: "bulk-main",
     eyebrow: null as string | null,
-    title: "Barcode",
+    title: "Posters & flex",
     body: "A0 to A3 large-format posters for shops, events, and campaigns — volume discounts when you buy more.",
     cta: "Order Now",
     href: "/quote",
@@ -199,7 +199,7 @@ export const bulkPromoTiles = [
   },
   {
     id: "bulk-packaging",
-    eyebrow: "sticker printing machine roll production",
+    eyebrow: "Events & weddings",
     title: "Wedding invitations",
     body: "Custom wedding cards and banners for shaadi season — festive prints that feel premium.",
     cta: null as string | null,
@@ -212,7 +212,7 @@ export const bulkPromoTiles = [
   {
     id: "bulk-cards",
     eyebrow: null as string | null,
-    title: "abel printing press roll converting machine",
+    title: "Gift boxes",
     body: "Premium gift boxes and return packaging for sweets brands and wedding favours.",
     cta: null as string | null,
     href: "/services#offset",
@@ -224,7 +224,7 @@ export const bulkPromoTiles = [
   {
     id: "bulk-gifts",
     eyebrow: null as string | null,
-    title: "letterhead printing offset press machine",
+    title: "Folders & letterheads",
     body: "Presentation folders and report covers for corporate kits, institutes, and pitches.",
     cta: null as string | null,
     href: "/services#offset",

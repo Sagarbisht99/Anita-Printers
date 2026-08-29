@@ -90,6 +90,7 @@ export function StoreProductCard({ product }: { product: StoreProductItem }) {
           <QuoteButton
             product={product.titleName}
             category={product.categoryName ?? undefined}
+            imageUrl={product.image ?? undefined}
             className="flex-1 rounded-full bg-store-navy px-3 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-store-navy-dark"
           >
             Order

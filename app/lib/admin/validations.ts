@@ -19,7 +19,6 @@ export const categoryFormSchema = z.object({
   id: z.number().int().positive().optional(),
   name: z.string().trim().min(2).max(255),
   slug: z.string().trim().min(2).max(255).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
-  image: optionalUrl,
   status: z.enum(["active", "non_active"]),
   description: optionalText,
   seoTitle: z.string().trim().max(255).optional().or(z.literal("")),

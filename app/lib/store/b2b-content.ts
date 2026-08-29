@@ -142,98 +142,6 @@ export const featuredProjects = [
   },
 ];
 
-export const testimonials = [
-  {
-    quote:
-      "Anita handled our 3,200-piece conference tee run with screen print colour accuracy and on-time venue delivery. The B2B desk felt like an extension of our events team.",
-    name: "Meera Kapoor",
-    role: "Head of Events, Orbit Events",
-    rating: 5,
-    image:
-      "https://i.pinimg.com/736x/c0/02/06/c00206a3b34aa698333305a6d88b4fdd.jpg",
-  },
-  {
-    quote:
-      "Offset stationery and bill books for our regional offices came sharp, packed with GST invoices, and ready for multi-city splits. Finance and warehouse both happy.",
-    name: "Arjun Mehta",
-    role: "Brand Ops, Verde Goods",
-    rating: 5,
-    image:
-      "https://i.pinimg.com/1200x/cd/2a/35/cd2a35b79f1b6b15affdaf6a6a386113.jpg",
-  },
-  {
-    quote:
-      "Custom paper carry bags, product boxes, and stickers for our retail launch — offset packaging that looked premium on shelf and shipped on schedule.",
-    name: "Sana Qureshi",
-    role: "Procurement, Atlas Retail",
-    rating: 5,
-    image:
-      "https://i.pinimg.com/736x/33/17/98/331798d4ac2aa643a7c4f50b9173246d.jpg",
-  },
-  {
-    quote:
-      "School uniforms, notebooks, and ID lanyards in one PO. Screen on apparel stayed consistent; offset diaries matched our institute branding.",
-    name: "Rohan Desai",
-    role: "Admin Lead, Northridge Academy",
-    rating: 5,
-    image:
-      "https://i.pinimg.com/1200x/7d/7c/4a/7d7c4aa7089687935320b48473b119f1.jpg",
-  },
-  {
-    quote:
-      "Wedding invitation suites with foil detail and rigid gift boxes — screen and finishing handled with care. Guests noticed the quality.",
-    name: "Neha Iyer",
-    role: "Wedding Planner, Bloom Occasions",
-    rating: 5,
-    image:
-      "https://i.pinimg.com/736x/a3/fd/e0/a3fde0a984a03bed89b305e9dd4fbc08.jpg",
-  },
-  {
-    quote:
-      "We reorder visiting cards and letterheads every quarter. Offset quality stays consistent and proofs come back the same day — rare for a print vendor.",
-    name: "Kabir Sethi",
-    role: "Founder, Northline Advisors",
-    rating: 5,
-    image:
-      "https://i.pinimg.com/736x/0a/5e/c6/0a5ec645eebfd196a95689054d7fcae6.jpg",
-  },
-  {
-    quote:
-      "Non-woven bags and tote runs for our franchise stores arrived labelled by city. Screen print held up after weeks of daily use.",
-    name: "Priya Nair",
-    role: "Ops Manager, FreshBasket Marts",
-    rating: 5,
-    image:
-      "https://i.pinimg.com/736x/13/11/86/13118668ae1ef358f5935670e3235bc2.jpg",
-  },
-  {
-    quote:
-      "Catalogs and posters for our product launch looked sharp under showroom lights. Lead time was honest and dispatch tracking was clear.",
-    name: "Vikram Joshi",
-    role: "Marketing Lead, Apex Interiors",
-    rating: 5,
-    image:
-      "https://i.pinimg.com/736x/b6/7e/56/b67e56d611a7098d6ae08537ad605fb0.jpg",
-  },
-  {
-    quote:
-      "Mug, pen, and diary kits for employee onboarding — one quote, one invoice, one delivery. Anita made the whole kit feel premium.",
-    name: "Ananya Rao",
-    role: "People Partner, Stackly Soft",
-    rating: 5,
-    image:
-      "https://i.pinimg.com/736x/10/1d/d7/101dd77249cce3e389c4f53a03f7e138.jpg",
-  },
-  {
-    quote:
-      "Hotel staff uniforms and nameplates from a single partner. Screen on fabric and metal plates matched our brand colours exactly.",
-    name: "Imran Sheikh",
-    role: "GM, Coral Bay Residency",
-    rating: 5,
-    image:
-      "https://i.pinimg.com/1200x/69/47/29/69472935e21ed5cb48814ad6c50031a6.jpg",
-  },
-];
 export const catalogFilters = {
   techniques: [
     "Screen Print",
@@ -507,12 +415,6 @@ export const aboutProfile = {
     { label: "Press & embroidery heads", value: "42 stations" },
     { label: "QC checkpoints", value: "5-stage" },
     { label: "Cities served last year", value: "110+" },
-  ],
-  certifications: [
-    "OEKO-TEX aligned ink systems for apparel decoration",
-    "Organic / better-cotton garment options on request",
-    "FSC-preferred cardstock for stationery programs",
-    "In-house colour matching with Pantone references",
   ],
 };
 
