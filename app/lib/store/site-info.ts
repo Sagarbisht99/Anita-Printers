@@ -3,7 +3,7 @@
 export const siteInfo = {
   brand: "Anita Printers",
   tagline: "Offset & Screen Printing",
-  gstin: "09AFZPR5565B1ZR",
+  gstin: "09ELTPR0657G1ZF",
   email: "anitaprintersa87@gmail.com",
   hours: "Mon–Sat, 9:30 AM – 7:00 PM IST",
   addressLines: [
@@ -14,21 +14,9 @@ export const siteInfo = {
   phones: [
     {
       label: "Mobile",
-      display: "+91 92102 00414",
-      href: "tel:+919210200414",
-      digits: "9210200414",
-    },
-    {
-      label: "Mobile",
       display: "+91 98102 75776",
       href: "tel:+919810275776",
       digits: "9810275776",
-    },
-    {
-      label: "Mobile",
-      display: "+91 93117 93437",
-      href: "tel:+919311793437",
-      digits: "9311793437",
     },
   ],
   landline: {
@@ -38,10 +26,10 @@ export const siteInfo = {
   },
   /** Primary number for header / WhatsApp / quick dial. */
   primaryPhone: {
-    display: "+91 92102 00414",
-    href: "tel:+919210200414",
+    display: "+91 98102 75776",
+    href: "tel:+919810275776",
   },
-  whatsapp: "https://wa.me/919210200414",
+  whatsapp: "https://wa.me/919810275776",
   mapEmbed:
     "https://maps.google.com/maps?q=A-87%20Sector-2%20Noida%20201301&t=&z=15&ie=UTF8&iwloc=&output=embed",
   mapQuery: "A-87, Sector-2, Noida - 201301 (U.P.)",

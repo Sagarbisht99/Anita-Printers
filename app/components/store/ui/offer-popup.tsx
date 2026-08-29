@@ -75,6 +75,7 @@ export function OfferPopup({
             dismiss();
             openQuotePopup({
               intent: "offer-popup",
+              imageUrl: imageUrl ?? undefined,
             });
           }}
           className="block w-full overflow-hidden rounded-xl bg-white text-left shadow-[0_24px_60px_-20px_rgba(0,0,0,0.45)] ring-1 ring-black/10"

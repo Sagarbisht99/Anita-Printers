@@ -208,6 +208,7 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
             <QuoteButton
               product={product.titleName}
               category={product.categoryName ?? undefined}
+              imageUrl={product.image ?? undefined}
               className="rounded-full bg-store-navy px-5 py-2.5 text-sm font-semibold text-white"
             >
               Get a Quote
@@ -215,6 +216,7 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
             <QuoteButton
               product={product.titleName}
               category={product.categoryName ?? undefined}
+              imageUrl={product.image ?? undefined}
               intent="sample"
               className="rounded-full border border-store-navy px-5 py-2.5 text-sm font-semibold text-store-navy"
             >
@@ -282,6 +284,7 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
           <QuoteButton
             product={product.titleName}
             category={product.categoryName ?? undefined}
+            imageUrl={product.image ?? undefined}
             intent="sample"
             className="mt-6 inline-flex rounded-full bg-store-navy px-5 py-2.5 text-sm font-semibold text-white"
           >

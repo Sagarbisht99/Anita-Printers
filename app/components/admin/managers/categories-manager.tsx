@@ -114,19 +114,7 @@ export function CategoriesManager() {
               rows.map((row) => (
                 <tr key={row.id} className="border-b border-white/[0.06] text-zinc-300">
                   <td className="px-4 py-3">
-                    <div className="flex items-center gap-3">
-                      {row.image ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={row.image}
-                          alt=""
-                          className="h-10 w-10 rounded-lg object-cover"
-                        />
-                      ) : (
-                        <div className="h-10 w-10 rounded-lg bg-white/5" />
-                      )}
-                      <span className="font-medium text-white">{row.name}</span>
-                    </div>
+                    <span className="font-medium text-white">{row.name}</span>
                   </td>
                   <td className="px-4 py-3">{row.slug}</td>
                   <td className="px-4 py-3 capitalize">
@@ -203,19 +191,6 @@ export function CategoriesManager() {
         fields={
           viewing
             ? [
-                {
-                  label: "Image",
-                  value: viewing.image ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={viewing.image}
-                      alt=""
-                      className="h-20 w-20 rounded-xl object-cover"
-                    />
-                  ) : (
-                    "—"
-                  ),
-                },
                 { label: "Name", value: viewing.name },
                 { label: "Slug", value: viewing.slug },
                 {

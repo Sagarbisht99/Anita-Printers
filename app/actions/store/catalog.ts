@@ -61,7 +61,6 @@ export type StoreCategoryItem = {
   id: number;
   name: string;
   slug: string;
-  image: string | null;
 };
 
 export type StoreProductItem = {
@@ -122,7 +121,6 @@ export async function fetchStoreCategories(): Promise<StoreCategoryItem[]> {
       id: true,
       name: true,
       slug: true,
-      image: true,
     },
   });
 }

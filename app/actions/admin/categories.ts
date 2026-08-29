@@ -54,7 +54,6 @@ export async function saveCategory(
       id,
       name: formData.get("name"),
       slug: formData.get("slug"),
-      image: String(formData.get("image") ?? "").trim(),
       status: formData.get("status"),
       description: formData.get("description") ?? "",
       seoTitle: formData.get("seoTitle") ?? "",
@@ -88,7 +87,6 @@ export async function saveCategory(
     const payload = {
       name: data.name,
       slug: data.slug,
-      image: emptyToNull(data.image),
       status: data.status,
       description: emptyToNull(data.description),
       seoTitle: emptyToNull(data.seoTitle),
