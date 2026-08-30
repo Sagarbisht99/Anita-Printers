@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/app/components/store/pages";
+import { createPageMetadata } from "@/app/lib/seo/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "Privacy Policy",
-};
+  description:
+    "Privacy policy for Anita Printers — how we collect, use, and protect your contact details, order information, and artwork files.",
+  path: "/privacy",
+});
 
 export default function PrivacyPage() {
   return (

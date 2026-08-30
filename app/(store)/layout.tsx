@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { getOfferBannerSettings } from "@/app/actions/store/site-settings";
 import {
   StoreFloatChrome,
@@ -6,20 +5,12 @@ import {
   StoreHeader,
   StoreTopBar,
 } from "@/app/components/store/layout";
+import { StoreJsonLd } from "@/app/components/store/seo/store-json-ld";
 import {
   OfferPopup,
   QuotePopupProvider,
   StorefrontQueryProvider,
 } from "@/app/components/store/ui";
-
-export const metadata: Metadata = {
-  title: {
-    default: "Anita Printers",
-    template: "%s | Anita Printers",
-  },
-  description:
-    "Anita Printers — barcode, sticker, label, tag, letterhead, visiting card, plastic printing, brochures, posters, leaflets, carry bags, boxes, flex, and shadi cards. Offset & screen for corporate, retail, events, and schools.",
-};
 
 export default async function StoreLayout({
   children,
@@ -31,6 +22,7 @@ export default async function StoreLayout({
   return (
     <StorefrontQueryProvider>
       <QuotePopupProvider>
+        <StoreJsonLd />
         <div className="flex min-h-full flex-1 flex-col bg-store-paper pb-14 text-store-ink">
           <StoreTopBar />
           <StoreHeader />

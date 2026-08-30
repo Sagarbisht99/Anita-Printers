@@ -8,12 +8,19 @@ import {
   ProductsCatalog,
   PRODUCTS_PAGE_SIZE,
 } from "@/app/components/store/pages";
+import { createPageMetadata } from "@/app/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Products",
+export const metadata: Metadata = createPageMetadata({
+  title: "Product Catalog",
   description:
-    "Shop offset stationery, packaging, screen apparel, bags, and promotional print — filter by technique, MOQ, and lead time.",
-};
+    "Browse Anita Printers product catalog — offset stationery, packaging, labels, apparel, and promotional print. Filter by category, MOQ, and request bulk pricing.",
+  path: "/products",
+  keywords: [
+    "printing products catalog",
+    "bulk print products",
+    "custom print catalog India",
+  ],
+});
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
@@ -36,8 +43,6 @@ export default async function ProductsPage({
       : null;
   const page = Math.max(1, Number(firstValue(params.page)) || 1);
 
-  // Prefetch on the server so the first paint ships real products instead of a
-  // skeleton; the client query reuses this and only refetches on filter change.
   const [initialCategories, initialProducts] = await Promise.all([
     fetchStoreCategories(),
     fetchStoreProductsPage({
