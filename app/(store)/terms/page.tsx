@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/app/components/store/pages";
+import { createPageMetadata } from "@/app/lib/seo/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "Terms & Conditions",
-};
+  description:
+    "Terms and conditions for using the Anita Printers website and ordering offset, screen, packaging, and custom print services.",
+  path: "/terms",
+});
 
 export default function TermsPage() {
   return (

@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { getUploadAuthParams } from "@imagekit/next/server";
-import { headers } from "next/headers";
-import { consumeRateLimit } from "@/app/lib/security/rate-limit";
+import { clientIp, consumeRateLimit } from "@/app/lib/security/rate-limit";
 import {
   getImageKitPrivateKey,
   getImageKitPublicConfig,
@@ -18,11 +17,7 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const headerStore = await headers();
-  const ip =
-    headerStore.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    headerStore.get("x-real-ip") ||
-    "unknown";
+  const ip = await clientIp();
 
   const limited = consumeRateLimit({
     key: `imagekit-auth:${session.userId}:${ip}`,

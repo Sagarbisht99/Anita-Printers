@@ -8,13 +8,7 @@ import {
   printLocations,
 } from "@/app/lib/store/b2b-content";
 
-function formatInr(amount: number) {
-  return amount.toLocaleString("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
-  });
-}
+import { formatInr } from "@/app/lib/format/currency";
 
 export function ProductDetailView({ product }: { product: StoreProductDetail }) {
   const gallery = useMemo(() => {

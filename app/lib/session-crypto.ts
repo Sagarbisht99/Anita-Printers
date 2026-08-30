@@ -1,5 +1,6 @@
 import { SignJWT, jwtVerify } from "jose";
 import { z } from "zod";
+import { serverEnv } from "@/app/lib/env/server";
 import type { SessionPayload } from "@/app/lib/definitions";
 
 const COOKIE_NAME = "admin_session";
@@ -14,7 +15,7 @@ const sessionPayloadSchema = z.object({
 });
 
 function getSecretKey() {
-  const secret = process.env.SESSION_SECRET;
+  const secret = serverEnv.sessionSecret;
 
   if (!secret) {
     throw new Error("SESSION_SECRET is not set in the environment.");

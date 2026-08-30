@@ -1,4 +1,5 @@
 import "server-only";
+import { serverEnv } from "@/app/lib/env/server";
 import { getImageKitPublicEnv } from "@/app/lib/imagekit/constants";
 
 export { PRODUCT_IMAGE_FOLDER } from "@/app/lib/imagekit/constants";
@@ -19,10 +20,7 @@ export function getImageKitPublicConfig() {
 }
 
 export function getImageKitPrivateKey() {
-  const privateKey = process.env.IMAGEKIT_PRIVATE_KEY?.trim()?.replace(
-    /^["']|["']$/g,
-    "",
-  );
+  const privateKey = serverEnv.imagekitPrivateKey;
 
   if (!privateKey) {
     throw new Error("Missing IMAGEKIT_PRIVATE_KEY in environment.");

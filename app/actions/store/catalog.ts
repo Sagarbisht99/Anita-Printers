@@ -80,6 +80,10 @@ export type StoreProductDetail = StoreProductItem & {
   sizes: string[];
   colors: string[];
   quantities: string[];
+  seoTitle: string | null;
+  seoDescription: string | null;
+  seoKeywords: string[];
+  isIndexed: boolean;
 };
 
 export type StoreProductsPage = {
@@ -207,6 +211,10 @@ export async function fetchStoreProductBySlug(
       sizes: true,
       colors: true,
       descriptionContent: true,
+      seoTitle: true,
+      seoDescription: true,
+      seoKeywords: true,
+      isIndexed: true,
       categoryId: true,
       category: { select: { name: true } },
     },
@@ -221,5 +229,41 @@ export async function fetchStoreProductBySlug(
     sizes: product.sizes,
     colors: product.colors,
     quantities: product.quantities,
+    seoTitle: product.seoTitle,
+    seoDescription: product.seoDescription,
+    seoKeywords: product.seoKeywords,
+    isIndexed: product.isIndexed,
   };
+}
+
+/** Used by /sitemap.xml — bounded read of indexable product URLs. */
+export async function fetchActiveProductSlugsForSitemap() {
+  return prisma.product.findMany({
+    where: { status: "active", isIndexed: true },
+    select: { slug: true, createdAt: true },
+    orderBy: { createdAt: "desc" },
+    take: 5000,
+  });
+}
+
+export async function fetchIndexedCategoriesForSitemap() {
+  return prisma.category.findMany({
+    where: { status: "active", isIndexed: true },
+    select: { id: true, name: true, createdAt: true },
+    orderBy: { name: "asc" },
+  });
+}
+
+export async function fetchStoreCategoryMeta(categoryId: number) {
+  return prisma.category.findFirst({
+    where: { id: categoryId, status: "active" },
+    select: {
+      id: true,
+      name: true,
+      seoTitle: true,
+      seoDescription: true,
+      seoKeywords: true,
+      isIndexed: true,
+    },
+  });
 }

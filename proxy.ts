@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { applySecurityHeaders } from "@/app/lib/security/headers";
 import { COOKIE_NAME, decrypt } from "@/app/lib/session-crypto";
 
 export default async function proxy(request: NextRequest) {
@@ -8,30 +9,45 @@ export default async function proxy(request: NextRequest) {
   const isProtectedAdmin =
     (pathname.startsWith("/admin/") || isAdminRoot) && !isLogin;
 
+  let response: NextResponse;
+
   if (!isLogin && !isProtectedAdmin) {
-    return NextResponse.next();
+    response = NextResponse.next();
+  } else {
+    const token = request.cookies.get(COOKIE_NAME)?.value;
+    const session = await decrypt(token);
+    const isAuthenticated =
+      Boolean(session?.userId) && session?.role === "super_admin";
+
+    if (isProtectedAdmin && !isAuthenticated) {
+      response = NextResponse.redirect(new URL("/admin/login", request.url));
+    } else if (isLogin && isAuthenticated) {
+      response = NextResponse.redirect(
+        new URL("/admin/dashboard", request.url),
+      );
+    } else if (isAdminRoot && isAuthenticated) {
+      response = NextResponse.redirect(
+        new URL("/admin/dashboard", request.url),
+      );
+    } else {
+      response = NextResponse.next();
+    }
   }
 
-  const token = request.cookies.get(COOKIE_NAME)?.value;
-  const session = await decrypt(token);
-  const isAuthenticated =
-    Boolean(session?.userId) && session?.role === "super_admin";
+  applySecurityHeaders(response);
 
-  if (isProtectedAdmin && !isAuthenticated) {
-    return NextResponse.redirect(new URL("/admin/login", request.url));
+  if (pathname.startsWith("/admin") && pathname !== "/admin/login") {
+    response.headers.set("X-Robots-Tag", "noindex, nofollow");
+    response.headers.set("Cache-Control", "no-store, max-age=0");
   }
 
-  if (isLogin && isAuthenticated) {
-    return NextResponse.redirect(new URL("/admin/dashboard", request.url));
+  if (pathname.startsWith("/api/")) {
+    response.headers.set("Cache-Control", "no-store, max-age=0");
   }
 
-  if (isAdminRoot && isAuthenticated) {
-    return NextResponse.redirect(new URL("/admin/dashboard", request.url));
-  }
-
-  return NextResponse.next();
+  return response;
 }
 
 export const config = {
-  matcher: ["/admin", "/admin/:path*"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|webp|gif|ico)$).*)"],
 };

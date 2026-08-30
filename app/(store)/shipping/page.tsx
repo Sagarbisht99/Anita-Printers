@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/app/components/store/pages";
+import { createPageMetadata } from "@/app/lib/seo/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "Shipping Policy",
-};
+  description:
+    "Shipping and delivery policy for Anita Printers — dispatch timelines, courier partners, pan-India delivery, and tracking for bulk print orders.",
+  path: "/shipping",
+});
 
 export default function ShippingPage() {
   return (

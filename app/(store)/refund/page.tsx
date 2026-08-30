@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/app/components/store/pages";
+import { createPageMetadata } from "@/app/lib/seo/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "Refund & Cancellation",
-};
+  description:
+    "Refund and cancellation policy for custom print orders at Anita Printers — samples, proofs, defects, and cancellation rules.",
+  path: "/refund",
+});
 
 export default function RefundPage() {
   return (

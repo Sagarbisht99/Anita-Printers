@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { ImageKitAppProvider } from "@/app/components/shared/imagekit/provider";
 import { getImageKitPublicEnv } from "@/app/lib/imagekit/constants";
+import { defaultStoreMetadata } from "@/app/lib/seo/metadata";
+import { siteConfig } from "@/app/lib/seo/site";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -12,12 +14,15 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Anita Printers",
-  description: "Anita Printers",
+  ...defaultStoreMetadata,
   icons: {
     icon: [{ url: "/logo.svg", type: "image/svg+xml" }],
     shortcut: "/logo.svg",
     apple: "/logo.svg",
+  },
+  appleWebApp: {
+    capable: true,
+    title: siteConfig.name,
   },
 };
 
@@ -26,7 +31,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
 
   return (
     <html
-      lang="en"
+      lang="en-IN"
       className={`${jakarta.variable} h-full antialiased`}
       suppressHydrationWarning
     >

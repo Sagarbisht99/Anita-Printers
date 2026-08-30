@@ -5,13 +5,7 @@ import type { StoreProductItem } from "@/app/actions/store/catalog";
 import { QuoteButton } from "@/app/components/store/ui/quote-popup";
 import { defaultPriceTiers } from "@/app/lib/store/b2b-content";
 
-function formatInr(amount: number) {
-  return amount.toLocaleString("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
-  });
-}
+import { formatInr } from "@/app/lib/format/currency";
 
 const swatches = ["#0f3d66", "#1d6fb8", "#c43b58", "#ffffff", "#5c6b7a"];
 

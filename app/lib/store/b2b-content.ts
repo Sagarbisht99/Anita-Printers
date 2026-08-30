@@ -2,54 +2,6 @@
 
 export { siteContact, siteInfo } from "@/app/lib/store/site-info";
 
-export const homeHero = {
-  brand: "Anita Printers",
-  headline: "Offset & Screen Printing for Bulk Orders",
-  support:
-    "Barcode, stickers, labels, tags, letterheads, visiting cards, plastic printing, brochures, posters, leaflets, carry bags, boxes, flex, and shadi cards — corporate, retail, events, and schools under one roof.",
-  primaryCta: { label: "Request a Quote", href: "/quote" },
-  secondaryCta: { label: "View Services", href: "/services" },
-  trust: ["GST invoices", "Pan-India dispatch", "Dedicated B2B desk", "Proof before print"],
-};
-
-export const categoryHighlights = [
-  {
-    id: "stationery",
-    title: "Business Stationery",
-    body: "Offset visiting cards, letterheads, envelopes, bill books, brochures, and catalogs at bulk pricing.",
-    meta: "MOQ from 50 sets · 3–8 day lead",
-    href: "/services#offset",
-    image:
-      "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=900&q=80",
-  },
-  {
-    id: "packaging",
-    title: "Packaging & Labels",
-    body: "Custom product boxes, paper carry bags, stickers, and gumming labels for retail shelves.",
-    meta: "MOQ from 100 pcs · 5–12 day lead",
-    href: "/services#offset",
-    image:
-      "https://images.unsplash.com/photo-1607083206968-13611e3d76db?auto=format&fit=crop&w=900&q=80",
-  },
-  {
-    id: "apparel",
-    title: "Apparel & Textiles",
-    body: "Screen-printed tees, hoodies, caps, tote bags, and uniforms for corporate and school programs.",
-    meta: "MOQ from 25 pcs · 5–12 day lead",
-    href: "/services#screen",
-    image:
-      "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=900&q=80",
-  },
-  {
-    id: "events",
-    title: "Events & Wedding",
-    body: "Invitation cards, event tees, posters, and return-gift packaging for marriages and launches.",
-    meta: "Rush slots on request",
-    href: "/services#who-we-serve",
-    image:
-      "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=900&q=80",
-  },
-];
 export const usps = [
   {
     title: "Offset for bulk paper",
@@ -80,7 +32,7 @@ export const processSteps = [
     step: "1",
     title: "Share your requirement",
     body: "Tell us what you need — visiting cards, labels, carry bags, boxes, flex, wedding cards, or apparel. Mention quantity, size, and delivery city on the quote form, call us, or WhatsApp.",
-    href: "/quote",
+    href: "/contact",
     cta: "Get a quote",
   },
   {
@@ -94,7 +46,7 @@ export const processSteps = [
     step: "3",
     title: "Approve proof & pay advance",
     body: "Check the digital proof on WhatsApp. Confirm colours, size, and packing. Pay advance to book your slot — printing starts only after you approve.",
-    href: "/quote",
+    href: "/contact",
     cta: "Request proof",
   },
   {
@@ -121,39 +73,6 @@ export const quoteItemOptions = [
   "Mug / Pen / Lanyard / Gifting",
   "Notebooks / Diaries",
   "Other / Custom",
-];
-
-export const featuredProjects = [
-  {
-    id: "tech-hoodies",
-    title: "5,000 Custom Hoodies for Tech Conference",
-    client: "Orbit Events",
-    summary:
-      "Three colourways, front chest + sleeve embroidery, size-sorted cartons delivered to the venue in 9 days after proof.",
-    stats: ["5,000 pcs", "Embroidery + DTF", "9-day lead"],
-    image:
-      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    id: "cafe-kits",
-    title: "Franchise Opening Kits for 42 Cafés",
-    client: "Cafe Bloom",
-    summary:
-      "Aprons, menu boards, loyalty cards, and stamped takeaway sleeves — packed per store with checklist inserts.",
-    stats: ["42 kits", "Offset + Screen", "Pan-India"],
-    image:
-      "https://images.unsplash.com/photo-1442512595331-e89e7384261d?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    id: "onboarding",
-    title: "Employee Onboarding Merch for SaaS Scale-up",
-    client: "Lumina Labs",
-    summary:
-      "Quarterly hoodie + notebook + bottle program with private-label neck tags and Net-30 billing.",
-    stats: ["Recurring", "Private label", "Net 30"],
-    image:
-      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1200&q=80",
-  },
 ];
 
 export const catalogFilters = {
@@ -188,77 +107,6 @@ export const printLocations = [
   "Packaging panel",
   "Bag side / strap",
   "Full coverage",
-];
-
-export const enterpriseBenefits = [
-  {
-    title: "Dedicated account managers",
-    body: "One point of contact for artwork, proofs, production slots, and dispatch updates.",
-  },
-  {
-    title: "Custom credit terms",
-    body: "Net 30 / Net 60 options for approved corporate accounts with PO-based ordering.",
-  },
-  {
-    title: "GST invoice support",
-    body: "Tax-compliant invoices, HSN mapping guidance, and consolidated monthly billing on request.",
-  },
-  {
-    title: "Inventory & fulfillment",
-    body: "Store finished goods and release kits to offices or event venues on a schedule.",
-  },
-];
-
-export const bulkCustomizationServices = [
-  {
-    title: "Private labeling",
-    body: "Custom hangtags, woven labels, and brand cards packed with every garment.",
-  },
-  {
-    title: "Custom neck tags",
-    body: "Printed or woven care labels with your size chart and brand story.",
-  },
-  {
-    title: "Eco-friendly packaging",
-    body: "Recycled mailers, kraft cartons, and soy-ink packing slips for greener launches.",
-  },
-  {
-    title: "Multi-location dropship",
-    body: "Split cartons across city offices with per-location packing lists and tracking.",
-  },
-];
-
-export const printTechniquesGuide = [
-  {
-    name: "Offset Printing",
-    bestFor: "Commercial stationery, catalogs, packaging, and high-volume paper jobs",
-    notes: "Per-unit cost drops as quantity rises — ideal for bulk / mass production.",
-  },
-  {
-    name: "Screen Printing",
-    bestFor: "Fabric, plastic, wood, metal, glass, and thick paper with durable ink",
-    notes: "Dark, long-lasting colours — best for apparel, bags, signage, and specialty items.",
-  },
-  {
-    name: "DTF",
-    bestFor: "Full-colour artwork, gradients, and mixed fabric types",
-    notes: "Fast changeovers; soft hand-feel; great for smaller MOQs and complex art.",
-  },
-  {
-    name: "Sublimation",
-    bestFor: "All-over prints on polyester sportswear and softshells",
-    notes: "Ink bonds into fabric; no cracking; not suitable for dark cotton.",
-  },
-  {
-    name: "Embroidery",
-    bestFor: "Polos, caps, jackets, and premium brand marks",
-    notes: "Durable raised finish; digitising required; strong for corporate uniforms.",
-  },
-  {
-    name: "Embossing / Foil",
-    bestFor: "Premium cards, certificates, and invitation suites",
-    notes: "Tactile prestige finishes; pairs well with thick cardstock and UV spot.",
-  },
 ];
 
 /** Full Offset + Screen service catalogue for the /services page. */
@@ -504,11 +352,4 @@ export const faqs = [
     q: "Can you reprint the same order later?",
     a: "Yes. We archive approved artwork and specs so reorders are faster and colour-matched. Just share the previous PO or job reference.",
   },
-];
-
-export const trustBadges = [
-  { label: "Offset & screen", detail: "Bulk paper jobs + specialty surfaces" },
-  { label: "Proof-first", detail: "Nothing prints without your OK" },
-  { label: "Scale-ready", detail: "50 to 50,000+ unit runs" },
-  { label: "India-wide", detail: "Corporate · retail · events · schools" },
 ];

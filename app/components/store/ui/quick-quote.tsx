@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useState, type FormEvent } from "react";
 import { QuoteButton } from "@/app/components/store/ui/quote-popup";
 import { submitEnquiry } from "@/app/actions/store/enquiries";
 import { quoteItemOptions } from "@/app/lib/store/b2b-content";
@@ -134,5 +134,3 @@ export function QuickQuoteForm({ compact = false }: { compact?: boolean }) {
     </form>
   );
 }
-
-export type { ReactNode };
