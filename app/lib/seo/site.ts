@@ -1,4 +1,5 @@
 import { siteInfo } from "@/app/lib/store/site-info";
+import { defaultKeywords } from "@/app/lib/seo/keywords";
 
 /** Public site URL — set NEXT_PUBLIC_SITE_URL in production (https://anitaprinters.in). */
 export const SITE_URL =
@@ -14,20 +15,7 @@ export const siteConfig = {
   locale: "en_IN",
   defaultDescription:
     "Anita Printers in Noida — offset & screen printing for visiting cards, letterheads, labels, stickers, carry bags, boxes, flex, wedding cards, and custom packaging. Bulk orders, GST invoices, pan-India delivery.",
-  defaultKeywords: [
-    "Anita Printers",
-    "printing services Noida",
-    "offset printing",
-    "screen printing",
-    "visiting card printing",
-    "letterhead printing",
-    "custom packaging",
-    "bulk printing India",
-    "corporate stationery",
-    "label printing",
-    "flex printing",
-    "wedding card printing",
-  ],
+  defaultKeywords,
   defaultOgImage: "/pop-up-image.png",
   twitterHandle: undefined as string | undefined,
   geo: {

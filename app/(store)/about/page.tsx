@@ -1,20 +1,36 @@
 import type { Metadata } from "next";
 import { AboutPageContent } from "@/app/components/store/pages";
+import { JsonLdScript } from "@/app/components/store/seo/json-ld-script";
 import { createPageMetadata } from "@/app/lib/seo/metadata";
+import { aboutKeywords } from "@/app/lib/seo/keywords";
+import { breadcrumbJsonLd, jsonLdGraph, webPageJsonLd } from "@/app/lib/seo/json-ld";
 
 export const metadata: Metadata = createPageMetadata({
   title: "About Us",
   description:
     "Learn about Anita Printers — offset & screen printing in Noida since decades of bulk jobs for corporate, retail, events, and schools. Proof-first production and pan-India dispatch.",
   path: "/about",
-  keywords: [
-    "about Anita Printers",
-    "printing company Noida",
-    "offset print shop",
-    "screen printing unit",
-  ],
+  keywords: aboutKeywords,
 });
 
 export default function AboutPage() {
-  return <AboutPageContent />;
+  const schemas = jsonLdGraph(
+    webPageJsonLd({
+      name: "About Anita Printers",
+      description:
+        "Offset and screen printing in Noida — bulk jobs for corporate, retail, events, and schools with proof-first production.",
+      path: "/about",
+    }),
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "About", path: "/about" },
+    ]),
+  );
+
+  return (
+    <>
+      <JsonLdScript data={schemas} />
+      <AboutPageContent />
+    </>
+  );
 }

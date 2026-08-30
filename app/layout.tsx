@@ -31,7 +31,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
 
   return (
     <html
-      lang="en"
+      lang="en-IN"
       className={`${jakarta.variable} h-full antialiased`}
       suppressHydrationWarning
     >

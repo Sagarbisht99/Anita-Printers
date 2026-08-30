@@ -245,3 +245,25 @@ export async function fetchActiveProductSlugsForSitemap() {
     take: 5000,
   });
 }
+
+export async function fetchIndexedCategoriesForSitemap() {
+  return prisma.category.findMany({
+    where: { status: "active", isIndexed: true },
+    select: { id: true, name: true, createdAt: true },
+    orderBy: { name: "asc" },
+  });
+}
+
+export async function fetchStoreCategoryMeta(categoryId: number) {
+  return prisma.category.findFirst({
+    where: { id: categoryId, status: "active" },
+    select: {
+      id: true,
+      name: true,
+      seoTitle: true,
+      seoDescription: true,
+      seoKeywords: true,
+      isIndexed: true,
+    },
+  });
+}

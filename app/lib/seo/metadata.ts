@@ -13,6 +13,16 @@ type PageSeoInput = {
   type?: "website" | "article";
 };
 
+function geoMetaTags() {
+  const { latitude, longitude } = siteConfig.geo;
+  return {
+    "geo.region": "IN-UP",
+    "geo.placename": "Noida",
+    "geo.position": `${latitude};${longitude}`,
+    ICBM: `${latitude}, ${longitude}`,
+  };
+}
+
 function resolveImageUrl(image: string): string {
   if (image.startsWith("http://") || image.startsWith("https://")) {
     return image;
@@ -137,4 +147,5 @@ export const defaultStoreMetadata: Metadata = {
   verification: serverEnv.googleSiteVerification
     ? { google: serverEnv.googleSiteVerification }
     : {},
+  other: geoMetaTags(),
 };

@@ -17,22 +17,17 @@ import {
   WhyChooseUs,
 } from "@/app/components/store/sections";
 import { HomeJsonLd } from "@/app/components/store/seo/store-json-ld";
+import { JsonLdScript } from "@/app/components/store/seo/json-ld-script";
 import { createPageMetadata } from "@/app/lib/seo/metadata";
+import { homeKeywords } from "@/app/lib/seo/keywords";
+import { jsonLdGraph, webPageJsonLd } from "@/app/lib/seo/json-ld";
 
 export const metadata = createPageMetadata({
   title: "Offset & Screen Printing in Noida",
   description:
     "Anita Printers — bulk offset & screen printing in Noida. Visiting cards, labels, stickers, carry bags, boxes, flex, wedding cards, and custom packaging with GST invoices and pan-India delivery.",
   path: "/",
-  keywords: [
-    "Anita Printers Noida",
-    "offset printing Noida",
-    "screen printing Noida",
-    "visiting card printer",
-    "custom packaging Noida",
-    "bulk printing",
-    "corporate stationery printing",
-  ],
+  keywords: homeKeywords,
 });
 
 export default async function HomePage() {
@@ -43,6 +38,16 @@ export default async function HomePage() {
 
   return (
     <>
+      <JsonLdScript
+        data={jsonLdGraph(
+          webPageJsonLd({
+            name: "Anita Printers — Offset & Screen Printing in Noida",
+            description:
+              "Bulk offset & screen printing in Noida. Visiting cards, labels, stickers, carry bags, boxes, flex, wedding cards, and custom packaging.",
+            path: "/",
+          }),
+        )}
+      />
       <HomeJsonLd />
       <HeroSlider />
       <BrandStrip />

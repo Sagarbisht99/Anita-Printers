@@ -1,12 +1,24 @@
-import { faqs } from "@/app/lib/store/b2b-content";
+import { faqs, printingServiceCatalog } from "@/app/lib/store/b2b-content";
 import { siteInfo } from "@/app/lib/store/site-info";
 import { absoluteUrl, siteConfig } from "@/app/lib/seo/site";
 
-export function localBusinessJsonLd() {
+const ORG_ID = `${siteConfig.url}/#organization`;
+const WEBSITE_ID = `${siteConfig.url}/#website`;
+
+/** Merge multiple schema nodes into one JSON-LD graph (preferred by Google). */
+export function jsonLdGraph(...nodes: Record<string, unknown>[]) {
   return {
     "@context": "https://schema.org",
+    "@graph": nodes.map(({ "@context": _, ...rest }) => rest),
+  };
+}
+
+export function localBusinessJsonLd() {
+  const serviceKeywords = printingServiceCatalog.coreProducts.flatMap((g) => g.items);
+
+  return {
     "@type": "PrintShop",
-    "@id": `${siteConfig.url}/#organization`,
+    "@id": ORG_ID,
     name: siteConfig.name,
     legalName: siteConfig.legalName,
     url: siteConfig.url,
@@ -29,6 +41,28 @@ export function localBusinessJsonLd() {
       latitude: siteConfig.geo.latitude,
       longitude: siteConfig.geo.longitude,
     },
+    hasMap: siteInfo.mapEmbed,
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        telephone: siteInfo.primaryPhone.href.replace("tel:", ""),
+        contactType: "customer service",
+        areaServed: "IN",
+        availableLanguage: ["English", "Hindi"],
+      },
+      {
+        "@type": "ContactPoint",
+        telephone: siteInfo.landline.href.replace("tel:", ""),
+        contactType: "customer service",
+        areaServed: "IN",
+      },
+      {
+        "@type": "ContactPoint",
+        email: siteInfo.email,
+        contactType: "sales",
+        areaServed: "IN",
+      },
+    ],
     openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",
@@ -48,20 +82,21 @@ export function localBusinessJsonLd() {
       "@type": "Country",
       name: "India",
     },
+    knowsAbout: serviceKeywords,
     priceRange: "₹₹",
-    sameAs: [siteInfo.whatsapp],
+    sameAs: [siteInfo.whatsappBase],
   };
 }
 
 export function webSiteJsonLd() {
   return {
-    "@context": "https://schema.org",
     "@type": "WebSite",
-    "@id": `${siteConfig.url}/#website`,
+    "@id": WEBSITE_ID,
     url: siteConfig.url,
     name: siteConfig.name,
     description: siteConfig.defaultDescription,
-    publisher: { "@id": `${siteConfig.url}/#organization` },
+    inLanguage: "en-IN",
+    publisher: { "@id": ORG_ID },
     potentialAction: {
       "@type": "SearchAction",
       target: {
@@ -73,10 +108,28 @@ export function webSiteJsonLd() {
   };
 }
 
+export function webPageJsonLd(input: {
+  name: string;
+  description: string;
+  path: string;
+}) {
+  const url = absoluteUrl(input.path);
+  return {
+    "@type": "WebPage",
+    "@id": `${url}#webpage`,
+    url,
+    name: input.name,
+    description: input.description,
+    isPartOf: { "@id": WEBSITE_ID },
+    about: { "@id": ORG_ID },
+    inLanguage: "en-IN",
+  };
+}
+
 export function faqPageJsonLd() {
   return {
-    "@context": "https://schema.org",
     "@type": "FAQPage",
+    "@id": `${siteConfig.url}/#faq`,
     mainEntity: faqs.map((item) => ({
       "@type": "Question",
       name: item.q,
@@ -88,43 +141,109 @@ export function faqPageJsonLd() {
   };
 }
 
+export function servicesPageJsonLd() {
+  return {
+    "@type": "ItemList",
+    "@id": `${absoluteUrl("/services")}#services`,
+    name: "Anita Printers printing services",
+    itemListElement: printingServiceCatalog.techniques.map((technique, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "Service",
+        name: technique.name,
+        description: technique.summary,
+        provider: { "@id": ORG_ID },
+        areaServed: { "@type": "Country", name: "India" },
+        serviceType: technique.name,
+        url: absoluteUrl(`/services#${technique.id}`),
+      },
+    })),
+  };
+}
+
+export function contactPageJsonLd() {
+  const url = absoluteUrl("/contact");
+  return {
+    "@type": "ContactPage",
+    "@id": `${url}#webpage`,
+    url,
+    name: "Contact Anita Printers",
+    description:
+      "Get a quote for offset and screen printing — call, WhatsApp, email, or send an online enquiry.",
+    isPartOf: { "@id": WEBSITE_ID },
+    mainEntity: { "@id": ORG_ID },
+  };
+}
+
+export function itemListJsonLd(
+  items: Array<{ name: string; slug: string; image?: string | null }>,
+  listName: string,
+) {
+  return {
+    "@type": "ItemList",
+    name: listName,
+    numberOfItems: items.length,
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      url: absoluteUrl(`/products/${item.slug}`),
+      ...(item.image ? { image: item.image } : {}),
+    })),
+  };
+}
+
 export function productJsonLd(input: {
   name: string;
   description: string;
   slug: string;
   image?: string | null;
+  images?: string[];
   price?: number;
+  category?: string | null;
 }) {
   const url = absoluteUrl(`/products/${input.slug}`);
-  const images = input.image ? [input.image] : [absoluteUrl(siteConfig.defaultOgImage)];
+  const gallery = input.images?.filter(Boolean) ?? [];
+  const images =
+    gallery.length > 0
+      ? gallery
+      : input.image
+        ? [input.image]
+        : [absoluteUrl(siteConfig.defaultOgImage)];
+
+  const offer: Record<string, unknown> = {
+    "@type": "Offer",
+    url,
+    priceCurrency: "INR",
+    availability: "https://schema.org/InStock",
+    itemCondition: "https://schema.org/NewCondition",
+    seller: { "@id": ORG_ID },
+  };
+
+  if (input.price && input.price > 0) {
+    offer.price = input.price;
+  }
 
   return {
-    "@context": "https://schema.org",
     "@type": "Product",
+    "@id": `${url}#product`,
     name: input.name,
     description: input.description,
     url,
+    sku: input.slug,
     image: images,
+    ...(input.category ? { category: input.category } : {}),
     brand: {
       "@type": "Brand",
       name: siteConfig.name,
     },
-    offers: {
-      "@type": "Offer",
-      url,
-      priceCurrency: "INR",
-      ...(input.price && input.price > 0 ? { price: input.price } : {}),
-      availability: "https://schema.org/InStock",
-      seller: { "@id": `${siteConfig.url}/#organization` },
-    },
+    offers: offer,
   };
 }
 
-export function breadcrumbJsonLd(
-  items: Array<{ name: string; path: string }>,
-) {
+export function breadcrumbJsonLd(items: Array<{ name: string; path: string }>) {
   return {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: items.map((item, index) => ({
       "@type": "ListItem",

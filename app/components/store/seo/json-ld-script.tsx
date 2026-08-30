@@ -1,5 +1,5 @@
 type JsonLdScriptProps = {
-  data: Record<string, unknown> | Record<string, unknown>[];
+  data: Record<string, unknown>;
 };
 
 export function JsonLdScript({ data }: JsonLdScriptProps) {
