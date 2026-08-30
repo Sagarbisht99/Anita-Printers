@@ -19,7 +19,7 @@ import { quoteItemOptions } from "@/app/lib/store/b2b-content";
 import { storefrontKeys } from "@/app/lib/query/keys";
 
 /** Shown when no product-specific image is passed into the popup. */
-export const DEFAULT_QUOTE_IMAGE = "/banner.png";
+export const DEFAULT_QUOTE_IMAGE = "/pop-up-image.png";
 
 export type QuotePopupPrefill = {
   category?: string;
