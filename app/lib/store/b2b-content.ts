@@ -69,26 +69,40 @@ export const usps = [
   },
 ];
 
+export const processSection = {
+  title: "How to order from us",
+  subtitle:
+    "Four simple steps — from your first call to printed material at your door. Proof first, then production.",
+};
+
 export const processSteps = [
   {
-    step: "01",
-    title: "Choose offset or screen",
-    body: "Stationery, packaging, and catalogs on offset — apparel, bags, and specialty on screen. Or share a custom brief.",
+    step: "1",
+    title: "Share your requirement",
+    body: "Tell us what you need — visiting cards, labels, carry bags, boxes, flex, wedding cards, or apparel. Mention quantity, size, and delivery city on the quote form, call us, or WhatsApp.",
+    href: "/quote",
+    cta: "Get a quote",
   },
   {
-    step: "02",
-    title: "Upload design / request mockup",
-    body: "Share AI, PDF, PNG, or sketch. We return a digital proof with placement and Pantone notes.",
+    step: "2",
+    title: "Send design & get price",
+    body: "Share your AI, PDF, PNG, or CDR file on WhatsApp or email. We reply with rate, minimum quantity, and delivery date — usually the same working day.",
+    href: "/contact",
+    cta: "Contact us",
   },
   {
-    step: "03",
-    title: "Approve proof",
-    body: "Confirm colours, sizes, and packing. Optional physical sample before full production.",
+    step: "3",
+    title: "Approve proof & pay advance",
+    body: "Check the digital proof on WhatsApp. Confirm colours, size, and packing. Pay advance to book your slot — printing starts only after you approve.",
+    href: "/quote",
+    cta: "Request proof",
   },
   {
-    step: "04",
-    title: "Bulk production & delivery",
-    body: "We print, QC, pack, and ship with tracking — offices, shops, venues, or campuses.",
+    step: "4",
+    title: "We print & deliver",
+    body: "Production, quality check, and packing at our Noida unit. GST invoice with your order — delivered to your office, shop, or event venue anywhere in India.",
+    href: "/contact",
+    cta: "Talk to us",
   },
 ];
 

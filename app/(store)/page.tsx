@@ -6,6 +6,7 @@ import {
 import {
   BrandStrip,
   BulkSavings,
+  CustomizedPackaging,
   CuratedPicks,
   FaqSection,
   HeroSlider,
@@ -26,6 +27,7 @@ export default async function HomePage() {
     <>
       <HeroSlider />
       <BrandStrip />
+      <CustomizedPackaging />
       <Suspense fallback={null}>
         <CuratedPicks
           initialCategories={categories}

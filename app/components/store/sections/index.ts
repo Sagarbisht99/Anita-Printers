@@ -1,5 +1,6 @@
 export { HeroSlider } from "./hero-slider";
 export { BrandStrip } from "./brand-strip";
+export { CustomizedPackaging } from "./customized-packaging";
 export { CuratedPicks } from "./curated-picks";
 export { WhyChooseUs } from "./why-choose-us";
 export { VisionHomegrown } from "./vision-homegrown";

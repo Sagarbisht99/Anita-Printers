@@ -1,31 +1,5 @@
 import Link from "next/link";
-
-const steps = [
-  {
-    n: "1",
-    title: "Pick technique & product",
-    body: "Choose offset stationery/packaging or screen apparel & specialty — or browse the full catalog and services list.",
-    href: "/services",
-  },
-  {
-    n: "2",
-    title: "Upload your design",
-    body: "Send AI, PDF, or PNG. We prepare placements and colour notes for a clear digital proof.",
-    href: "/quote",
-  },
-  {
-    n: "3",
-    title: "Approve the proof",
-    body: "Confirm colours, sizes, and packing — optional physical sample before we start bulk production.",
-    href: "/quote",
-  },
-  {
-    n: "4",
-    title: "Produce & deliver",
-    body: "We print, QC, pack, and ship with tracking — offices, shops, venues, or school campuses across India.",
-    href: "/quote",
-  },
-];
+import { processSection, processSteps } from "@/app/lib/store/b2b-content";
 
 function SketchCircle({ n }: { n: string }) {
   return (
@@ -99,29 +73,30 @@ function SketchArrow() {
 }
 
 export function HowItWorks() {
+  const { title, subtitle } = processSection;
+
   return (
     <section className="border-b border-store-line bg-store-navy-deeper">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            How to use this site?
+            {title}
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-white/60 sm:text-base">
-            From offset bulk jobs to screen specialty runs — four clear steps
-            from brief to pan-India delivery, proof first.
+            {subtitle}
           </p>
         </div>
 
         <ol className="mt-14 grid gap-12 sm:grid-cols-2 sm:gap-8 lg:grid-cols-4 lg:gap-6">
-          {steps.map((step, index) => (
+          {processSteps.map((step, index) => (
             <li
-              key={step.n}
+              key={step.step}
               className="group relative flex flex-col items-center rounded-2xl px-3 py-4 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-white/8"
             >
-              {index < steps.length - 1 ? <SketchArrow /> : null}
+              {index < processSteps.length - 1 ? <SketchArrow /> : null}
 
               <div className="transition duration-300 group-hover:scale-105">
-                <SketchCircle n={step.n} />
+                <SketchCircle n={step.step} />
               </div>
 
               <h3 className="mt-6 text-xl font-bold tracking-tight text-white transition-colors group-hover:text-store-accent">
@@ -134,7 +109,7 @@ export function HowItWorks() {
                 href={step.href}
                 className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-white transition group-hover:gap-3 hover:text-store-accent"
               >
-                See More
+                {step.cta}
                 <span aria-hidden className="text-store-accent">
                   →
                 </span>
