@@ -1,6 +1,7 @@
 import "server-only";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/app/lib/db";
+import { serverEnv } from "@/app/lib/env/server";
 import type { AdminRole } from "@/app/lib/definitions";
 
 const MIN_ADMIN_PASSWORD_LENGTH = 12;
@@ -18,9 +19,9 @@ export function assertAdminPasswordPolicy(password: string) {
 }
 
 export async function seedSuperAdminFromEnv() {
-  const username = process.env.ADMIN_USERNAME?.trim();
-  const password = process.env.ADMIN_PASSWORD;
-  const resetPassword = process.env.ADMIN_RESET_PASSWORD === "true";
+  const username = serverEnv.adminUsername;
+  const password = serverEnv.adminPassword;
+  const resetPassword = serverEnv.adminResetPassword;
 
   if (!username || !password) {
     throw new Error(

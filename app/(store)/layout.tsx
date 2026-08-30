@@ -23,10 +23,18 @@ export default async function StoreLayout({
     <StorefrontQueryProvider>
       <QuotePopupProvider>
         <StoreJsonLd />
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-lg focus:bg-store-navy focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
+        >
+          Skip to main content
+        </a>
         <div className="flex min-h-full flex-1 flex-col bg-store-paper pb-14 text-store-ink">
           <StoreTopBar />
           <StoreHeader />
-          <div className="flex-1">{children}</div>
+          <main id="main-content" className="flex-1">
+            {children}
+          </main>
           <StoreFooter />
           <StoreFloatChrome />
           <OfferPopup enabled={offer.enabled} imageUrl={offer.imageUrl} />

@@ -1,5 +1,7 @@
 import "server-only";
 import { Resend } from "resend";
+import { serverEnv } from "@/app/lib/env/server";
+import { escapeHtml } from "@/app/lib/security/sanitize";
 
 export type EnquiryEmailPayload = {
   name: string;
@@ -11,17 +13,15 @@ export type EnquiryEmailPayload = {
 };
 
 function getResendClient() {
-  const apiKey = process.env.RESEND_API_KEY?.trim();
-  if (!apiKey) return null;
-  return new Resend(apiKey);
+  if (!serverEnv.resendApiKey) return null;
+  return new Resend(serverEnv.resendApiKey);
 }
 
 export async function sendEnquiryAdminEmail(payload: EnquiryEmailPayload) {
   const resend = getResendClient();
-  const adminEmail = process.env.ADMIN_EMAIL?.trim();
+  const adminEmail = serverEnv.adminEmail;
   const from =
-    process.env.RESEND_FROM_EMAIL?.trim() ||
-    "Anita Printers <onboarding@resend.dev>";
+    serverEnv.resendFromEmail || "Anita Printers <onboarding@resend.dev>";
 
   if (!resend || !adminEmail) {
     console.warn(
@@ -31,33 +31,32 @@ export async function sendEnquiryAdminEmail(payload: EnquiryEmailPayload) {
   }
 
   const subject = `New quote enquiry — ${payload.name}`;
-  const lines = [
-    `Name: ${payload.name}`,
-    `Phone: ${payload.phone}`,
-    `Email: ${payload.email || "—"}`,
-    `Category: ${payload.category || "—"}`,
-    `Quantity: ${payload.quantity ?? "—"}`,
-    `Notes: ${payload.notes || "—"}`,
-  ];
+  const rows = [
+    ["Name", payload.name],
+    ["Phone", payload.phone],
+    ["Email", payload.email || "—"],
+    ["Category", payload.category || "—"],
+    ["Quantity", payload.quantity?.toString() ?? "—"],
+    ["Notes", payload.notes || "—"],
+  ] as const;
 
   const { error } = await resend.emails.send({
     from,
     to: [adminEmail],
     subject,
     replyTo: payload.email || undefined,
-    text: lines.join("\n"),
+    text: rows.map(([label, value]) => `${label}: ${value}`).join("\n"),
     html: `
       <div style="font-family:system-ui,sans-serif;line-height:1.5;color:#15202b">
         <h2 style="color:#0f3d66;margin:0 0 12px">New quote enquiry</h2>
         <table style="border-collapse:collapse;width:100%;max-width:520px">
-          ${lines
-            .map((line) => {
-              const [label, ...rest] = line.split(": ");
-              return `<tr>
-                <td style="padding:8px 10px;border:1px solid #e2e7ee;font-weight:600;width:120px">${label}</td>
-                <td style="padding:8px 10px;border:1px solid #e2e7ee">${rest.join(": ") || "—"}</td>
-              </tr>`;
-            })
+          ${rows
+            .map(
+              ([label, value]) => `<tr>
+                <td style="padding:8px 10px;border:1px solid #e2e7ee;font-weight:600;width:120px">${escapeHtml(label)}</td>
+                <td style="padding:8px 10px;border:1px solid #e2e7ee">${escapeHtml(String(value))}</td>
+              </tr>`,
+            )
             .join("")}
         </table>
       </div>

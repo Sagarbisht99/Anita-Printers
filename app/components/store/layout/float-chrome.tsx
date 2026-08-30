@@ -6,7 +6,11 @@ import { EnquiryHangTag } from "@/app/components/store/ui/enquiry-hang-tag";
 import { QuoteButton } from "@/app/components/store/ui/quote-popup";
 import { siteContact } from "@/app/lib/store/b2b-content";
 
-const marqueeItems = [
+type MarqueeItem =
+  | { label: string; href: string; openQuote?: false }
+  | { label: string; openQuote: true };
+
+const marqueeItems: MarqueeItem[] = [
   { label: "Barcode", href: "/services#what-we-print" },
   { label: "Sticker", href: "/services#what-we-print" },
   { label: "Label", href: "/services#what-we-print" },
@@ -23,7 +27,7 @@ const marqueeItems = [
   { label: "Shadi Card", href: "/products?q=wedding" },
   { label: "Offset Printing", href: "/services#offset" },
   { label: "Screen Printing", href: "/services#screen" },
-  { label: "Request a Quote", href: "/quote", openQuote: true },
+  { label: "Request a Quote", openQuote: true },
 ];
 
 export function StoreFloatChrome() {

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { bulkPromoTiles } from "@/app/lib/store/mock-catalog";
+import { bulkPromoTiles } from "@/app/lib/store/bulk-promo";
 
 type PromoSize = "main" | "wide" | "half";
 

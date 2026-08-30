@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { serverEnv } from "@/app/lib/env/server";
 import { absoluteUrl, pageTitle, siteConfig } from "@/app/lib/seo/site";
 
 type PageSeoInput = {
@@ -133,8 +134,7 @@ export const defaultStoreMetadata: Metadata = {
       "max-video-preview": -1,
     },
   },
-  verification: {
-    // Add tokens when available:
-    // google: "your-google-verification-code",
-  },
+  verification: serverEnv.googleSiteVerification
+    ? { google: serverEnv.googleSiteVerification }
+    : {},
 };

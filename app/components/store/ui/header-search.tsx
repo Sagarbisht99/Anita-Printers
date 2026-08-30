@@ -7,13 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchStoreProductsPage } from "@/app/actions/store/catalog";
 import { storefrontKeys } from "@/app/lib/query/keys";
 
-function formatInr(amount: number) {
-  return amount.toLocaleString("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
-  });
-}
+import { formatInr } from "@/app/lib/format/currency";
 
 function useDebouncedValue<T>(value: T, delayMs: number) {
   const [debounced, setDebounced] = useState(value);

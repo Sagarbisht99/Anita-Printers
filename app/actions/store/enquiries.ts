@@ -3,23 +3,35 @@
 import { z } from "zod";
 import { prisma } from "@/app/lib/db";
 import { sendEnquiryAdminEmail } from "@/app/lib/email/resend";
+import { sanitizeText } from "@/app/lib/security/sanitize";
 import { clientIp, consumeRateLimit } from "@/app/lib/security/rate-limit";
 import { revalidatePath } from "next/cache";
 
 const enquirySchema = z.object({
-  name: z.string().trim().min(1, "Name is required").max(255),
-  phone: z.string().trim().min(7, "Phone is required").max(50),
+  name: z
+    .string()
+    .transform((value) => sanitizeText(value, 255))
+    .pipe(z.string().min(1, "Name is required")),
+  phone: z
+    .string()
+    .transform((value) => sanitizeText(value, 50))
+    .pipe(z.string().min(7, "Phone is required")),
   email: z
     .string()
-    .trim()
-    .max(255)
+    .transform((value) => sanitizeText(value, 255))
     .refine(
       (value) => value === "" || z.email().safeParse(value).success,
       "Invalid email",
     ),
-  category: z.string().trim().max(255).optional(),
+  category: z
+    .string()
+    .transform((value) => sanitizeText(value, 255))
+    .optional(),
   quantity: z.coerce.number().int().positive().optional(),
-  notes: z.string().trim().max(5000).optional(),
+  notes: z
+    .string()
+    .transform((value) => sanitizeText(value, 5000))
+    .optional(),
 });
 
 export type SubmitEnquiryState = {
