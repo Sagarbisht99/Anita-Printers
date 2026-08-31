@@ -2,12 +2,13 @@
 
 import { useMemo, useState } from "react";
 import type { StoreProductDetail } from "@/app/actions/store/catalog";
+import { StoreBreadcrumb } from "@/app/components/store/ui/breadcrumb";
 import { QuoteButton } from "@/app/components/store/ui/quote-popup";
 import {
   defaultPriceTiers,
   printLocations,
 } from "@/app/lib/store/b2b-content";
-
+import { trail } from "@/app/lib/seo/breadcrumbs";
 import { formatInr } from "@/app/lib/format/currency";
 
 export function ProductDetailView({ product }: { product: StoreProductDetail }) {
@@ -37,8 +38,22 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
     );
   }
 
+  const breadcrumbItems = trail(
+    { name: "Products", path: "/products" },
+    ...(product.categoryName && product.categoryId
+      ? [
+          {
+            name: product.categoryName,
+            path: `/products?categoryId=${product.categoryId}`,
+          },
+        ]
+      : []),
+    { name: product.titleName },
+  );
+
   return (
-    <main className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
+    <article className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
+      <StoreBreadcrumb items={breadcrumbItems} className="mb-5" />
       <p className="text-xs font-semibold tracking-[0.14em] text-store-muted uppercase">
         {product.categoryName ?? "Catalog"}
       </p>
@@ -286,6 +301,6 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
           </QuoteButton>
         </div>
       </section>
-    </main>
+    </article>
   );
 }

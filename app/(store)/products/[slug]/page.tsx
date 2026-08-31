@@ -5,7 +5,7 @@ import { ProductDetailView } from "@/app/components/store/pages";
 import { JsonLdScript } from "@/app/components/store/seo/json-ld-script";
 import { createPageMetadata } from "@/app/lib/seo/metadata";
 import { mergeKeywords, productPageKeywords } from "@/app/lib/seo/keywords";
-import { breadcrumbJsonLd, jsonLdGraph, productJsonLd } from "@/app/lib/seo/json-ld";
+import { breadcrumbJsonLd, jsonLdGraph, productJsonLd, webPageJsonLd } from "@/app/lib/seo/json-ld";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -61,6 +61,11 @@ export default async function ProductDetailPage({ params }: Props) {
     `Bulk pricing and custom print options for ${product.titleName}.`;
 
   const schemas = jsonLdGraph(
+    webPageJsonLd({
+      name: product.titleName,
+      description,
+      path: `/products/${product.slug}`,
+    }),
     productJsonLd({
       name: product.titleName,
       description,

@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { brandLogo } from "@/app/lib/seo/brand-icons";
 import { siteConfig } from "@/app/lib/seo/site";
 
 export default function manifest(): MetadataRoute.Manifest {
@@ -13,9 +14,39 @@ export default function manifest(): MetadataRoute.Manifest {
     lang: "en-IN",
     icons: [
       {
-        src: "/logo.svg",
+        src: brandLogo.svg,
         sizes: "any",
         type: "image/svg+xml",
+        purpose: "any",
+      },
+      {
+        src: brandLogo.favicon48,
+        sizes: "48x48",
+        type: "image/png",
+        purpose: "any",
+      },
+      {
+        src: brandLogo.favicon52,
+        sizes: "52x52",
+        type: "image/png",
+        purpose: "any",
+      },
+      {
+        src: brandLogo.apple,
+        sizes: "180x180",
+        type: "image/png",
+        purpose: "any",
+      },
+      {
+        src: brandLogo.icon192,
+        sizes: "192x192",
+        type: "image/png",
+        purpose: "any",
+      },
+      {
+        src: brandLogo.icon512,
+        sizes: "512x512",
+        type: "image/png",
         purpose: "any",
       },
     ],

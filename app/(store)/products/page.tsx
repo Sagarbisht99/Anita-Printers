@@ -154,6 +154,7 @@ export default async function ProductsPage({
       description:
         "Browse bulk printing products — offset stationery, packaging, labels, and promotional print.",
       path: buildProductsPath({ search, categoryId, page }),
+      type: "CollectionPage",
     }),
     breadcrumbJsonLd(breadcrumbs),
     itemListJsonLd(

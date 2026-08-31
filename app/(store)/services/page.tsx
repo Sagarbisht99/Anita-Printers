@@ -11,7 +11,7 @@ import {
 } from "@/app/lib/seo/json-ld";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "Printing Services",
+  title: "Offset & Screen Printing Services",
   description:
     "Offset & screen printing services at Anita Printers — barcodes, stickers, labels, tags, letterheads, visiting cards, brochures, posters, carry bags, boxes, flex, wedding cards, and apparel.",
   path: "/services",
@@ -21,7 +21,7 @@ export const metadata: Metadata = createPageMetadata({
 export default function ServicesPage() {
   const schemas = jsonLdGraph(
     webPageJsonLd({
-      name: "Printing Services — Anita Printers",
+      name: "Offset & Screen Printing Services — Anita Printers",
       description:
         "Offset and screen printing services for commercial stationery, packaging, apparel, and specialty jobs in Noida.",
       path: "/services",

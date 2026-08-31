@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { siteMapSections } from "@/app/lib/store/sitemap-links";
 import { siteContact } from "@/app/lib/store/b2b-content";
+import { StoreBreadcrumb } from "@/app/components/store/ui/breadcrumb";
 import { QuoteButton } from "@/app/components/store/ui/quote-popup";
+import { trail } from "@/app/lib/seo/breadcrumbs";
 
 export function SitemapPageContent() {
   return (
@@ -16,6 +18,11 @@ export function SitemapPageContent() {
           className="pointer-events-none absolute -bottom-20 -left-10 h-64 w-64 rounded-full bg-store-logo/30 blur-3xl footer-orb-delay"
         />
         <div className="relative mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16">
+          <StoreBreadcrumb
+            items={trail({ name: "Sitemap" })}
+            tone="dark"
+            className="store-fade-up mb-4"
+          />
           <p className="store-fade-up text-sm font-semibold tracking-[0.2em] text-store-accent uppercase">
             Sitemap
           </p>
@@ -23,7 +30,7 @@ export function SitemapPageContent() {
             className="store-fade-up mt-3 max-w-2xl text-3xl font-bold tracking-tight sm:text-5xl"
             style={{ animationDelay: "80ms" }}
           >
-            Find every page in one place
+            HTML Sitemap
           </h1>
           <p
             className="store-fade-up mt-4 max-w-xl text-base leading-relaxed text-white/75"

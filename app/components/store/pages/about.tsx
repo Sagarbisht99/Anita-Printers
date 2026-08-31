@@ -7,8 +7,10 @@ import {
   ShieldCheck,
   Users,
 } from "lucide-react";
+import { StoreBreadcrumb } from "@/app/components/store/ui/breadcrumb";
 import { QuoteButton } from "@/app/components/store/ui/quote-popup";
 import { aboutProfile, siteContact } from "@/app/lib/store/b2b-content";
+import { trail } from "@/app/lib/seo/breadcrumbs";
 
 const gallery = [
   {
@@ -94,6 +96,11 @@ export function AboutPageContent() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(196,59,88,0.22),transparent_45%)]" />
 
         <div className="relative mx-auto flex min-h-[52vh] max-w-6xl flex-col items-center justify-center px-4 py-12 text-center sm:min-h-[56vh] sm:px-6 sm:py-14">
+          <StoreBreadcrumb
+            items={trail({ name: "About" })}
+            tone="dark"
+            className="store-fade-up mb-4 justify-center"
+          />
           <p className="store-fade-up text-sm font-semibold tracking-[0.2em] text-store-accent uppercase">
             About us
           </p>
@@ -101,7 +108,7 @@ export function AboutPageContent() {
             className="store-fade-up mt-3 max-w-3xl text-3xl font-bold tracking-tight text-white sm:text-5xl lg:text-[3.25rem]"
             style={{ animationDelay: "80ms" }}
           >
-            Anita Printers
+            About Anita Printers
           </h1>
           <p
             className="store-fade-up mt-3 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg"

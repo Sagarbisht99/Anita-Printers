@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { StoreBreadcrumb } from "@/app/components/store/ui/breadcrumb";
 import { QuoteButton } from "@/app/components/store/ui/quote-popup";
 import { printingServiceCatalog } from "@/app/lib/store/b2b-content";
+import { trail } from "@/app/lib/seo/breadcrumbs";
 
 /** Sticky nav — soft paper fill + accent underline (not navy flip) */
 const navChipClass =
@@ -35,6 +37,11 @@ export function ServicesPageContent() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(196,59,88,0.22),transparent_45%)]" />
 
         <div className="relative mx-auto flex min-h-[48vh] max-w-6xl flex-col items-center justify-center px-4 py-12 text-center sm:min-h-[52vh] sm:px-6 sm:py-14">
+          <StoreBreadcrumb
+            items={trail({ name: "Services" })}
+            tone="dark"
+            className="store-fade-up mb-4 justify-center"
+          />
           <p className="store-fade-up text-sm font-semibold tracking-[0.2em] text-store-accent uppercase">
             Services
           </p>
@@ -42,7 +49,7 @@ export function ServicesPageContent() {
             className="store-fade-up mt-3 max-w-3xl text-3xl font-bold tracking-tight text-white sm:text-5xl lg:text-[3.25rem]"
             style={{ animationDelay: "80ms" }}
           >
-            Anita Printers
+            Offset &amp; Screen Printing Services
           </h1>
           <p
             className="store-fade-up mt-3 max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg"
