@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
+import { StoreBreadcrumb } from "@/app/components/store/ui/breadcrumb";
 import { QuickQuoteForm } from "@/app/components/store/ui/quick-quote";
 import { QuoteButton } from "@/app/components/store/ui/quote-popup";
 import { siteContact } from "@/app/lib/store/b2b-content";
+import { trail } from "@/app/lib/seo/breadcrumbs";
 
 const channels = [
   {
@@ -59,6 +61,11 @@ export function ContactPageContent() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(196,59,88,0.2),transparent_45%)]" />
 
         <div className="relative mx-auto flex min-h-[48vh] max-w-6xl flex-col items-center justify-center px-4 py-12 text-center sm:min-h-[52vh] sm:px-6 sm:py-14">
+          <StoreBreadcrumb
+            items={trail({ name: "Contact" })}
+            tone="dark"
+            className="store-fade-up mb-4 justify-center"
+          />
           <p className="store-fade-up text-sm font-semibold tracking-[0.2em] text-store-accent uppercase">
             Contact
           </p>
@@ -66,7 +73,7 @@ export function ContactPageContent() {
             className="store-fade-up mt-3 max-w-3xl text-3xl font-bold tracking-tight text-white sm:text-5xl"
             style={{ animationDelay: "80ms" }}
           >
-            Talk to the B2B desk
+            Contact &amp; Get a Quote
           </h1>
           <p
             className="store-fade-up mt-3 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg"
@@ -109,9 +116,9 @@ export function ContactPageContent() {
               <div className="ch-icon flex h-10 w-10 items-center justify-center rounded-full bg-store-navy text-white transition-all duration-300 group-hover:scale-110">
                 <Icon className="h-5 w-5" aria-hidden />
               </div>
-              <h2 className="ch-title mt-4 text-sm font-semibold tracking-wide text-store-muted uppercase transition-colors">
+              <p className="ch-title mt-4 text-sm font-semibold tracking-wide text-store-muted uppercase transition-colors">
                 {title}
-              </h2>
+              </p>
               <p className="ch-detail mt-2 text-sm leading-relaxed font-medium text-store-ink transition-colors">
                 {detail}
               </p>

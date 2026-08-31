@@ -9,9 +9,11 @@ import {
   type StoreCategoryItem,
   type StoreProductsPage,
 } from "@/app/actions/store/catalog";
+import { StoreBreadcrumb } from "@/app/components/store/ui/breadcrumb";
 import { StoreProductCard } from "@/app/components/store/ui/product-card";
 import { StorePagination } from "@/app/components/store/ui/pagination";
 import { catalogFilters } from "@/app/lib/store/b2b-content";
+import { trail } from "@/app/lib/seo/breadcrumbs";
 import { storefrontKeys } from "@/app/lib/query/keys";
 
 export const PRODUCTS_PAGE_SIZE = 12;
@@ -126,14 +128,36 @@ export function ProductsCatalog({
     [technique, material, moq, leadTime],
   );
 
+  const activeCategory = useMemo(
+    () => categories.find((item) => item.id === categoryId) ?? null,
+    [categories, categoryId],
+  );
+
+  const pageTitle = search
+    ? `Search: ${search}`
+    : activeCategory
+      ? activeCategory.name
+      : "Product Catalog";
+
+  const breadcrumbItems =
+    activeCategory || search
+      ? trail(
+          { name: "Products", path: "/products" },
+          activeCategory
+            ? { name: activeCategory.name }
+            : { name: `Search: ${search.slice(0, 40)}` },
+        )
+      : trail({ name: "Products" });
+
   return (
-    <main className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
+    <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
+      <StoreBreadcrumb items={breadcrumbItems} className="mb-5" />
       <div className="mb-8">
         <p className="text-xs font-semibold tracking-[0.14em] text-store-muted uppercase">
           Offset · Screen · Bulk catalog
         </p>
         <h1 className="mt-2 text-3xl font-bold tracking-tight text-store-navy sm:text-4xl">
-          Shop / Catalog
+          {pageTitle}
         </h1>
         <p className="mt-2 max-w-2xl text-sm text-store-muted">
           {search ? (
@@ -251,7 +275,7 @@ export function ProductsCatalog({
           )}
         </div>
       </div>
-    </main>
+    </div>
   );
 }
 
@@ -264,9 +288,9 @@ function FilterSection({
 }) {
   return (
     <section className="border-b border-store-line pb-5 last:border-b-0 last:pb-0">
-      <h2 className="mb-2 text-xs font-semibold text-store-muted uppercase">
+      <p className="mb-2 text-xs font-semibold text-store-muted uppercase">
         {title}
-      </h2>
+      </p>
       {children}
     </section>
   );

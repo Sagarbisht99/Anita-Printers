@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { siteContact } from "@/app/lib/store/b2b-content";
+import { brandLogo } from "@/app/lib/seo/brand-icons";
 
 const companyLinks = [
   { href: "/", label: "Home" },
@@ -66,7 +67,7 @@ export function StoreFooter() {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/logo.svg"
+              src={brandLogo.svg}
               alt="Anita Printers"
               width={44}
               height={44}

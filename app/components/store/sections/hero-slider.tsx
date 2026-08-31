@@ -128,6 +128,17 @@ export function HeroSlider() {
           ))}
         </div>
       </div>
+
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-7">
+        <h1 className="text-2xl font-bold tracking-tight text-store-navy sm:text-3xl lg:text-[2rem]">
+          Offset &amp; Screen Printing in Noida
+        </h1>
+        <p className="mt-1.5 max-w-3xl text-sm leading-relaxed text-store-muted sm:text-base">
+          Anita Printers — bulk visiting cards, labels, stickers, carry bags,
+          boxes, flex, wedding cards, custom packaging, and apparel with GST
+          invoices and pan-India delivery.
+        </p>
+      </div>
     </section>
   );
 }

@@ -6,7 +6,7 @@ import { aboutKeywords } from "@/app/lib/seo/keywords";
 import { breadcrumbJsonLd, jsonLdGraph, webPageJsonLd } from "@/app/lib/seo/json-ld";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "About Us",
+  title: "About Anita Printers",
   description:
     "Learn about Anita Printers — offset & screen printing in Noida since decades of bulk jobs for corporate, retail, events, and schools. Proof-first production and pan-India dispatch.",
   path: "/about",
@@ -20,6 +20,7 @@ export default function AboutPage() {
       description:
         "Offset and screen printing in Noida — bulk jobs for corporate, retail, events, and schools with proof-first production.",
       path: "/about",
+      type: "AboutPage",
     }),
     breadcrumbJsonLd([
       { name: "Home", path: "/" },

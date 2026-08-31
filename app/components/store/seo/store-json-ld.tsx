@@ -1,5 +1,6 @@
 import {
   faqPageJsonLd,
+  howToOrderJsonLd,
   jsonLdGraph,
   localBusinessJsonLd,
   webSiteJsonLd,
@@ -15,5 +16,9 @@ export function StoreJsonLd() {
 }
 
 export function HomeJsonLd() {
-  return <JsonLdScript data={faqPageJsonLd()} />;
+  return (
+    <JsonLdScript
+      data={jsonLdGraph(faqPageJsonLd(), howToOrderJsonLd())}
+    />
+  );
 }

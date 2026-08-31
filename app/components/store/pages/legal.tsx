@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { StoreBreadcrumb } from "@/app/components/store/ui/breadcrumb";
+import { trail } from "@/app/lib/seo/breadcrumbs";
 
 export function LegalPage({
   title,
@@ -10,7 +12,11 @@ export function LegalPage({
   children: React.ReactNode;
 }) {
   return (
-    <main className="mx-auto w-full max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
+    <article className="mx-auto w-full max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
+      <StoreBreadcrumb
+        items={trail({ name: title })}
+        className="mb-6"
+      />
       <p className="text-xs font-medium tracking-[0.16em] text-store-muted uppercase">
         Legal
       </p>
@@ -29,6 +35,6 @@ export function LegalPage({
           ← Back to home
         </Link>
       </div>
-    </main>
+    </article>
   );
 }

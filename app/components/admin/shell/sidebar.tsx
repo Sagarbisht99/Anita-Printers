@@ -13,6 +13,7 @@ import {
   ShoppingCart,
   X,
 } from "lucide-react";
+import { brandLogo } from "@/app/lib/seo/brand-icons";
 
 const menu = [
   { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -140,7 +141,7 @@ export function AdminSidebar({
         <div className="relative h-11 w-11 shrink-0 overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/logo.svg"
+            src={brandLogo.svg}
             alt="Anita Printers"
             width={44}
             height={44}

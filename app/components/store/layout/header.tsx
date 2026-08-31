@@ -8,6 +8,7 @@ import { QuoteButton } from "@/app/components/store/ui/quote-popup";
 import { MobileNav } from "@/app/components/store/layout/mobile-nav";
 import { storeNavLinks } from "@/app/lib/store/navigation";
 import { siteContact } from "@/app/lib/store/b2b-content";
+import { brandLogo } from "@/app/lib/seo/brand-icons";
 
 export function StoreHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -23,8 +24,8 @@ export function StoreHeader() {
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/logo.svg"
-            alt=""
+            src={brandLogo.svg}
+            alt="Anita Printers"
             width={44}
             height={44}
             className="h-9 w-9 object-contain sm:h-10 sm:w-10"

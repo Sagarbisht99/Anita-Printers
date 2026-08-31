@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { AdminLoginForm } from "@/app/admin/login/login-form";
+import { brandLogo } from "@/app/lib/seo/brand-icons";
 import { requireSuperAdmin } from "@/app/lib/session";
 
 export const metadata: Metadata = {
@@ -50,7 +51,7 @@ export default async function AdminLoginPage() {
           <div className="mb-5 h-[76px] w-[76px] overflow-hidden">
             {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/logo.svg"
+            src={brandLogo.svg}
             alt="Anita Printers"
             width={76}
             height={76}

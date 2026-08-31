@@ -11,4 +11,5 @@ export { StorePagination } from "./pagination";
 export { HeaderSearch } from "./header-search";
 export { QuickQuoteForm } from "./quick-quote";
 export { StorePageHero } from "./page-hero";
+export { StoreBreadcrumb } from "./breadcrumb";
 export { StorefrontQueryProvider } from "./query-provider";

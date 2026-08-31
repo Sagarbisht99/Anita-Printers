@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/app/components/store/pages";
+import { JsonLdScript } from "@/app/components/store/seo/json-ld-script";
 import { createPageMetadata } from "@/app/lib/seo/metadata";
+import { breadcrumbJsonLd, jsonLdGraph, webPageJsonLd } from "@/app/lib/seo/json-ld";
 
 export const metadata: Metadata = createPageMetadata({
   title: "Terms & Conditions",
@@ -10,8 +12,23 @@ export const metadata: Metadata = createPageMetadata({
 });
 
 export default function TermsPage() {
+  const schemas = jsonLdGraph(
+    webPageJsonLd({
+      name: "Terms & Conditions",
+      description:
+        "Terms for using Anita Printers website and ordering print services.",
+      path: "/terms",
+    }),
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Terms & Conditions", path: "/terms" },
+    ]),
+  );
+
   return (
-    <LegalPage title="Terms & Conditions" updated="23 August 2026">
+    <>
+      <JsonLdScript data={schemas} />
+      <LegalPage title="Terms & Conditions" updated="23 August 2026">
       <p>
         These Terms & Conditions govern your use of the Anita Printers website
         and any offset printing, screen printing, apparel, packaging, stationery,
@@ -86,6 +103,7 @@ export default function TermsPage() {
         </a>
         .
       </p>
-    </LegalPage>
+      </LegalPage>
+    </>
   );
 }

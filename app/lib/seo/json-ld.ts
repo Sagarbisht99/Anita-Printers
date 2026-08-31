@@ -1,4 +1,5 @@
-import { faqs, printingServiceCatalog } from "@/app/lib/store/b2b-content";
+import { brandLogo } from "@/app/lib/seo/brand-icons";
+import { faqs, printingServiceCatalog, processSteps } from "@/app/lib/store/b2b-content";
 import { siteInfo } from "@/app/lib/store/site-info";
 import { absoluteUrl, siteConfig } from "@/app/lib/seo/site";
 
@@ -14,16 +15,21 @@ export function jsonLdGraph(...nodes: Record<string, unknown>[]) {
 }
 
 export function localBusinessJsonLd() {
-  const serviceKeywords = printingServiceCatalog.coreProducts.flatMap((g) => g.items);
+  const serviceKeywords = printingServiceCatalog.coreProducts.flatMap(
+    (g) => g.items,
+  );
 
   return {
-    "@type": "PrintShop",
+    "@type": ["PrintShop", "LocalBusiness"],
     "@id": ORG_ID,
     name: siteConfig.name,
     legalName: siteConfig.legalName,
     url: siteConfig.url,
-    logo: absoluteUrl("/logo.svg"),
-    image: absoluteUrl(siteConfig.defaultOgImage),
+    logo: {
+      "@type": "ImageObject",
+      url: absoluteUrl(brandLogo.svg),
+    },
+    image: absoluteUrl(brandLogo.icon512),
     description: siteConfig.defaultDescription,
     telephone: siteInfo.primaryPhone.href.replace("tel:", ""),
     email: siteInfo.email,
@@ -41,7 +47,7 @@ export function localBusinessJsonLd() {
       latitude: siteConfig.geo.latitude,
       longitude: siteConfig.geo.longitude,
     },
-    hasMap: siteInfo.mapEmbed,
+    hasMap: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(siteInfo.mapQuery)}`,
     contactPoint: [
       {
         "@type": "ContactPoint",
@@ -78,12 +84,15 @@ export function localBusinessJsonLd() {
         closes: "19:00",
       },
     ],
-    areaServed: {
-      "@type": "Country",
-      name: "India",
-    },
+    areaServed: [
+      { "@type": "City", name: "Noida" },
+      { "@type": "AdministrativeArea", name: "Delhi NCR" },
+      { "@type": "Country", name: "India" },
+    ],
     knowsAbout: serviceKeywords,
     priceRange: "₹₹",
+    currenciesAccepted: "INR",
+    paymentAccepted: "Cash, UPI, Bank Transfer, Cheque",
     sameAs: [siteInfo.whatsappBase],
   };
 }
@@ -112,10 +121,12 @@ export function webPageJsonLd(input: {
   name: string;
   description: string;
   path: string;
+  type?: "WebPage" | "AboutPage" | "ContactPage" | "CollectionPage" | "FAQPage";
 }) {
   const url = absoluteUrl(input.path);
+  const type = input.type ?? "WebPage";
   return {
-    "@type": "WebPage",
+    "@type": type,
     "@id": `${url}#webpage`,
     url,
     name: input.name,
@@ -123,6 +134,7 @@ export function webPageJsonLd(input: {
     isPartOf: { "@id": WEBSITE_ID },
     about: { "@id": ORG_ID },
     inLanguage: "en-IN",
+    primaryImageOfPage: absoluteUrl(siteConfig.defaultOgImage),
   };
 }
 
@@ -130,6 +142,7 @@ export function faqPageJsonLd() {
   return {
     "@type": "FAQPage",
     "@id": `${siteConfig.url}/#faq`,
+    isPartOf: { "@id": WEBSITE_ID },
     mainEntity: faqs.map((item) => ({
       "@type": "Question",
       name: item.q,
@@ -141,24 +154,46 @@ export function faqPageJsonLd() {
   };
 }
 
+export function howToOrderJsonLd() {
+  return {
+    "@type": "HowTo",
+    "@id": `${siteConfig.url}/#howto-order`,
+    name: "How to order from Anita Printers",
+    description:
+      "Four steps from requirement to delivery — share specs, get price, approve proof, we print and deliver.",
+    totalTime: "P7D",
+    step: processSteps.map((step, index) => ({
+      "@type": "HowToStep",
+      position: index + 1,
+      name: step.title,
+      text: step.body,
+      url: absoluteUrl(step.href),
+    })),
+  };
+}
+
 export function servicesPageJsonLd() {
   return {
     "@type": "ItemList",
     "@id": `${absoluteUrl("/services")}#services`,
     name: "Anita Printers printing services",
-    itemListElement: printingServiceCatalog.techniques.map((technique, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      item: {
-        "@type": "Service",
-        name: technique.name,
-        description: technique.summary,
-        provider: { "@id": ORG_ID },
-        areaServed: { "@type": "Country", name: "India" },
-        serviceType: technique.name,
-        url: absoluteUrl(`/services#${technique.id}`),
-      },
-    })),
+    numberOfItems: printingServiceCatalog.techniques.length,
+    itemListElement: printingServiceCatalog.techniques.map(
+      (technique, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "Service",
+          "@id": `${absoluteUrl("/services")}#${technique.id}`,
+          name: technique.name,
+          description: technique.summary,
+          provider: { "@id": ORG_ID },
+          areaServed: { "@type": "Country", name: "India" },
+          serviceType: technique.name,
+          url: absoluteUrl(`/services#${technique.id}`),
+        },
+      }),
+    ),
   };
 }
 
@@ -173,6 +208,7 @@ export function contactPageJsonLd() {
       "Get a quote for offset and screen printing — call, WhatsApp, email, or send an online enquiry.",
     isPartOf: { "@id": WEBSITE_ID },
     mainEntity: { "@id": ORG_ID },
+    inLanguage: "en-IN",
   };
 }
 
@@ -212,6 +248,8 @@ export function productJsonLd(input: {
         ? [input.image]
         : [absoluteUrl(siteConfig.defaultOgImage)];
 
+  const hasPrice = Boolean(input.price && input.price > 0);
+
   const offer: Record<string, unknown> = {
     "@type": "Offer",
     url,
@@ -221,8 +259,14 @@ export function productJsonLd(input: {
     seller: { "@id": ORG_ID },
   };
 
-  if (input.price && input.price > 0) {
+  if (hasPrice) {
     offer.price = input.price;
+  } else {
+    offer.priceSpecification = {
+      "@type": "PriceSpecification",
+      priceCurrency: "INR",
+      description: "Quote-based bulk pricing — contact for MOQ rates",
+    };
   }
 
   return {
@@ -238,11 +282,14 @@ export function productJsonLd(input: {
       "@type": "Brand",
       name: siteConfig.name,
     },
+    manufacturer: { "@id": ORG_ID },
     offers: offer,
   };
 }
 
-export function breadcrumbJsonLd(items: Array<{ name: string; path: string }>) {
+export function breadcrumbJsonLd(
+  items: Array<{ name: string; path: string }>,
+) {
   return {
     "@type": "BreadcrumbList",
     itemListElement: items.map((item, index) => ({
