@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { serverEnv } from "@/app/lib/env/server";
+import { resolvePageRobots } from "@/app/lib/seo/indexing";
 import { absoluteUrl, pageTitle, siteConfig } from "@/app/lib/seo/site";
 
 type PageSeoInput = {
@@ -75,19 +76,7 @@ export function createPageMetadata({
         ? { site: siteConfig.twitterHandle, creator: siteConfig.twitterHandle }
         : {}),
     },
-    robots: noIndex
-      ? { index: false, follow: false }
-      : {
-          index: true,
-          follow: true,
-          googleBot: {
-            index: true,
-            follow: true,
-            "max-image-preview": "large",
-            "max-snippet": -1,
-            "max-video-preview": -1,
-          },
-        },
+    robots: resolvePageRobots(noIndex),
   };
 }
 
@@ -133,17 +122,7 @@ export const defaultStoreMetadata: Metadata = {
     description: siteConfig.defaultDescription,
     images: [resolveImageUrl(siteConfig.defaultOgImage)],
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
-  },
+  robots: resolvePageRobots(),
   verification: serverEnv.googleSiteVerification
     ? { google: serverEnv.googleSiteVerification }
     : {},
