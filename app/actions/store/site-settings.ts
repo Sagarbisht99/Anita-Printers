@@ -29,13 +29,23 @@ async function ensureSiteSetting() {
   });
 }
 
+const DEFAULT_OFFER_BANNER: OfferBannerSettings = {
+  enabled: false,
+  imageUrl: null,
+};
+
 /** Public — used by storefront offer popup */
 export async function getOfferBannerSettings(): Promise<OfferBannerSettings> {
-  const row = await prisma.siteSetting.findUnique({ where: { id: SITE_ID } });
-  return {
-    enabled: Boolean(row?.offerPopupEnabled && row.offerPopupImage),
-    imageUrl: row?.offerPopupImage ?? null,
-  };
+  try {
+    const row = await prisma.siteSetting.findUnique({ where: { id: SITE_ID } });
+    return {
+      enabled: Boolean(row?.offerPopupEnabled && row.offerPopupImage),
+      imageUrl: row?.offerPopupImage ?? null,
+    };
+  } catch (error) {
+    console.error("[offer-banner] settings read failed:", error);
+    return DEFAULT_OFFER_BANNER;
+  }
 }
 
 export async function fetchAdminOfferBanner(): Promise<OfferBannerSettings> {
