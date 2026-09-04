@@ -40,6 +40,12 @@ export async function login(
     admin = await verifyAdminCredentials(username, password);
   } catch (error) {
     console.error("Admin login database error:", error);
+    if (
+      error instanceof Error &&
+      error.message.includes("No admin account exists yet")
+    ) {
+      return { error: error.message };
+    }
     return { error: "Sign-in temporarily unavailable. Please try again." };
   }
 

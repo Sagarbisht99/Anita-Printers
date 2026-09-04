@@ -9,7 +9,7 @@ import { PrismaClient } from "../app/generated/prisma";
 dns.setDefaultResultOrder("ipv4first");
 net.setDefaultAutoSelectFamily(false);
 
-const MIN_ADMIN_PASSWORD_LENGTH = 12;
+const RECOMMENDED_ADMIN_PASSWORD_LENGTH = 12;
 
 async function main() {
   const connectionString = process.env.DATABASE_URL?.trim();
@@ -25,9 +25,9 @@ async function main() {
     throw new Error("ADMIN_USERNAME and ADMIN_PASSWORD are required.");
   }
 
-  if (password.length < MIN_ADMIN_PASSWORD_LENGTH) {
-    throw new Error(
-      `ADMIN_PASSWORD must be at least ${MIN_ADMIN_PASSWORD_LENGTH} characters.`,
+  if (password.length < RECOMMENDED_ADMIN_PASSWORD_LENGTH) {
+    console.warn(
+      `ADMIN_PASSWORD is shorter than ${RECOMMENDED_ADMIN_PASSWORD_LENGTH} characters. Prefer a longer password in production.`,
     );
   }
 
