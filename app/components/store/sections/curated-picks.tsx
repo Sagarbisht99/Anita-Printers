@@ -1,8 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   fetchStoreCategories,
   fetchStoreProducts,
@@ -11,6 +18,7 @@ import {
 } from "@/app/actions/store/catalog";
 import { StoreProductCard } from "@/app/components/store/ui/product-card";
 import { storefrontKeys } from "@/app/lib/query/keys";
+import Link from "next/link";
 
 export function CuratedPicks({
   initialCategories,
@@ -54,6 +62,10 @@ export function CuratedPicks({
   const categories = categoriesQuery.data ?? [];
   const products = productsQuery.data ?? [];
   const loadingProducts = productsQuery.isLoading || productsQuery.isFetching;
+  const catalogHref =
+    categoryId != null
+      ? `/products?categoryId=${categoryId}`
+      : "/products";
 
   return (
     <section id="curated-picks" className="bg-store-surface">
@@ -63,52 +75,23 @@ export function CuratedPicks({
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-center text-sm text-store-muted">
           Pick a category — mugs, t-shirts, hoodies, gifts, and more.{" "}
-          <a href="/services" className="font-semibold text-store-navy hover:underline">
-            See all services
-          </a>
+          <Link
+            href="/products"
+            className="font-semibold text-store-navy hover:underline"
+          >
+            See full catalog
+          </Link>
         </p>
 
-        <div className="mx-auto mt-8 max-w-md md:max-w-none">
-          <label className="mb-2 block text-xs font-semibold text-store-muted uppercase md:text-center">
+        <div className="mt-8">
+          <label className="mb-3 block text-center text-xs font-semibold text-store-muted uppercase">
             Choose category
           </label>
-
-          {/* Phone: compact dropdown */}
-          <select
-            value={categoryId === null ? "" : String(categoryId)}
-            onChange={(event) => {
-              const value = event.target.value;
-              setCategoryId(value ? Number(value) : null);
-            }}
-            className="w-full rounded-md border border-store-line bg-store-paper px-3 py-2.5 text-sm text-store-ink md:hidden"
-            aria-label="Filter by category"
-          >
-            <option value="">All products</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-
-          {/* Tablet & desktop: simple tabs */}
-          <div className="hidden flex-wrap justify-center gap-2 md:flex">
-            <CategoryTab
-              active={categoryId === null}
-              onClick={() => setCategoryId(null)}
-            >
-              All products
-            </CategoryTab>
-            {categories.map((category) => (
-              <CategoryTab
-                key={category.id}
-                active={categoryId === category.id}
-                onClick={() => setCategoryId(category.id)}
-              >
-                {category.name}
-              </CategoryTab>
-            ))}
-          </div>
+          <CategoryChipSlider
+            categories={categories}
+            categoryId={categoryId}
+            onSelect={setCategoryId}
+          />
         </div>
 
         {productsQuery.isError ? (
@@ -132,10 +115,13 @@ export function CuratedPicks({
           </div>
         ) : products.length === 0 ? (
           <p className="mt-10 text-center text-sm text-store-muted">
-            No products in this category yet. Browse{" "}
-            <a href="/services" className="font-semibold text-store-navy hover:underline">
-              offset &amp; screen services
-            </a>{" "}
+            No products in this category yet. Browse the{" "}
+            <Link
+              href="/products"
+              className="font-semibold text-store-navy hover:underline"
+            >
+              full catalog
+            </Link>{" "}
             or request a custom quote.
           </p>
         ) : (
@@ -149,8 +135,134 @@ export function CuratedPicks({
             ))}
           </div>
         )}
+
+        <div className="mt-10 flex justify-center">
+          <Link
+            href={catalogHref}
+            className="inline-flex items-center gap-2 rounded-full bg-store-navy px-6 py-3 text-sm font-semibold text-white transition hover:bg-store-navy-dark"
+          >
+            {categoryId != null ? "View category in catalog" : "View all products"}
+            <ChevronRight className="h-4 w-4" strokeWidth={2.25} aria-hidden />
+          </Link>
+        </div>
       </div>
     </section>
+  );
+}
+
+function CategoryChipSlider({
+  categories,
+  categoryId,
+  onSelect,
+}: {
+  categories: StoreCategoryItem[];
+  categoryId: number | null;
+  onSelect: (id: number | null) => void;
+}) {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const updateScrollState = useCallback(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    setCanScrollLeft(el.scrollLeft > 4);
+    setCanScrollRight(max > 4 && el.scrollLeft < max - 4);
+  }, []);
+
+  useLayoutEffect(() => {
+    updateScrollState();
+    const el = scrollerRef.current;
+    if (!el) return;
+
+    const onScroll = () => updateScrollState();
+    el.addEventListener("scroll", onScroll, { passive: true });
+
+    const resize = new ResizeObserver(() => updateScrollState());
+    resize.observe(el);
+
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      resize.disconnect();
+    };
+  }, [categories, updateScrollState]);
+
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const active = el.querySelector<HTMLElement>('[data-active="true"]');
+    active?.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest",
+    });
+  }, [categoryId, categories]);
+
+  const scrollByAmount = (direction: -1 | 1) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    el.scrollBy({ left: direction * Math.max(220, el.clientWidth * 0.55), behavior: "smooth" });
+  };
+
+  return (
+    <div className="relative">
+      <div
+        className={`pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-linear-to-r from-store-surface to-transparent transition-opacity sm:w-14 ${
+          canScrollLeft ? "opacity-100" : "opacity-0"
+        }`}
+      />
+      <div
+        className={`pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-linear-to-l from-store-surface to-transparent transition-opacity sm:w-14 ${
+          canScrollRight ? "opacity-100" : "opacity-0"
+        }`}
+      />
+
+      {canScrollLeft ? (
+        <button
+          type="button"
+          onClick={() => scrollByAmount(-1)}
+          className="absolute top-1/2 left-0 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-store-line bg-store-paper text-store-navy shadow-sm transition hover:border-store-navy/40"
+          aria-label="Scroll categories left"
+        >
+          <ChevronLeft className="h-4 w-4" strokeWidth={2.25} aria-hidden />
+        </button>
+      ) : null}
+
+      {canScrollRight ? (
+        <button
+          type="button"
+          onClick={() => scrollByAmount(1)}
+          className="absolute top-1/2 right-0 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-store-line bg-store-paper text-store-navy shadow-sm transition hover:border-store-navy/40"
+          aria-label="Scroll categories right"
+        >
+          <ChevronRight className="h-4 w-4" strokeWidth={2.25} aria-hidden />
+        </button>
+      ) : null}
+
+      <div
+        ref={scrollerRef}
+        role="tablist"
+        aria-label="Product categories"
+        className="flex gap-2 overflow-x-auto px-1 py-1 [-ms-overflow-style:none] [scrollbar-width:none] snap-x snap-mandatory scroll-smooth [&::-webkit-scrollbar]:hidden"
+      >
+        <CategoryTab
+          active={categoryId === null}
+          onClick={() => onSelect(null)}
+        >
+          All products
+        </CategoryTab>
+        {categories.map((category) => (
+          <CategoryTab
+            key={category.id}
+            active={categoryId === category.id}
+            onClick={() => onSelect(category.id)}
+          >
+            {category.name}
+          </CategoryTab>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -166,8 +278,11 @@ function CategoryTab({
   return (
     <button
       type="button"
+      role="tab"
+      aria-selected={active}
+      data-active={active ? "true" : "false"}
       onClick={onClick}
-      className={`rounded-md border px-4 py-2.5 text-sm ${
+      className={`snap-start shrink-0 rounded-md border px-4 py-2.5 text-sm whitespace-nowrap transition ${
         active
           ? "border-store-navy bg-store-navy font-semibold text-white"
           : "border-store-line bg-store-paper text-store-ink hover:border-store-navy/40"

@@ -319,16 +319,16 @@ footer .footer-link-slide:hover {
 @keyframes enquiry-hang-sway {
   0%,
   100% {
-    transform: rotate(1.2deg);
+    transform: rotate(3.2deg);
   }
   50% {
-    transform: rotate(-1.4deg);
+    transform: rotate(-3.6deg);
   }
 }
 
 .enquiry-hang {
   transform-origin: top center;
-  animation: enquiry-hang-sway 4.5s ease-in-out infinite;
+  animation: enquiry-hang-sway 1.85s ease-in-out infinite;
 }
 
 .enquiry-hang-tag:hover {

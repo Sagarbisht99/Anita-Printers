@@ -112,13 +112,22 @@ export function PrintingShowcase() {
           shadi card — offset &amp; screen under one roof.
         </p>
 
-        <Link
-          href="/services"
-          className="mt-5 inline-flex items-center gap-1.5 text-[15px] font-medium text-[#1a1a1a] transition hover:text-store-navy sm:mt-6"
-        >
-          Explore offset &amp; screen services
-          <ArrowUpRight className="h-4 w-4" strokeWidth={2} aria-hidden />
-        </Link>
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 sm:mt-6">
+          <Link
+            href="/products"
+            className="inline-flex items-center gap-1.5 text-[15px] font-medium text-[#1a1a1a] transition hover:text-store-navy"
+          >
+            Browse product catalog
+            <ArrowUpRight className="h-4 w-4" strokeWidth={2} aria-hidden />
+          </Link>
+          <Link
+            href="/services"
+            className="inline-flex items-center gap-1.5 text-[15px] font-medium text-[#555] transition hover:text-store-navy"
+          >
+            Explore offset &amp; screen services
+            <ArrowUpRight className="h-4 w-4" strokeWidth={2} aria-hidden />
+          </Link>
+        </div>
       </div>
 
       <div

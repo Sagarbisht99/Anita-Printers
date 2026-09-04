@@ -14,7 +14,7 @@ function CornerRivet({ className }: { className: string }) {
 /** Hanging plaque CTA — desktop only; opens quote popup. */
 export function EnquiryHangTag() {
   return (
-    <div className="enquiry-hang pointer-events-none fixed top-[4.75rem] right-4 z-[72] hidden flex-col items-center lg:flex xl:right-6">
+    <div className="enquiry-hang pointer-events-none fixed top-[3.85rem] right-4 z-[72] hidden flex-col items-center lg:flex xl:right-6">
       {/* Silver chain */}
       <div aria-hidden className="flex flex-col items-center">
         <span className="h-2 w-2 rounded-full bg-linear-to-b from-[#eef1f5] to-[#8a93a0] shadow-sm ring-1 ring-black/15" />
