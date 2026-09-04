@@ -11,7 +11,6 @@ export const serverEnv = {
   sessionSecret: trim(process.env.SESSION_SECRET),
   adminUsername: trim(process.env.ADMIN_USERNAME),
   adminPassword: trim(process.env.ADMIN_PASSWORD),
-  adminResetPassword: process.env.ADMIN_RESET_PASSWORD === "true",
   imagekitPrivateKey: trim(process.env.IMAGEKIT_PRIVATE_KEY),
   resendApiKey: trim(process.env.RESEND_API_KEY),
   resendFromEmail: trim(process.env.RESEND_FROM_EMAIL),

@@ -19,7 +19,6 @@ export async function login(
 
   const ip = await clientIp();
 
-  // Per-IP cap blunts credential stuffing that rotates usernames.
   for (const key of [`login:ip:${ip}`, `login:${ip}:${username.toLowerCase()}`]) {
     const limited = consumeRateLimit({
       key,
@@ -37,13 +36,10 @@ export async function login(
   let admin;
 
   try {
-    admin = await verifyAdminCredentials(username, password);
+    admin = verifyAdminCredentials(username, password);
   } catch (error) {
-    console.error("Admin login database error:", error);
-    if (
-      error instanceof Error &&
-      error.message.includes("No admin account exists yet")
-    ) {
+    console.error("Admin login config error:", error);
+    if (error instanceof Error && error.message.includes("not configured")) {
       return { error: error.message };
     }
     return { error: "Sign-in temporarily unavailable. Please try again." };
@@ -57,7 +53,7 @@ export async function login(
     userId: admin.id,
     username: admin.username,
     role: "super_admin",
-    sessionVersion: admin.sessionVersion,
+    credentialStamp: admin.credentialStamp,
   });
 
   redirect("/admin/dashboard");

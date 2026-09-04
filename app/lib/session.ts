@@ -1,7 +1,7 @@
 import "server-only";
 import { cache } from "react";
 import { cookies } from "next/headers";
-import { prisma } from "@/app/lib/db";
+import { isCurrentAdminSession } from "@/app/lib/admin";
 import {
   COOKIE_NAME,
   decrypt,
@@ -16,14 +16,14 @@ export async function createSession(input: {
   userId: string;
   username: string;
   role: AdminRole;
-  sessionVersion: number;
+  credentialStamp: string;
 }) {
   const expiresAt = new Date(Date.now() + SESSION_DURATION_MS);
   const payload: SessionPayload = {
     userId: input.userId,
     username: input.username,
     role: input.role,
-    sessionVersion: input.sessionVersion,
+    credentialStamp: input.credentialStamp,
     expiresAt: expiresAt.toISOString(),
   };
   const session = await encrypt(payload);
@@ -57,11 +57,8 @@ export const getSession = cache(async () => {
 });
 
 /**
- * Verifies the session cookie against the DB so a revoked admin (bumped
- * `sessionVersion`) loses access before their JWT expires.
- *
- * `cache()` dedupes the lookup within a single request — layouts, actions and
- * nested guards can all call this without extra round-trips.
+ * Env-backed admin session — no DB. Changing ADMIN_PASSWORD invalidates
+ * existing cookies via credentialStamp.
  */
 export const requireSuperAdmin = cache(async () => {
   const session = await getSession();
@@ -70,29 +67,22 @@ export const requireSuperAdmin = cache(async () => {
     return null;
   }
 
-  const admin = await prisma.admin.findUnique({
-    where: { id: session.userId },
-    select: {
-      id: true,
-      username: true,
-      role: true,
-      sessionVersion: true,
-    },
-  });
-
   if (
-    !admin ||
-    admin.role !== "super_admin" ||
-    admin.sessionVersion !== session.sessionVersion
+    !isCurrentAdminSession({
+      userId: session.userId,
+      username: session.username,
+      role: session.role,
+      credentialStamp: session.credentialStamp,
+    })
   ) {
     return null;
   }
 
   return {
-    userId: admin.id,
-    username: admin.username,
+    userId: session.userId,
+    username: session.username,
     role: "super_admin" as const,
-    sessionVersion: admin.sessionVersion,
+    credentialStamp: session.credentialStamp,
     expiresAt: session.expiresAt,
   };
 });
