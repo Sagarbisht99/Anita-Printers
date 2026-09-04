@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -305,23 +305,66 @@ function CategoryTabs({
   categoryId: number | null;
   onSelect: (categoryId: number | null) => void;
 }) {
+  const listRef = useRef<HTMLDivElement>(null);
+  const [canScrollDown, setCanScrollDown] = useState(false);
+
+  useLayoutEffect(() => {
+    const el = listRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const max = el.scrollHeight - el.clientHeight;
+      setCanScrollDown(max > 4 && el.scrollTop < max - 4);
+    };
+
+    update();
+    el.addEventListener("scroll", update, { passive: true });
+    const resize = new ResizeObserver(update);
+    resize.observe(el);
+
+    return () => {
+      el.removeEventListener("scroll", update);
+      resize.disconnect();
+    };
+  }, [categories]);
+
+  useEffect(() => {
+    const el = listRef.current;
+    if (!el) return;
+    const active = el.querySelector<HTMLElement>('[data-active="true"]');
+    active?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  }, [categoryId, categories]);
+
   return (
-    <div className="flex flex-col gap-1">
-      <CategoryTab
-        active={categoryId === null}
-        onClick={() => onSelect(null)}
+    <div className="relative">
+      <div
+        ref={listRef}
+        role="tablist"
+        aria-label="Product categories"
+        className="flex max-h-56 flex-col gap-1 overflow-y-auto overscroll-contain pr-1 scrollbar-thin sm:max-h-64 lg:max-h-[min(50vh,20rem)]"
       >
-        All
-      </CategoryTab>
-      {categories.map((category) => (
         <CategoryTab
-          key={category.id}
-          active={categoryId === category.id}
-          onClick={() => onSelect(category.id)}
+          active={categoryId === null}
+          onClick={() => onSelect(null)}
         >
-          {category.name}
+          All
         </CategoryTab>
-      ))}
+        {categories.map((category) => (
+          <CategoryTab
+            key={category.id}
+            active={categoryId === category.id}
+            onClick={() => onSelect(category.id)}
+          >
+            {category.name}
+          </CategoryTab>
+        ))}
+      </div>
+      {canScrollDown ? (
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-linear-to-t from-store-surface to-transparent"
+          aria-hidden
+        />
+      ) : null}
     </div>
   );
 }
@@ -338,8 +381,11 @@ function CategoryTab({
   return (
     <button
       type="button"
+      role="tab"
+      aria-selected={active}
+      data-active={active ? "true" : "false"}
       onClick={onClick}
-      className={`w-full rounded-md border px-3 py-2 text-left text-sm ${
+      className={`w-full shrink-0 rounded-md border px-3 py-2 text-left text-sm ${
         active
           ? "border-store-navy bg-store-navy font-semibold text-white"
           : "border-store-line bg-store-paper text-store-ink hover:border-store-navy/40"

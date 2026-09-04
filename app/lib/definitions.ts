@@ -4,7 +4,8 @@ export type SessionPayload = {
   userId: string;
   username: string;
   role: AdminRole;
-  sessionVersion: number;
+  /** SHA-256 of env password — rotates when ADMIN_PASSWORD changes. */
+  credentialStamp: string;
   expiresAt: string;
 };
 

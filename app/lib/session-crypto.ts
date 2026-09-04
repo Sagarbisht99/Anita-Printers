@@ -10,7 +10,7 @@ const sessionPayloadSchema = z.object({
   userId: z.string().uuid(),
   username: z.string().min(1),
   role: z.literal("super_admin"),
-  sessionVersion: z.number().int().nonnegative(),
+  credentialStamp: z.string().min(1),
   expiresAt: z.string().datetime(),
 });
 

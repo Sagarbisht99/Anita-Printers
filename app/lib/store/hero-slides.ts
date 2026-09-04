@@ -10,19 +10,19 @@ export const heroSlides: HeroSlide[] = [
   {
     id: "banner-1",
     title: "Offset Printing — Bulk Stationery & Packaging",
-    href: "/services#offset",
+    href: "/products",
     image: "/hero/banner-1.png",
   },
   {
     id: "banner-2",
     title: "Screen Printing — Apparel, Bags & Specialty",
-    href: "/services#screen",
+    href: "/products",
     image: "/hero/banner-2.png",
   },
   {
     id: "banner-3",
     title: "Corporate, Retail, Events & Schools",
-    href: "/services#who-we-serve",
+    href: "/products",
     image: "/hero/banner-3.png",
   },
 ];

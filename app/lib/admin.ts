@@ -1,86 +1,78 @@
 import "server-only";
-import bcrypt from "bcryptjs";
-import { prisma } from "@/app/lib/db";
+import { createHash, timingSafeEqual } from "node:crypto";
 import { serverEnv } from "@/app/lib/env/server";
 import type { AdminRole } from "@/app/lib/definitions";
 
-const MIN_ADMIN_PASSWORD_LENGTH = 12;
+/** Stable id for the env-backed super admin (JWT / rate-limit keys). */
+export const ENV_ADMIN_USER_ID = "00000000-0000-4000-8000-000000000001";
 
-/** Dummy hash so missing-user logins still pay bcrypt cost (timing safety). */
-const DUMMY_PASSWORD_HASH =
-  "$2b$12$0Yt9rlz4PzU5nbcR8EzieeNDDjP4MEOLhXxl14DEZCEJLttWanE32";
+function safeEqualString(a: string, b: string): boolean {
+  const left = Buffer.from(a);
+  const right = Buffer.from(b);
 
-export function assertAdminPasswordPolicy(password: string) {
-  if (password.length < MIN_ADMIN_PASSWORD_LENGTH) {
-    throw new Error(
-      `ADMIN_PASSWORD must be at least ${MIN_ADMIN_PASSWORD_LENGTH} characters.`,
-    );
+  if (left.length !== right.length) {
+    timingSafeEqual(left, left);
+    return false;
   }
+
+  return timingSafeEqual(left, right);
 }
 
-export async function seedSuperAdminFromEnv() {
-  const username = serverEnv.adminUsername;
-  const password = serverEnv.adminPassword;
-  const resetPassword = serverEnv.adminResetPassword;
-
-  if (!username || !password) {
-    throw new Error(
-      "ADMIN_USERNAME and ADMIN_PASSWORD must be set in the environment.",
-    );
-  }
-
-  assertAdminPasswordPolicy(password);
-
-  const existing = await prisma.admin.findUnique({ where: { username } });
-  const passwordHash = await bcrypt.hash(password, 12);
-
-  if (!existing) {
-    return prisma.admin.create({
-      data: {
-        username,
-        passwordHash,
-        role: "super_admin",
-        sessionVersion: 0,
-      },
-    });
-  }
-
-  if (!resetPassword) {
-    return existing;
-  }
-
-  return prisma.admin.update({
-    where: { username },
-    data: {
-      passwordHash,
-      role: "super_admin",
-      sessionVersion: { increment: 1 },
-    },
-  });
+/** Stamp changes when env password changes — invalidates old sessions. */
+export function adminCredentialStamp(password: string): string {
+  return createHash("sha256").update(`admin:${password}`).digest("hex");
 }
 
-export async function findAdminByUsername(username: string) {
-  return prisma.admin.findUnique({
-    where: { username },
-  });
-}
-
-export async function verifyAdminCredentials(
+export function verifyAdminCredentials(
   username: string,
   password: string,
-) {
-  const admin = await findAdminByUsername(username);
-  const hash = admin?.passwordHash ?? DUMMY_PASSWORD_HASH;
-  const valid = await bcrypt.compare(password, hash);
+): {
+  id: string;
+  username: string;
+  role: AdminRole;
+  credentialStamp: string;
+} | null {
+  const envUsername = serverEnv.adminUsername;
+  const envPassword = serverEnv.adminPassword;
 
-  if (!admin || !valid) {
+  if (!envUsername || !envPassword) {
+    throw new Error(
+      "Admin login is not configured. Set ADMIN_USERNAME and ADMIN_PASSWORD.",
+    );
+  }
+
+  const usernameOk = safeEqualString(username, envUsername);
+  const passwordOk = safeEqualString(password, envPassword);
+
+  if (!usernameOk || !passwordOk) {
     return null;
   }
 
   return {
-    id: admin.id,
-    username: admin.username,
-    role: admin.role as AdminRole,
-    sessionVersion: admin.sessionVersion,
+    id: ENV_ADMIN_USER_ID,
+    username: envUsername,
+    role: "super_admin",
+    credentialStamp: adminCredentialStamp(envPassword),
   };
+}
+
+export function isCurrentAdminSession(input: {
+  userId: string;
+  username: string;
+  role: string;
+  credentialStamp: string;
+}): boolean {
+  const envUsername = serverEnv.adminUsername;
+  const envPassword = serverEnv.adminPassword;
+
+  if (!envUsername || !envPassword) {
+    return false;
+  }
+
+  return (
+    input.userId === ENV_ADMIN_USER_ID &&
+    input.role === "super_admin" &&
+    safeEqualString(input.username, envUsername) &&
+    safeEqualString(input.credentialStamp, adminCredentialStamp(envPassword))
+  );
 }

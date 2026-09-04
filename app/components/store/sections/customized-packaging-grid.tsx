@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   customPackagingContent,
   type CustomPackagingItem,
@@ -66,6 +67,12 @@ export function CustomizedPackagingGrid({ items }: CustomizedPackagingGridProps)
             {subtitle}
           </p>
           <p className="mt-1.5 text-sm text-[#8b95a5]">{stepsLine}</p>
+          <Link
+            href="/products"
+            className="mt-4 inline-flex text-sm font-semibold text-store-navy underline-offset-4 hover:underline"
+          >
+            Browse packaging in catalog →
+          </Link>
         </header>
 
         <div className="mt-8 grid grid-cols-2 gap-3 sm:mt-10 sm:gap-4 lg:hidden">

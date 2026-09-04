@@ -23,6 +23,8 @@ enum OrderStatus {
   @@map("order_status")
 }
 
+// Kept in schema so deploy `db push` does not try to drop existing rows.
+// Login is env-only (ADMIN_USERNAME / ADMIN_PASSWORD) — this model is unused by the app.
 model Admin {
   id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   username       String   @unique
