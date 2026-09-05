@@ -52,15 +52,15 @@ export function StoreFooter() {
       {/* Drifting watermark */}
       <p
         aria-hidden
-        className="footer-watermark pointer-events-none absolute inset-x-0 bottom-6 text-center text-[18vw] leading-none font-bold tracking-tight text-white/[0.04] select-none sm:text-[13vw]"
+        className="footer-watermark pointer-events-none absolute inset-x-0 bottom-6 overflow-hidden text-center text-[22vw] leading-none font-bold tracking-tight text-white/[0.04] select-none sm:text-[13vw]"
       >
         Anita
       </p>
 
 
-      <div className="relative mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:grid-cols-2 sm:gap-10 sm:px-6 sm:py-12 lg:grid-cols-4 lg:gap-8 lg:py-14">
+      <div className="relative mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-8 px-4 py-10 sm:gap-10 sm:px-6 sm:py-12 lg:grid-cols-4 lg:gap-8 lg:py-14">
         {/* Brand */}
-        <div className="footer-col" style={{ animationDelay: "0ms" }}>
+        <div className="footer-col col-span-2 lg:col-span-1" style={{ animationDelay: "0ms" }}>
           <Link
             href="/"
             className="group inline-flex items-center gap-2.5 transition-transform duration-300 hover:scale-[1.02]"
@@ -77,7 +77,7 @@ export function StoreFooter() {
               Anita Printers
             </span>
           </Link>
-          <p className="mt-4 text-sm leading-relaxed text-white/65">
+          <p className="mt-4 max-w-md text-sm leading-relaxed text-white/65">
             Offset &amp; screen printing — visiting cards, letterheads,
             stickers, brochures, bags, boxes, flex, and shadi cards.
           </p>
@@ -104,7 +104,7 @@ export function StoreFooter() {
         </div>
 
         {/* Company */}
-        <div className="footer-col" style={{ animationDelay: "80ms" }}>
+        <div className="footer-col min-w-0" style={{ animationDelay: "80ms" }}>
           <p className="text-xs font-semibold tracking-[0.16em] text-store-accent uppercase">
             Company
           </p>
@@ -120,7 +120,7 @@ export function StoreFooter() {
         </div>
 
         {/* What we print */}
-        <div className="footer-col" style={{ animationDelay: "160ms" }}>
+        <div className="footer-col min-w-0" style={{ animationDelay: "160ms" }}>
           <p className="text-xs font-semibold tracking-[0.16em] text-store-accent uppercase">
             What we print
           </p>
@@ -137,7 +137,7 @@ export function StoreFooter() {
 
         {/* Contact */}
         <div
-          className="footer-col sm:col-span-2 lg:col-span-1"
+          className="footer-col col-span-2 min-w-0 lg:col-span-1"
           style={{ animationDelay: "240ms" }}
         >
           <p className="text-xs font-semibold tracking-[0.16em] text-store-accent uppercase">
@@ -171,14 +171,14 @@ export function StoreFooter() {
                   <a
                     key={phone.href}
                     href={phone.href}
-                    className="block text-sm text-white/90 transition hover:text-white"
+                    className="block py-0.5 text-sm text-white/90 transition hover:text-white"
                   >
                     {phone.display}
                   </a>
                 ))}
                 <a
                   href={siteContact.landline.href}
-                  className="block text-sm text-white/75 transition hover:text-white"
+                  className="block py-0.5 text-sm text-white/75 transition hover:text-white"
                 >
                   {siteContact.landline.display}
                 </a>
@@ -193,7 +193,7 @@ export function StoreFooter() {
               />
               <a
                 href={`mailto:${siteContact.email}`}
-                className="min-w-0 text-sm break-all text-white/75 transition hover:text-white"
+                className="min-w-0 break-all text-sm text-white/75 transition hover:text-white sm:break-normal"
               >
                 {siteContact.email}
               </a>
@@ -207,11 +207,11 @@ export function StoreFooter() {
       {/* Bottom bar with shimmer line */}
       <div className="relative border-t border-white/10">
         <div aria-hidden className="footer-shimmer absolute inset-x-0 top-0 h-px" />
-        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-4 py-5 text-center sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:text-left">
           <p className="text-xs text-white/55">
             © {year} Anita Printers. All Rights Reserved.
           </p>
-          <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/45">
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-white/45 sm:justify-end">
             <Link href="/privacy" className="footer-link-slide">
               Privacy
             </Link>

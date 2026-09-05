@@ -321,7 +321,7 @@ function QuotePopupModal({
     event.preventDefault();
     setSubmitError(null);
     if (!captcha) {
-      setSubmitError("Anti-spam check is loading. Please wait a moment.");
+      setSubmitError("Captcha is loading. Please wait a moment.");
       void refreshCaptcha();
       return;
     }
@@ -540,24 +540,28 @@ function QuotePopupModal({
                 </div>
 
                 <label className="block text-sm">
-                  <span className="font-medium text-store-ink">
-                    Anti-spam check
-                    {captcha ? ` — what is ${captcha.a} + ${captcha.b}?` : ""}
-                  </span>
-                  <div className="mt-1.5 flex gap-2">
+                  <span className="font-medium text-store-ink">Captcha</span>
+                  <div className="mt-1.5 flex items-center gap-2">
+                    <span className="shrink-0 rounded-xl border border-store-line bg-store-paper px-3 py-2.5 text-sm font-semibold tabular-nums text-store-ink">
+                      {captcha ? `${captcha.a} + ${captcha.b}` : "…"}
+                    </span>
+                    <span className="text-store-muted" aria-hidden>
+                      =
+                    </span>
                     <input
                       required
                       inputMode="numeric"
                       value={captchaAnswer}
                       onChange={(e) => setCaptchaAnswer(e.target.value)}
-                      placeholder="Answer"
-                      className="mt-0 w-full rounded-xl border border-store-line bg-white px-3 py-2.5 text-base text-store-ink outline-none transition focus:border-store-navy/40 focus:ring-2 focus:ring-store-navy/10 sm:text-sm"
+                      placeholder="?"
+                      aria-label="Captcha answer"
+                      className="w-full rounded-xl border border-store-line bg-white px-3 py-2.5 text-base text-store-ink outline-none transition focus:border-store-navy/40 focus:ring-2 focus:ring-store-navy/10 sm:text-sm"
                       disabled={!captcha}
                     />
                     <button
                       type="button"
                       onClick={() => void refreshCaptcha()}
-                      className="shrink-0 rounded-xl border border-store-line px-3 text-xs font-semibold text-store-muted transition hover:border-store-navy/40 hover:text-store-navy"
+                      className="shrink-0 rounded-xl border border-store-line px-3 py-2.5 text-xs font-semibold text-store-muted transition hover:border-store-navy/40 hover:text-store-navy"
                     >
                       Refresh
                     </button>

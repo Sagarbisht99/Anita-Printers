@@ -38,7 +38,7 @@ const enquirySchema = z.object({
     .optional(),
   /** Bots fill this; humans never see it. */
   website: z.string().max(200).optional(),
-  captchaToken: z.string().min(1, "Please complete the anti-spam check."),
+  captchaToken: z.string().min(1, "Please complete the captcha."),
   captchaAnswer: z.union([z.string(), z.number()]),
 });
 
@@ -76,7 +76,7 @@ export async function submitEnquiry(
       answer: parsed.data.captchaAnswer,
     })
   ) {
-    return { error: "Anti-spam check failed. Please try again." };
+    return { error: "Captcha incorrect. Please try again." };
   }
 
   // Public endpoint: throttle before touching the DB or the mail provider.
