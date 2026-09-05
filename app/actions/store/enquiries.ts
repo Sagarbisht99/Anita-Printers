@@ -5,6 +5,10 @@ import { prisma } from "@/app/lib/db";
 import { sendEnquiryAdminEmail } from "@/app/lib/email/resend";
 import { sanitizeText } from "@/app/lib/security/sanitize";
 import { clientIp, consumeRateLimit } from "@/app/lib/security/rate-limit";
+import {
+  createMathCaptcha,
+  verifyMathCaptcha,
+} from "@/app/lib/security/enquiry-captcha";
 import { revalidatePath } from "next/cache";
 
 const enquirySchema = z.object({
@@ -32,12 +36,24 @@ const enquirySchema = z.object({
     .string()
     .transform((value) => sanitizeText(value, 5000))
     .optional(),
+  /** Bots fill this; humans never see it. */
+  website: z.string().max(200).optional(),
+  captchaToken: z.string().min(1, "Please complete the captcha."),
+  captchaAnswer: z.union([z.string(), z.number()]),
 });
 
 export type SubmitEnquiryState = {
   ok?: boolean;
   error?: string;
 };
+
+export async function getEnquiryCaptcha(): Promise<{
+  a: number;
+  b: number;
+  token: string;
+}> {
+  return createMathCaptcha();
+}
 
 export async function submitEnquiry(
   input: z.infer<typeof enquirySchema>,
@@ -47,6 +63,20 @@ export async function submitEnquiry(
     return {
       error: parsed.error.issues[0]?.message || "Please check the form fields.",
     };
+  }
+
+  // Silent success for honeypot hits — don't tip off scrapers.
+  if (parsed.data.website?.trim()) {
+    return { ok: true };
+  }
+
+  if (
+    !verifyMathCaptcha({
+      token: parsed.data.captchaToken,
+      answer: parsed.data.captchaAnswer,
+    })
+  ) {
+    return { error: "Captcha incorrect. Please try again." };
   }
 
   // Public endpoint: throttle before touching the DB or the mail provider.

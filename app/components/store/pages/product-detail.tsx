@@ -39,17 +39,34 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
 
   const [activeImage, setActiveImage] = useState(0);
   const moq = Math.max(1, product.quantity || 1);
+  const defaultSize = product.defaultSize?.trim() || "Custom";
+  const defaultColor = product.defaultColor?.trim() || "Red";
+
+  const sizePresets = useMemo(() => {
+    const list = [...product.sizes];
+    if (!list.some((s) => s.toLowerCase() === defaultSize.toLowerCase())) {
+      list.unshift(defaultSize);
+    }
+    return Array.from(new Set(list));
+  }, [product.sizes, defaultSize]);
+
+  const colorPresets = useMemo(() => {
+    const list = [...product.colors];
+    if (!list.some((c) => c.toLowerCase() === defaultColor.toLowerCase())) {
+      list.unshift(defaultColor);
+    }
+    return Array.from(new Set(list));
+  }, [product.colors, defaultColor]);
+
   const [orderQty, setOrderQty] = useState(moq);
-  const [selectedSize, setSelectedSize] = useState("");
-  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedSize, setSelectedSize] = useState(defaultSize);
+  const [selectedColor, setSelectedColor] = useState(defaultColor);
   const { openQuotePopup } = useQuotePopup();
 
-  const needsSize = product.sizes.length > 0;
-  const needsColor = product.colors.length > 0;
   const canEnquire =
     orderQty >= moq &&
-    (!needsSize || Boolean(selectedSize)) &&
-    (!needsColor || Boolean(selectedColor));
+    Boolean(selectedSize.trim()) &&
+    Boolean(selectedColor.trim());
 
   const breadcrumbItems = trail(
     { name: "Products", path: "/products" },
@@ -71,8 +88,8 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
       category: product.categoryName ?? undefined,
       imageUrl: product.image ?? undefined,
       quantity: orderQty,
-      size: selectedSize || undefined,
-      color: selectedColor || undefined,
+      size: selectedSize.trim() || undefined,
+      color: selectedColor.trim() || undefined,
       intent,
     });
   }
@@ -207,10 +224,9 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
             </p>
           ) : (
             <p className="mt-5 text-sm leading-relaxed text-store-muted">
-              Choose quantity
-              {needsSize ? ", size" : ""}
-              {needsColor ? ", and colour" : ""} — then request a quote. Anita
-              Printers (Noida) confirms rate, proof, and delivery.
+              Choose quantity, size, and colour — then request a quote. Anita
+              Printers (Noida) confirms rate, proof, and delivery. You can keep
+              the defaults or type your own.
             </p>
           )}
 
@@ -264,42 +280,73 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
               </div>
             </div>
 
-            {/* Size dropdown */}
-            {needsSize ? (
-              <div>
-                <label
-                  htmlFor="pdp-size"
-                  className="text-sm font-medium text-store-ink"
-                >
-                  Size
-                </label>
-                <select
-                  id="pdp-size"
-                  value={selectedSize}
-                  onChange={(e) => setSelectedSize(e.target.value)}
-                  className="mt-2 h-11 w-full rounded-xl border border-store-line bg-store-paper px-3 text-sm text-store-ink outline-none focus:border-store-navy/40 focus:ring-2 focus:ring-store-navy/10"
-                >
-                  <option value="">Select size</option>
-                  {product.sizes.map((size) => (
-                    <option key={size} value={size}>
-                      {size}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            ) : null}
-
-            {/* Colour chips */}
-            {needsColor ? (
-              <div>
-                <p className="text-sm font-medium text-store-ink">Colour</p>
+            {/* Size: presets + custom */}
+            <div>
+              <label
+                htmlFor="pdp-size"
+                className="text-sm font-medium text-store-ink"
+              >
+                Size
+              </label>
+              {sizePresets.length > 0 ? (
                 <div
                   className="mt-2 flex flex-wrap gap-2"
                   role="radiogroup"
-                  aria-label="Colour"
+                  aria-label="Size presets"
                 >
-                  {product.colors.map((color) => {
-                    const active = selectedColor === color;
+                  {sizePresets.map((size) => {
+                    const active =
+                      selectedSize.trim().toLowerCase() === size.toLowerCase();
+                    return (
+                      <button
+                        key={size}
+                        type="button"
+                        role="radio"
+                        aria-checked={active}
+                        onClick={() => setSelectedSize(size)}
+                        className={`rounded-full border px-3.5 py-2 text-sm transition ${
+                          active
+                            ? "border-store-navy bg-store-navy font-semibold text-white"
+                            : "border-store-line bg-store-paper text-store-ink hover:border-store-navy/40"
+                        }`}
+                      >
+                        {size}
+                      </button>
+                    );
+                  })}
+                </div>
+              ) : null}
+              <input
+                id="pdp-size"
+                type="text"
+                value={selectedSize}
+                onChange={(e) => setSelectedSize(e.target.value)}
+                placeholder="Or type a custom size"
+                className="mt-2 h-11 w-full rounded-xl border border-store-line bg-store-paper px-3 text-sm text-store-ink outline-none focus:border-store-navy/40 focus:ring-2 focus:ring-store-navy/10"
+              />
+              <p className="mt-1.5 text-xs text-store-muted">
+                Default {defaultSize} — change anytime
+              </p>
+            </div>
+
+            {/* Colour: presets + custom */}
+            <div>
+              <label
+                htmlFor="pdp-color"
+                className="text-sm font-medium text-store-ink"
+              >
+                Colour
+              </label>
+              {colorPresets.length > 0 ? (
+                <div
+                  className="mt-2 flex flex-wrap gap-2"
+                  role="radiogroup"
+                  aria-label="Colour presets"
+                >
+                  {colorPresets.map((color) => {
+                    const active =
+                      selectedColor.trim().toLowerCase() ===
+                      color.toLowerCase();
                     return (
                       <button
                         key={color}
@@ -318,23 +365,28 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
                     );
                   })}
                 </div>
-              </div>
-            ) : null}
+              ) : null}
+              <input
+                id="pdp-color"
+                type="text"
+                value={selectedColor}
+                onChange={(e) => setSelectedColor(e.target.value)}
+                placeholder="Or type a custom colour"
+                className="mt-2 h-11 w-full rounded-xl border border-store-line bg-store-paper px-3 text-sm text-store-ink outline-none focus:border-store-navy/40 focus:ring-2 focus:ring-store-navy/10"
+              />
+              <p className="mt-1.5 text-xs text-store-muted">
+                Default {defaultColor} — change anytime
+              </p>
+            </div>
 
             {!canEnquire ? (
               <p className="text-xs text-store-muted">
-                Select
-                {needsSize && !selectedSize ? " size" : ""}
-                {needsSize && !selectedSize && needsColor && !selectedColor
-                  ? " and"
-                  : ""}
-                {needsColor && !selectedColor ? " colour" : ""} to continue.
+                Enter size and colour to continue.
               </p>
             ) : (
               <p className="text-xs font-medium text-store-navy">
-                Ready — {orderQty} units
-                {selectedSize ? ` · ${selectedSize}` : ""}
-                {selectedColor ? ` · ${selectedColor}` : ""}
+                Ready — {orderQty} units · {selectedSize.trim()} ·{" "}
+                {selectedColor.trim()}
               </p>
             )}
           </div>

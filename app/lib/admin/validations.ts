@@ -39,6 +39,8 @@ export const productFormSchema = z.object({
   imageGallery: z.array(z.string().url()).max(24).default([]),
   sizes: z.array(z.string().trim().min(1).max(100)).max(50).default([]),
   colors: z.array(z.string().trim().min(1).max(100)).max(50).default([]),
+  defaultSize: z.string().trim().min(1).max(100).default("Custom"),
+  defaultColor: z.string().trim().min(1).max(100).default("Red"),
   quantity: z.coerce.number().int().min(1).max(1000000).default(1),
   seoTitle: z.string().trim().max(255).optional().or(z.literal("")),
   seoDescription: optionalText,

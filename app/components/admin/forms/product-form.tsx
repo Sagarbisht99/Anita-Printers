@@ -20,6 +20,8 @@ export type ProductFormValues = {
   imageGallery?: string[];
   sizes?: string[];
   colors?: string[];
+  defaultSize?: string;
+  defaultColor?: string;
   quantity?: number;
   seoTitle?: string | null;
   seoDescription?: string | null;
@@ -156,21 +158,40 @@ export function ProductForm({
 
       <div className="grid gap-4 sm:grid-cols-2">
         <TodoListField
-          label="Sizes"
+          label="Size suggestions"
           name="sizes"
           values={sizes}
           onChange={setSizes}
           placeholder="e.g. A4, A3, 12x18"
-          hint="Shown as dropdown on frontend later"
+          hint="Optional presets buyers can pick; they can also type custom"
         />
         <TodoListField
-          label="Colors"
+          label="Colour suggestions"
           name="colors"
           values={colors}
           onChange={setColors}
           placeholder="e.g. Black, Navy, Red"
-          hint="Shown as dropdown on frontend later"
+          hint="Optional presets; default colour below is used first"
         />
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Field label="Default size" hint="Pre-filled on product page">
+          <Input
+            name="defaultSize"
+            required
+            defaultValue={initial?.defaultSize ?? "Custom"}
+            placeholder="Custom"
+          />
+        </Field>
+        <Field label="Default colour" hint="Pre-filled on product page (default Red)">
+          <Input
+            name="defaultColor"
+            required
+            defaultValue={initial?.defaultColor ?? "Red"}
+            placeholder="Red"
+          />
+        </Field>
       </div>
 
       <Field

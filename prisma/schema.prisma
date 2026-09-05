@@ -65,6 +65,10 @@ model Product {
   slug               String       @unique @db.VarChar(255)
   sizes              String[]     @default([])
   colors             String[]     @default([])
+  /// Buyer-facing default size (editable / customisable on PDP)
+  defaultSize        String       @default("Custom") @map("default_size") @db.VarChar(100)
+  /// Buyer-facing default colour (editable on PDP)
+  defaultColor       String       @default("Red") @map("default_color") @db.VarChar(100)
   /// Minimum order quantity (MOQ) — single value, default 1
   quantity           Int          @default(1)
   seoTitle           String?      @map("seo_title") @db.VarChar(255)
