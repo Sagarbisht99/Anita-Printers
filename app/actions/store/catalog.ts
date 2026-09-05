@@ -79,6 +79,8 @@ export type StoreProductDetail = StoreProductItem & {
   imageGallery: string[];
   sizes: string[];
   colors: string[];
+  defaultSize: string;
+  defaultColor: string;
   seoTitle: string | null;
   seoDescription: string | null;
   seoKeywords: string[];
@@ -209,6 +211,8 @@ export async function fetchStoreProductBySlug(
       quantity: true,
       sizes: true,
       colors: true,
+      defaultSize: true,
+      defaultColor: true,
       descriptionContent: true,
       seoTitle: true,
       seoDescription: true,
@@ -227,6 +231,8 @@ export async function fetchStoreProductBySlug(
     imageGallery: product.imageGallery,
     sizes: product.sizes,
     colors: product.colors,
+    defaultSize: product.defaultSize?.trim() || "Custom",
+    defaultColor: product.defaultColor?.trim() || "Red",
     seoTitle: product.seoTitle,
     seoDescription: product.seoDescription,
     seoKeywords: product.seoKeywords,

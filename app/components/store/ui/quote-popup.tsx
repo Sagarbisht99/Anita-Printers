@@ -14,9 +14,14 @@ import {
 import { CheckCircle2, X } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchStoreCategories } from "@/app/actions/store/catalog";
-import { submitEnquiry } from "@/app/actions/store/enquiries";
+import {
+  getEnquiryCaptcha,
+  submitEnquiry,
+} from "@/app/actions/store/enquiries";
 import { quoteItemOptions } from "@/app/lib/store/b2b-content";
 import { storefrontKeys } from "@/app/lib/query/keys";
+
+const SUCCESS_AUTO_CLOSE_MS = 6000;
 
 /** Shown when no product-specific image is passed into the popup. */
 export const DEFAULT_QUOTE_IMAGE = "/pop-up-image.png";
@@ -258,22 +263,43 @@ function QuotePopupModal({
     String(Math.max(1, prefill.quantity ?? 100)),
   );
   const [notes, setNotes] = useState(() => buildEnquiryNotes(prefill));
+  const [website, setWebsite] = useState("");
+  const [captcha, setCaptcha] = useState<{
+    a: number;
+    b: number;
+    token: string;
+  } | null>(null);
+  const [captchaAnswer, setCaptchaAnswer] = useState("");
   const [sent, setSent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const refreshCaptcha = useCallback(async () => {
+    try {
+      const next = await getEnquiryCaptcha();
+      setCaptcha(next);
+      setCaptchaAnswer("");
+    } catch {
+      setCaptcha(null);
+    }
+  }, []);
 
   useEffect(() => {
     if (!open) return;
     setCategory(prefill.category || categoryOptions[0] || quoteItemOptions[0]);
     setNotes(buildEnquiryNotes(prefill));
     setQuantity(String(Math.max(1, prefill.quantity ?? 100)));
+    setWebsite("");
     setSent(false);
     setSubmitError(null);
-  }, [
-    open,
-    prefill,
-    categoryOptions,
-  ]);
+    void refreshCaptcha();
+  }, [open, prefill, categoryOptions, refreshCaptcha]);
+
+  useEffect(() => {
+    if (!open || !sent) return;
+    const timer = window.setTimeout(() => onClose(), SUCCESS_AUTO_CLOSE_MS);
+    return () => window.clearTimeout(timer);
+  }, [open, sent, onClose]);
 
   useEffect(() => {
     if (!open) return;
@@ -294,6 +320,11 @@ function QuotePopupModal({
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
     setSubmitError(null);
+    if (!captcha) {
+      setSubmitError("Anti-spam check is loading. Please wait a moment.");
+      void refreshCaptcha();
+      return;
+    }
     setSubmitting(true);
     try {
       const result = await submitEnquiry({
@@ -303,14 +334,19 @@ function QuotePopupModal({
         category,
         quantity: Number(quantity) || undefined,
         notes,
+        website,
+        captchaToken: captcha.token,
+        captchaAnswer,
       });
       if (result.error) {
         setSubmitError(result.error);
+        void refreshCaptcha();
         return;
       }
       setSent(true);
     } catch {
       setSubmitError("Could not submit enquiry. Please try again.");
+      void refreshCaptcha();
     } finally {
       setSubmitting(false);
     }
@@ -364,13 +400,9 @@ function QuotePopupModal({
                 </strong>
                 {prefill.product ? ` (${prefill.product})` : ""}.
               </p>
-              <button
-                type="button"
-                onClick={onClose}
-                className="mt-8 rounded-full bg-store-navy px-8 py-3 text-sm font-semibold text-white transition hover:bg-store-navy-dark"
-              >
-                Close
-              </button>
+              <p className="mt-6 text-xs text-store-muted">
+                Closing automatically…
+              </p>
             </div>
           </div>
         ) : (
@@ -397,7 +429,7 @@ function QuotePopupModal({
             {/* Form */}
             <form
               onSubmit={onSubmit}
-              className="flex min-h-0 min-w-0 flex-1 flex-col bg-store-paper/40"
+              className="relative flex min-h-0 min-w-0 flex-1 flex-col bg-store-paper/40"
             >
               <div className="shrink-0 border-b border-store-line bg-white px-5 py-4 sm:px-6 sm:py-5">
                 <p className="text-[11px] font-semibold tracking-[0.16em] text-store-muted uppercase">
@@ -489,6 +521,47 @@ function QuotePopupModal({
                     placeholder="Sizes, colours, deadline, print method…"
                     className={`${fieldClass} resize-none`}
                   />
+                </label>
+
+                {/* Honeypot — hidden from humans */}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -left-[9999px] h-0 w-0 overflow-hidden opacity-0"
+                >
+                  <label>
+                    Website
+                    <input
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={website}
+                      onChange={(e) => setWebsite(e.target.value)}
+                    />
+                  </label>
+                </div>
+
+                <label className="block text-sm">
+                  <span className="font-medium text-store-ink">
+                    Anti-spam check
+                    {captcha ? ` — what is ${captcha.a} + ${captcha.b}?` : ""}
+                  </span>
+                  <div className="mt-1.5 flex gap-2">
+                    <input
+                      required
+                      inputMode="numeric"
+                      value={captchaAnswer}
+                      onChange={(e) => setCaptchaAnswer(e.target.value)}
+                      placeholder="Answer"
+                      className="mt-0 w-full rounded-xl border border-store-line bg-white px-3 py-2.5 text-base text-store-ink outline-none transition focus:border-store-navy/40 focus:ring-2 focus:ring-store-navy/10 sm:text-sm"
+                      disabled={!captcha}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => void refreshCaptcha()}
+                      className="shrink-0 rounded-xl border border-store-line px-3 text-xs font-semibold text-store-muted transition hover:border-store-navy/40 hover:text-store-navy"
+                    >
+                      Refresh
+                    </button>
+                  </div>
                 </label>
 
                 {submitError ? (
