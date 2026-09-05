@@ -1,4 +1,4 @@
-import { getCustomPackagingItems } from "@/app/lib/store/custom-packaging";
+import { getCustomPackagingItems } from "@/app/lib/store/get-custom-packaging-items";
 import { CustomizedPackagingGrid } from "./customized-packaging-grid";
 
 export async function CustomizedPackaging() {

@@ -65,7 +65,8 @@ model Product {
   slug               String       @unique @db.VarChar(255)
   sizes              String[]     @default([])
   colors             String[]     @default([])
-  quantities         String[]     @default([])
+  /// Minimum order quantity (MOQ) — single value, default 1
+  quantity           Int          @default(1)
   seoTitle           String?      @map("seo_title") @db.VarChar(255)
   seoDescription     String?      @map("seo_description")
   seoKeywords        String[]     @default([]) @map("seo_keywords")

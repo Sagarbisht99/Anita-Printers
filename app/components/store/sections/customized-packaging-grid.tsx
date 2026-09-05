@@ -1,8 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import {
   customPackagingContent,
   type CustomPackagingItem,
 } from "@/app/lib/store/custom-packaging";
+import { QuoteButton } from "@/app/components/store/ui/quote-popup";
 
 const imageSizeClasses = {
   sm: "max-h-[68px] max-w-[78%] sm:max-h-[76px] lg:max-h-[82px]",
@@ -20,8 +23,13 @@ function PackagingCard({
   className?: string;
 }) {
   return (
-    <article
-      className={`group flex h-full min-h-[168px] flex-col overflow-hidden rounded-2xl sm:min-h-0 sm:rounded-[1.125rem] ${className}`}
+    <QuoteButton
+      product={item.title}
+      category="Custom Packaging"
+      intent="custom-packaging"
+      imageUrl={item.image || undefined}
+      aria-label={`Enquire about ${item.title}`}
+      className={`group flex h-full min-h-[168px] w-full cursor-pointer flex-col overflow-hidden rounded-2xl text-left transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_32px_-20px_rgba(15,61,102,0.35)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-store-navy sm:min-h-0 sm:rounded-[1.125rem] ${className}`}
       style={{
         backgroundColor: item.bgColor,
         ...(masonry
@@ -31,10 +39,10 @@ function PackagingCard({
     >
       <div className="flex min-h-0 flex-1 items-center justify-center px-3 pt-4 pb-1 sm:px-4 sm:pt-5">
         {item.image ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={item.image}
-            alt={item.title}
+            alt=""
             className={`h-auto w-auto object-contain object-center drop-shadow-[0_10px_20px_rgba(15,61,102,0.12)] transition duration-500 group-hover:scale-[1.03] ${imageSizeClasses[item.imageSize]}`}
           />
         ) : (
@@ -42,10 +50,10 @@ function PackagingCard({
         )}
       </div>
 
-      <p className="shrink-0 px-3 pb-3.5 pt-1 text-center text-[0.8125rem] font-normal leading-snug text-[#3d4654] sm:px-4 sm:pb-4 sm:text-sm">
+      <p className="shrink-0 px-3 pb-3.5 pt-1 text-center text-[0.8125rem] leading-snug font-normal text-[#3d4654] sm:px-4 sm:pb-4 sm:text-sm">
         {item.title}
       </p>
-    </article>
+    </QuoteButton>
   );
 }
 
@@ -53,7 +61,9 @@ type CustomizedPackagingGridProps = {
   items: CustomPackagingItem[];
 };
 
-export function CustomizedPackagingGrid({ items }: CustomizedPackagingGridProps) {
+export function CustomizedPackagingGrid({
+  items,
+}: CustomizedPackagingGridProps) {
   const { title, subtitle, stepsLine } = customPackagingContent;
 
   return (

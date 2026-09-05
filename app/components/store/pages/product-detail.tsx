@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import type { StoreProductDetail } from "@/app/actions/store/catalog";
 import { StoreBreadcrumb } from "@/app/components/store/ui/breadcrumb";
-import { QuoteButton } from "@/app/components/store/ui/quote-popup";
+import { useQuotePopup } from "@/app/components/store/ui/quote-popup";
 import { trail } from "@/app/lib/seo/breadcrumbs";
 import { formatInr } from "@/app/lib/format/currency";
 
@@ -38,6 +38,18 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
   }, [product.image, product.imageGallery]);
 
   const [activeImage, setActiveImage] = useState(0);
+  const moq = Math.max(1, product.quantity || 1);
+  const [orderQty, setOrderQty] = useState(moq);
+  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
+  const { openQuotePopup } = useQuotePopup();
+
+  const needsSize = product.sizes.length > 0;
+  const needsColor = product.colors.length > 0;
+  const canEnquire =
+    orderQty >= moq &&
+    (!needsSize || Boolean(selectedSize)) &&
+    (!needsColor || Boolean(selectedColor));
 
   const breadcrumbItems = trail(
     { name: "Products", path: "/products" },
@@ -52,17 +64,25 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
     { name: product.titleName },
   );
 
-  const hasSpecs =
-    product.sizes.length > 0 ||
-    product.colors.length > 0 ||
-    product.quantities.length > 0;
+  function openEnquiry(intent?: string) {
+    if (!canEnquire) return;
+    openQuotePopup({
+      product: product.titleName,
+      category: product.categoryName ?? undefined,
+      imageUrl: product.image ?? undefined,
+      quantity: orderQty,
+      size: selectedSize || undefined,
+      color: selectedColor || undefined,
+      intent,
+    });
+  }
 
   return (
     <article className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
       <StoreBreadcrumb items={breadcrumbItems} className="mb-6" />
 
-      <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12 lg:items-start">
-        {/* Gallery */}
+      <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start lg:gap-12">
+        {/* Gallery — trust block only on desktop beside the long buy panel */}
         <div>
           <div className="relative aspect-square overflow-hidden rounded-2xl border border-store-line bg-[#eef2f6] shadow-[0_24px_48px_-32px_rgba(15,61,102,0.35)]">
             {gallery[activeImage] ? (
@@ -106,7 +126,7 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
             </div>
           ) : null}
 
-          <div className="mt-6 space-y-4">
+          <div className="mt-6 hidden space-y-4 lg:block">
             <div className="rounded-2xl border border-store-line bg-store-surface px-5 py-5">
               <p className="text-xs font-semibold tracking-[0.14em] text-store-muted uppercase">
                 How bulk orders work
@@ -148,7 +168,7 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
           </div>
         </div>
 
-        {/* Buy / info panel */}
+        {/* Buy / configure panel */}
         <div className="lg:sticky lg:top-24">
           {product.categoryName ? (
             <Link
@@ -177,131 +197,172 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
             </p>
             <p className="mt-2 text-sm text-store-muted">
               Minimum order{" "}
-              <span className="font-semibold text-store-ink">
-                {product.quantityLabel}+
-              </span>
+              <span className="font-semibold text-store-ink">{moq}+</span>
             </p>
           </div>
 
           {product.descriptionContent ? (
-            <p className="mt-5 text-sm leading-relaxed text-store-muted whitespace-pre-line">
+            <p className="mt-5 text-sm leading-relaxed whitespace-pre-line text-store-muted">
               {product.descriptionContent}
             </p>
           ) : (
             <p className="mt-5 text-sm leading-relaxed text-store-muted">
-              Bulk-ready print product from Anita Printers, Noida. Share your
-              quantity and artwork on WhatsApp or request a quote — we confirm
-              rate, proof, and delivery timeline.
+              Choose quantity
+              {needsSize ? ", size" : ""}
+              {needsColor ? ", and colour" : ""} — then request a quote. Anita
+              Printers (Noida) confirms rate, proof, and delivery.
             </p>
           )}
 
-          {product.quantities.length > 1 ? (
-            <div className="mt-6">
-              <p className="text-xs font-semibold tracking-[0.12em] text-store-muted uppercase">
-                Available quantities
-              </p>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {product.quantities.map((qty) => (
-                  <span
-                    key={qty}
-                    className="rounded-full border border-store-line bg-white px-3 py-1.5 text-xs font-medium text-store-ink"
-                  >
-                    {qty}
-                  </span>
-                ))}
+          <div className="mt-6 space-y-5 rounded-2xl border border-store-line bg-white p-4 sm:p-5">
+            <p className="text-xs font-semibold tracking-[0.14em] text-store-muted uppercase">
+              1. Select options
+            </p>
+
+            {/* Quantity */}
+            <div>
+              <label
+                htmlFor="pdp-qty"
+                className="text-sm font-medium text-store-ink"
+              >
+                Quantity
+              </label>
+              <div className="mt-2 flex items-center gap-2">
+                <button
+                  type="button"
+                  aria-label="Decrease quantity"
+                  onClick={() => setOrderQty((q) => Math.max(moq, q - 1))}
+                  className="flex h-11 w-11 items-center justify-center rounded-xl border border-store-line bg-store-paper text-lg text-store-ink transition hover:border-store-navy/40"
+                >
+                  −
+                </button>
+                <input
+                  id="pdp-qty"
+                  type="number"
+                  min={moq}
+                  step={1}
+                  value={orderQty}
+                  onChange={(e) => {
+                    const next = Number(e.target.value);
+                    setOrderQty(
+                      Number.isFinite(next) && next >= moq
+                        ? Math.floor(next)
+                        : moq,
+                    );
+                  }}
+                  className="h-11 w-28 rounded-xl border border-store-line bg-store-paper px-3 text-center text-sm font-semibold tabular-nums text-store-ink outline-none focus:border-store-navy/40 focus:ring-2 focus:ring-store-navy/10"
+                />
+                <button
+                  type="button"
+                  aria-label="Increase quantity"
+                  onClick={() => setOrderQty((q) => Math.min(1_000_000, q + 1))}
+                  className="flex h-11 w-11 items-center justify-center rounded-xl border border-store-line bg-store-paper text-lg text-store-ink transition hover:border-store-navy/40"
+                >
+                  +
+                </button>
+                <span className="text-xs text-store-muted">MOQ {moq}</span>
               </div>
             </div>
-          ) : null}
 
-          {product.sizes.length > 0 ? (
-            <div className="mt-5">
-              <p className="text-xs font-semibold tracking-[0.12em] text-store-muted uppercase">
-                Sizes
-              </p>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {product.sizes.map((size) => (
-                  <span
-                    key={size}
-                    className="rounded-md border border-store-line bg-white px-3 py-1.5 text-xs font-medium text-store-ink"
-                  >
-                    {size}
-                  </span>
-                ))}
+            {/* Size dropdown */}
+            {needsSize ? (
+              <div>
+                <label
+                  htmlFor="pdp-size"
+                  className="text-sm font-medium text-store-ink"
+                >
+                  Size
+                </label>
+                <select
+                  id="pdp-size"
+                  value={selectedSize}
+                  onChange={(e) => setSelectedSize(e.target.value)}
+                  className="mt-2 h-11 w-full rounded-xl border border-store-line bg-store-paper px-3 text-sm text-store-ink outline-none focus:border-store-navy/40 focus:ring-2 focus:ring-store-navy/10"
+                >
+                  <option value="">Select size</option>
+                  {product.sizes.map((size) => (
+                    <option key={size} value={size}>
+                      {size}
+                    </option>
+                  ))}
+                </select>
               </div>
-            </div>
-          ) : null}
+            ) : null}
 
-          {product.colors.length > 0 ? (
-            <div className="mt-5">
-              <p className="text-xs font-semibold tracking-[0.12em] text-store-muted uppercase">
-                Colours
-              </p>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {product.colors.map((color) => (
-                  <span
-                    key={color}
-                    className="rounded-md border border-store-line bg-white px-3 py-1.5 text-xs font-medium text-store-ink"
-                  >
-                    {color}
-                  </span>
-                ))}
+            {/* Colour chips */}
+            {needsColor ? (
+              <div>
+                <p className="text-sm font-medium text-store-ink">Colour</p>
+                <div
+                  className="mt-2 flex flex-wrap gap-2"
+                  role="radiogroup"
+                  aria-label="Colour"
+                >
+                  {product.colors.map((color) => {
+                    const active = selectedColor === color;
+                    return (
+                      <button
+                        key={color}
+                        type="button"
+                        role="radio"
+                        aria-checked={active}
+                        onClick={() => setSelectedColor(color)}
+                        className={`rounded-full border px-3.5 py-2 text-sm transition ${
+                          active
+                            ? "border-store-navy bg-store-navy font-semibold text-white"
+                            : "border-store-line bg-store-paper text-store-ink hover:border-store-navy/40"
+                        }`}
+                      >
+                        {color}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          ) : null}
+            ) : null}
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <QuoteButton
-              product={product.titleName}
-              category={product.categoryName ?? undefined}
-              imageUrl={product.image ?? undefined}
-              className="flex-1 rounded-full bg-store-navy px-5 py-3 text-center text-sm font-semibold text-white transition hover:bg-store-navy-dark"
+            {!canEnquire ? (
+              <p className="text-xs text-store-muted">
+                Select
+                {needsSize && !selectedSize ? " size" : ""}
+                {needsSize && !selectedSize && needsColor && !selectedColor
+                  ? " and"
+                  : ""}
+                {needsColor && !selectedColor ? " colour" : ""} to continue.
+              </p>
+            ) : (
+              <p className="text-xs font-medium text-store-navy">
+                Ready — {orderQty} units
+                {selectedSize ? ` · ${selectedSize}` : ""}
+                {selectedColor ? ` · ${selectedColor}` : ""}
+              </p>
+            )}
+          </div>
+
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <button
+              type="button"
+              disabled={!canEnquire}
+              onClick={() => openEnquiry()}
+              className="flex-1 rounded-full bg-store-navy px-5 py-3 text-center text-sm font-semibold text-white transition hover:bg-store-navy-dark disabled:cursor-not-allowed disabled:opacity-45"
             >
               Get a Quote
-            </QuoteButton>
-            <QuoteButton
-              product={product.titleName}
-              category={product.categoryName ?? undefined}
-              imageUrl={product.image ?? undefined}
-              intent="sample"
-              className="flex-1 rounded-full border border-store-navy px-5 py-3 text-center text-sm font-semibold text-store-navy transition hover:bg-store-navy hover:text-white"
+            </button>
+            <button
+              type="button"
+              disabled={!canEnquire}
+              onClick={() => openEnquiry("sample")}
+              className="flex-1 rounded-full border border-store-navy px-5 py-3 text-center text-sm font-semibold text-store-navy transition hover:bg-store-navy hover:text-white disabled:cursor-not-allowed disabled:opacity-45"
             >
               Request sample
-            </QuoteButton>
+            </button>
           </div>
 
           <p className="mt-4 text-xs leading-relaxed text-store-muted">
-            Share artwork on WhatsApp or email after you enquire — no upload
-            needed on this page.
+            Your quantity, size, and colour go into the quote form automatically.
           </p>
         </div>
       </div>
-
-      {hasSpecs ? (
-        <section className="mt-12 border-t border-store-line pt-10">
-          <h2 className="text-xl font-bold text-store-navy">Product details</h2>
-          <dl className="mt-5 grid gap-3 sm:grid-cols-2">
-            {product.quantities.length > 0 ? (
-              <SpecRow
-                label="Quantities"
-                value={product.quantities.join(", ")}
-              />
-            ) : null}
-            {product.sizes.length > 0 ? (
-              <SpecRow label="Sizes" value={product.sizes.join(", ")} />
-            ) : null}
-            {product.colors.length > 0 ? (
-              <SpecRow label="Colours" value={product.colors.join(", ")} />
-            ) : null}
-            <SpecRow
-              label="Base price"
-              value={`${formatInr(product.pricing)} / unit`}
-            />
-            {product.categoryName ? (
-              <SpecRow label="Category" value={product.categoryName} />
-            ) : null}
-          </dl>
-        </section>
-      ) : null}
 
       <section className="mt-10 rounded-2xl border border-store-line bg-store-surface px-6 py-8 sm:px-8">
         <h2 className="text-lg font-bold text-store-navy">
@@ -309,18 +370,17 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-store-muted">
           Tell us quantity, city, and deadline. Anita Printers (Noida) will
-          confirm pricing, proof, and dispatch for corporate, retail, events,
-          and school jobs.
+          confirm pricing, proof, and dispatch.
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
-          <QuoteButton
-            product={product.titleName}
-            category={product.categoryName ?? undefined}
-            imageUrl={product.image ?? undefined}
-            className="rounded-full bg-store-navy px-5 py-2.5 text-sm font-semibold text-white"
+          <button
+            type="button"
+            disabled={!canEnquire}
+            onClick={() => openEnquiry()}
+            className="rounded-full bg-store-navy px-5 py-2.5 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-45"
           >
             Enquire now
-          </QuoteButton>
+          </button>
           <Link
             href="/products"
             className="rounded-full border border-store-line px-5 py-2.5 text-sm font-semibold text-store-ink transition hover:border-store-navy hover:text-store-navy"
@@ -330,16 +390,5 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
         </div>
       </section>
     </article>
-  );
-}
-
-function SpecRow({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-xl border border-store-line bg-white px-4 py-3">
-      <dt className="text-xs font-semibold tracking-widest text-store-muted uppercase">
-        {label}
-      </dt>
-      <dd className="mt-1 text-sm font-medium text-store-ink">{value}</dd>
-    </div>
   );
 }

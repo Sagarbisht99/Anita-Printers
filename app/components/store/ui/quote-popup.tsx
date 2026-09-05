@@ -26,7 +26,20 @@ export type QuotePopupPrefill = {
   product?: string;
   intent?: string;
   imageUrl?: string;
+  quantity?: number;
+  size?: string;
+  color?: string;
 };
+
+function buildEnquiryNotes(prefill: QuotePopupPrefill): string {
+  const lines: string[] = [];
+  if (prefill.product) lines.push(`Product: ${prefill.product}`);
+  if (prefill.quantity) lines.push(`Quantity: ${prefill.quantity}`);
+  if (prefill.size) lines.push(`Size: ${prefill.size}`);
+  if (prefill.color) lines.push(`Colour: ${prefill.color}`);
+  if (prefill.intent === "sample") lines.push("Request: Sample");
+  return lines.join("\n");
+}
 
 type QuotePopupContextValue = {
   openQuotePopup: (prefill?: QuotePopupPrefill) => void;
@@ -108,6 +121,9 @@ export function QuoteButton({
   product,
   intent,
   imageUrl,
+  quantity,
+  size,
+  color,
   type = "button",
   ...rest
 }: {
@@ -117,6 +133,9 @@ export function QuoteButton({
   product?: string;
   intent?: string;
   imageUrl?: string;
+  quantity?: number;
+  size?: string;
+  color?: string;
   type?: "button" | "submit";
 } & Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -129,7 +148,15 @@ export function QuoteButton({
       type={type}
       className={className}
       onClick={() =>
-        openQuotePopup({ category, product, intent, imageUrl })
+        openQuotePopup({
+          category,
+          product,
+          intent,
+          imageUrl,
+          quantity,
+          size,
+          color,
+        })
       }
       {...rest}
     >
@@ -227,10 +254,10 @@ function QuotePopupModal({
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [quantity, setQuantity] = useState("100");
-  const [notes, setNotes] = useState(
-    prefill.product ? `Product: ${prefill.product}` : "",
+  const [quantity, setQuantity] = useState(
+    String(Math.max(1, prefill.quantity ?? 100)),
   );
+  const [notes, setNotes] = useState(() => buildEnquiryNotes(prefill));
   const [sent, setSent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -238,10 +265,15 @@ function QuotePopupModal({
   useEffect(() => {
     if (!open) return;
     setCategory(prefill.category || categoryOptions[0] || quoteItemOptions[0]);
-    setNotes(prefill.product ? `Product: ${prefill.product}` : "");
+    setNotes(buildEnquiryNotes(prefill));
+    setQuantity(String(Math.max(1, prefill.quantity ?? 100)));
     setSent(false);
     setSubmitError(null);
-  }, [open, prefill.category, prefill.product, categoryOptions]);
+  }, [
+    open,
+    prefill,
+    categoryOptions,
+  ]);
 
   useEffect(() => {
     if (!open) return;

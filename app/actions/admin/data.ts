@@ -31,7 +31,7 @@ export type AdminProductRow = {
   imageGallery: string[];
   sizes: string[];
   colors: string[];
-  quantities: string[];
+  quantity: number;
   seoTitle: string | null;
   seoDescription: string | null;
   seoKeywords: string[];
@@ -194,7 +194,7 @@ export async function fetchAdminProducts(
       imageGallery: product.imageGallery,
       sizes: product.sizes,
       colors: product.colors,
-      quantities: product.quantities,
+      quantity: product.quantity,
       seoTitle: product.seoTitle,
       seoDescription: product.seoDescription,
       seoKeywords: product.seoKeywords,

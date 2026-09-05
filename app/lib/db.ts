@@ -17,7 +17,7 @@ net.setDefaultAutoSelectFamily(false);
  * Bump this whenever Prisma schema fields change.
  * Prevents a stale global PrismaClient from querying dropped columns in `next dev`.
  */
-const PRISMA_SCHEMA_STAMP = "2026-08-26-ipv4-neon";
+const PRISMA_SCHEMA_STAMP = "2026-09-05-product-quantity-int";
 
 const globalForPrisma = globalThis as unknown as {
   prisma?: PrismaClient;

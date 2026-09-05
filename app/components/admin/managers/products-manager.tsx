@@ -238,9 +238,8 @@ export function ProductsManager() {
                   fullWidth: true,
                 },
                 {
-                  label: "Quantities",
-                  value: <ChipList items={viewing.quantities} />,
-                  fullWidth: true,
+                  label: "MOQ",
+                  value: viewing.quantity,
                 },
                 {
                   label: "Description",

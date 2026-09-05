@@ -1,6 +1,3 @@
-import { readdir } from "node:fs/promises";
-import path from "node:path";
-
 export type CustomPackagingItem = {
   id: string;
   title: string;
@@ -12,14 +9,6 @@ export type CustomPackagingItem = {
   /** Image max height class tier for card proportions */
   imageSize: "sm" | "md" | "lg";
 };
-
-const CUSTOM_IMAGE_EXTENSIONS = new Set([
-  ".png",
-  ".jpg",
-  ".jpeg",
-  ".webp",
-  ".svg",
-]);
 
 export const customPackagingContent = {
   title: "Customized Packaging",
@@ -97,33 +86,3 @@ export const customPackagingLayout: Omit<CustomPackagingItem, "image">[] = [
     imageSize: "lg",
   },
 ];
-
-function imageUrlForId(id: string, filename: string): string {
-  return `/custom/${filename}`;
-}
-
-/** Packaging cards — images discovered from /public/custom by matching filename to `id`. */
-export async function getCustomPackagingItems(): Promise<CustomPackagingItem[]> {
-  const customDir = path.join(process.cwd(), "public", "custom");
-
-  let entries: string[] = [];
-  try {
-    entries = await readdir(customDir);
-  } catch {
-    entries = [];
-  }
-
-  const imageById = new Map<string, string>();
-  for (const file of entries) {
-    const ext = path.extname(file).toLowerCase();
-    if (!CUSTOM_IMAGE_EXTENSIONS.has(ext)) continue;
-
-    const id = path.basename(file, ext);
-    imageById.set(id, imageUrlForId(id, file));
-  }
-
-  return customPackagingLayout.map((item) => ({
-    ...item,
-    image: imageById.get(item.id) ?? "",
-  }));
-}

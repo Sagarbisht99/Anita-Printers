@@ -52,7 +52,7 @@ const productListSelect = {
   slug: true,
   image: true,
   pricing: true,
-  quantities: true,
+  quantity: true,
   categoryId: true,
   category: { select: { name: true } },
 } as const;
@@ -69,7 +69,7 @@ export type StoreProductItem = {
   slug: string;
   image: string | null;
   pricing: number;
-  quantityLabel: string;
+  quantity: number;
   categoryId: number | null;
   categoryName: string | null;
 };
@@ -79,7 +79,6 @@ export type StoreProductDetail = StoreProductItem & {
   imageGallery: string[];
   sizes: string[];
   colors: string[];
-  quantities: string[];
   seoTitle: string | null;
   seoDescription: string | null;
   seoKeywords: string[];
@@ -100,7 +99,7 @@ function mapProduct(product: {
   slug: string;
   image: string | null;
   pricing: { toString(): string } | number;
-  quantities: string[];
+  quantity: number;
   categoryId: number | null;
   category: { name: string } | null;
 }): StoreProductItem {
@@ -110,7 +109,7 @@ function mapProduct(product: {
     slug: product.slug,
     image: product.image,
     pricing: Number(product.pricing),
-    quantityLabel: product.quantities[0]?.trim() || "1",
+    quantity: Math.max(1, product.quantity || 1),
     categoryId: product.categoryId,
     categoryName: product.category?.name ?? null,
   };
@@ -207,7 +206,7 @@ export async function fetchStoreProductBySlug(
       image: true,
       imageGallery: true,
       pricing: true,
-      quantities: true,
+      quantity: true,
       sizes: true,
       colors: true,
       descriptionContent: true,
@@ -228,7 +227,6 @@ export async function fetchStoreProductBySlug(
     imageGallery: product.imageGallery,
     sizes: product.sizes,
     colors: product.colors,
-    quantities: product.quantities,
     seoTitle: product.seoTitle,
     seoDescription: product.seoDescription,
     seoKeywords: product.seoKeywords,
