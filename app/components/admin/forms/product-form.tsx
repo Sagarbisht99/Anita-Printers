@@ -20,7 +20,7 @@ export type ProductFormValues = {
   imageGallery?: string[];
   sizes?: string[];
   colors?: string[];
-  quantities?: string[];
+  quantity?: number;
   seoTitle?: string | null;
   seoDescription?: string | null;
   seoKeywords?: string[];
@@ -44,8 +44,8 @@ export function ProductForm({
   const [gallery, setGallery] = useState<string[]>(initial?.imageGallery ?? []);
   const [sizes, setSizes] = useState<string[]>(initial?.sizes ?? []);
   const [colors, setColors] = useState<string[]>(initial?.colors ?? []);
-  const [quantities, setQuantities] = useState<string[]>(
-    initial?.quantities ?? [],
+  const [quantity, setQuantity] = useState(
+    Math.max(1, Number(initial?.quantity ?? 1) || 1),
   );
   const [seoKeywords, setSeoKeywords] = useState<string[]>(
     initial?.seoKeywords ?? [],
@@ -173,14 +173,42 @@ export function ProductForm({
         />
       </div>
 
-      <TodoListField
-        label="Quantities"
-        name="quantities"
-        values={quantities}
-        onChange={setQuantities}
-        placeholder="e.g. 50, 100, 250"
-        hint="Shown as dropdown on frontend later"
-      />
+      <Field
+        label="Minimum quantity (MOQ)"
+        hint="Single default value buyers start from — can be changed with +/-"
+      >
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            aria-label="Decrease quantity"
+            onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-[#111111] text-lg text-zinc-200 transition hover:border-white/25"
+          >
+            −
+          </button>
+          <Input
+            name="quantity"
+            type="number"
+            min={1}
+            step={1}
+            required
+            value={quantity}
+            onChange={(e) => {
+              const next = Number(e.target.value);
+              setQuantity(Number.isFinite(next) && next >= 1 ? Math.floor(next) : 1);
+            }}
+            className="text-center tabular-nums"
+          />
+          <button
+            type="button"
+            aria-label="Increase quantity"
+            onClick={() => setQuantity((q) => Math.min(1_000_000, q + 1))}
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-[#111111] text-lg text-zinc-200 transition hover:border-white/25"
+          >
+            +
+          </button>
+        </div>
+      </Field>
 
       <Field label="SEO Title">
         <Input name="seoTitle" defaultValue={initial?.seoTitle ?? ""} />

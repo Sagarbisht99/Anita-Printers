@@ -49,7 +49,7 @@ export function StoreProductCard({ product }: { product: StoreProductItem }) {
           / pc
         </p>
         <p className="mt-1 text-xs text-store-muted">
-          MOQ {product.quantityLabel}+
+          MOQ {product.quantity}+
         </p>
 
         <div className="mt-auto flex items-center gap-2 pt-4">
