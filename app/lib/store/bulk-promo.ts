@@ -6,7 +6,7 @@ export const bulkPromoTiles = [
     title: "Posters & flex",
     body: "A0 to A3 large-format posters for shops, events, and campaigns — volume discounts when you buy more.",
     cta: "Order Now",
-    href: "/products?q=poster",
+    href: "/quote",
     tone: "navy" as const,
     span: "main" as const,
     image:
@@ -18,7 +18,7 @@ export const bulkPromoTiles = [
     title: "Wedding invitations",
     body: "Custom wedding cards and banners for shaadi season — festive prints that feel premium.",
     cta: null as string | null,
-    href: "/products?q=wedding",
+    href: "/quote",
     tone: "kraft" as const,
     span: "wide" as const,
     image:
@@ -30,7 +30,7 @@ export const bulkPromoTiles = [
     title: "Gift boxes",
     body: "Premium gift boxes and return packaging for sweets brands and wedding favours.",
     cta: null as string | null,
-    href: "/products?q=box",
+    href: "/quote",
     tone: "olive" as const,
     span: "half" as const,
     image:
@@ -42,7 +42,7 @@ export const bulkPromoTiles = [
     title: "Folders & letterheads",
     body: "Presentation folders and report covers for corporate kits, institutes, and pitches.",
     cta: null as string | null,
-    href: "/products?q=letterhead",
+    href: "/quote",
     tone: "teal" as const,
     span: "half" as const,
     image:

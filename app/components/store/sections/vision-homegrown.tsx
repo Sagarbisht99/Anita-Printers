@@ -138,12 +138,12 @@ export function VisionHomegrown() {
         <div className="flex flex-col items-start justify-between gap-4 rounded-2xl bg-[#eceff3] px-6 py-5 shadow-[0_10px_30px_-18px_rgba(15,61,102,0.28)] sm:flex-row sm:items-center sm:px-8">
           <div>
             <h3 className="text-lg font-bold text-store-ink sm:text-xl">
-              Need Bulk Quantities?
+              Ordering in volume?
             </h3>
             <p className="mt-1 max-w-xl text-sm text-store-muted">
-              We&apos;ve got you covered! Competitive B2B pricing on offset
-              stationery & packaging and screen apparel & specialty — fast
-              delivery for corporate, retail, events, and schools.
+              Bulk print is what we do every day — offset stationery &amp;
+              packaging, screen apparel &amp; specialty. Clear rates, solid
+              proofs, and dispatch for corporate, retail, events, and schools.
             </p>
           </div>
           <a
