@@ -12,7 +12,6 @@ import {
 import { StoreBreadcrumb } from "@/app/components/store/ui/breadcrumb";
 import { StoreProductCard } from "@/app/components/store/ui/product-card";
 import { StorePagination } from "@/app/components/store/ui/pagination";
-import { catalogFilters } from "@/app/lib/store/b2b-content";
 import { trail } from "@/app/lib/seo/breadcrumbs";
 import { storefrontKeys } from "@/app/lib/query/keys";
 
@@ -47,10 +46,6 @@ export function ProductsCatalog({
       : null,
   );
   const [page, setPage] = useState(pageFromUrl);
-  const [technique, setTechnique] = useState("Any");
-  const [material, setMaterial] = useState("Any");
-  const [moq, setMoq] = useState("Any");
-  const [leadTime, setLeadTime] = useState("Any");
 
   useEffect(() => {
     const nextCategory = Number(searchParams.get("categoryId") || "");
@@ -122,12 +117,6 @@ export function ProductsCatalog({
   const totalPages = result?.totalPages ?? 1;
   const loading = productsQuery.isLoading || productsQuery.isFetching;
 
-  const activeBuyerFilters = useMemo(
-    () =>
-      [technique, material, moq, leadTime].filter((value) => value !== "Any"),
-    [technique, material, moq, leadTime],
-  );
-
   const activeCategory = useMemo(
     () => categories.find((item) => item.id === categoryId) ?? null,
     [categories, categoryId],
@@ -164,9 +153,8 @@ export function ProductsCatalog({
             `Results for “${search}”`
           ) : (
             <>
-              Stationery, packaging, apparel, bags, and gifting — filter by
-              category, offset/screen technique, GSM, MOQ, and lead time. Need
-              the full service list?{" "}
+              Stationery, packaging, apparel, bags, and gifting — browse by
+              category. Need the full service list?{" "}
               <a
                 href="/services"
                 className="font-semibold text-store-navy hover:underline"
@@ -181,55 +169,14 @@ export function ProductsCatalog({
 
       <div className="grid gap-8 lg:grid-cols-[220px_1fr]">
         <aside className="h-fit rounded-lg border border-store-line bg-store-surface p-4 lg:sticky lg:top-24">
-          <p className="text-sm font-semibold text-store-navy">Filters</p>
-
-          <div className="mt-4 space-y-6">
-            <FilterSection title="Category">
-              <CategoryTabs
-                categories={categories}
-                categoryId={categoryId}
-                onSelect={selectCategory}
-              />
-            </FilterSection>
-
-            <FilterSection title="Print technique">
-              <FilterSelect
-                value={technique}
-                onChange={setTechnique}
-                options={["Any", ...catalogFilters.techniques]}
-              />
-            </FilterSection>
-
-            <FilterSection title="Material / GSM">
-              <FilterSelect
-                value={material}
-                onChange={setMaterial}
-                options={["Any", ...catalogFilters.materials]}
-              />
-            </FilterSection>
-
-            <FilterSection title="MOQ range">
-              <FilterSelect
-                value={moq}
-                onChange={setMoq}
-                options={["Any", ...catalogFilters.moqRanges]}
-              />
-            </FilterSection>
-
-            <FilterSection title="Lead time">
-              <FilterSelect
-                value={leadTime}
-                onChange={setLeadTime}
-                options={["Any", ...catalogFilters.leadTimes]}
-              />
-            </FilterSection>
+          <p className="text-sm font-semibold text-store-navy">Category</p>
+          <div className="mt-4">
+            <CategoryTabs
+              categories={categories}
+              categoryId={categoryId}
+              onSelect={selectCategory}
+            />
           </div>
-
-          {activeBuyerFilters.length > 0 ? (
-            <p className="mt-5 border-t border-store-line pt-4 text-xs text-store-muted">
-              Buyer filters: {activeBuyerFilters.join(", ")}
-            </p>
-          ) : null}
         </aside>
 
         <div>
@@ -276,23 +223,6 @@ export function ProductsCatalog({
         </div>
       </div>
     </div>
-  );
-}
-
-function FilterSection({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section className="border-b border-store-line pb-5 last:border-b-0 last:pb-0">
-      <p className="mb-2 text-xs font-semibold text-store-muted uppercase">
-        {title}
-      </p>
-      {children}
-    </section>
   );
 }
 
@@ -393,30 +323,6 @@ function CategoryTab({
     >
       {children}
     </button>
-  );
-}
-
-function FilterSelect({
-  value,
-  onChange,
-  options,
-}: {
-  value: string;
-  onChange: (value: string) => void;
-  options: string[];
-}) {
-  return (
-    <select
-      value={value}
-      onChange={(event) => onChange(event.target.value)}
-      className="w-full rounded-md border border-store-line bg-store-paper px-3 py-2 text-sm text-store-ink"
-    >
-      {options.map((option) => (
-        <option key={option} value={option}>
-          {option}
-        </option>
-      ))}
-    </select>
   );
 }
 
