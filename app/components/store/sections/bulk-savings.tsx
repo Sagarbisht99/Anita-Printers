@@ -54,6 +54,8 @@ function PromoTile({
   return (
     <Link
       href={tile.href}
+      data-open-quote
+      data-quote-product={tile.title}
       className={`group relative flex flex-col justify-end overflow-hidden rounded-2xl text-white ${styles.padding} ${styles.minHeight} ${className}`}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -24,37 +24,37 @@ export const usps = [
 export const processSection = {
   title: "How to order from us",
   subtitle:
-    "Four simple steps — from your first call to printed material at your door. Proof first, then production.",
+    "Simple process — share what you need, approve the proof, we print and deliver from Noida.",
 };
 
 export const processSteps = [
   {
     step: "1",
-    title: "Share your requirement",
-    body: "Tell us what you need — visiting cards, labels, carry bags, boxes, flex, wedding cards, or apparel. Mention quantity, size, and delivery city on the quote form, call us, or WhatsApp.",
+    title: "Tell us what you need",
+    body: "Share the product (cards, stickers, bags, boxes, flex, wedding cards, etc.), quantity, size, colour, and your city. Use Get a Quote on the site, call, or WhatsApp.",
     href: "/contact",
     cta: "Get a quote",
   },
   {
     step: "2",
-    title: "Send design & get price",
-    body: "Share your AI, PDF, PNG, or CDR file on WhatsApp or email. We reply with rate, minimum quantity, and delivery date — usually the same working day.",
+    title: "Send artwork & get a rate",
+    body: "Send your file (AI, PDF, PNG, or CDR) on WhatsApp or email. We check it and share MOQ, price, and delivery days — usually the same working day.",
     href: "/contact",
     cta: "Contact us",
   },
   {
     step: "3",
-    title: "Approve proof & pay advance",
-    body: "Check the digital proof on WhatsApp. Confirm colours, size, and packing. Pay advance to book your slot — printing starts only after you approve.",
+    title: "Approve proof, then we print",
+    body: "You get a digital proof before printing. Confirm size, colour, and packing. Printing starts only after you approve the proof.",
     href: "/contact",
-    cta: "Request proof",
+    cta: "Talk to us",
   },
   {
     step: "4",
-    title: "We print & deliver",
-    body: "Production, quality check, and packing at our Noida unit. GST invoice with your order — delivered to your office, shop, or event venue anywhere in India.",
+    title: "Packing & delivery",
+    body: "We print, check quality, and pack at our Noida unit. You get a GST invoice and courier delivery to your office, shop, or venue across India.",
     href: "/contact",
-    cta: "Talk to us",
+    cta: "Reach us",
   },
 ];
 

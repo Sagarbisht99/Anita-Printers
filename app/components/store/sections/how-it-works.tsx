@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { processSection, processSteps } from "@/app/lib/store/b2b-content";
 
 function SketchCircle({ n }: { n: string }) {
@@ -105,15 +104,6 @@ export function HowItWorks() {
               <p className="mt-3 max-w-[260px] text-sm leading-relaxed text-white/55 transition-colors group-hover:text-white/75">
                 {step.body}
               </p>
-              <Link
-                href={step.href}
-                className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-white transition group-hover:gap-3 hover:text-store-accent"
-              >
-                {step.cta}
-                <span aria-hidden className="text-store-accent">
-                  →
-                </span>
-              </Link>
             </li>
           ))}
         </ol>
