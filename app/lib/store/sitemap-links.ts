@@ -10,7 +10,6 @@ export const siteMapSections = [
       { href: "/products", label: "Product catalog" },
       { href: "/contact", label: "Contact" },
       { href: "/#faq", label: "FAQs" },
-      { href: "/sitemap", label: "Sitemap" },
     ],
   },
   {
