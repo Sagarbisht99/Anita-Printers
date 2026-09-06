@@ -13,6 +13,8 @@ const imageSizeClasses = {
   lg: "max-h-[108px] max-w-[72%] sm:max-h-[118px] lg:max-h-[132px]",
 } as const;
 
+const CUTOUT_IDS = new Set(["jewelry-box", "arjan-dugal-bag"]);
+
 function PackagingCard({
   item,
   masonry = false,
@@ -22,6 +24,13 @@ function PackagingCard({
   masonry?: boolean;
   className?: string;
 }) {
+  const isCutout = CUTOUT_IDS.has(item.id);
+  const imageClass = isCutout
+    ? item.imageSize === "lg"
+      ? "max-h-[120px] max-w-[88%] sm:max-h-[140px] lg:max-h-[160px]"
+      : "max-h-[90px] max-w-[86%] sm:max-h-[110px] lg:max-h-[128px]"
+    : imageSizeClasses[item.imageSize];
+
   return (
     <QuoteButton
       product={item.title}
@@ -29,21 +38,33 @@ function PackagingCard({
       intent="custom-packaging"
       imageUrl={item.image || undefined}
       aria-label={`Enquire about ${item.title}`}
-      className={`group flex h-full min-h-[168px] w-full cursor-pointer flex-col overflow-hidden rounded-2xl text-left transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_32px_-20px_rgba(15,61,102,0.35)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-store-navy sm:min-h-0 sm:rounded-[1.125rem] ${className}`}
+      className={`group flex h-full min-h-[168px] w-full cursor-pointer flex-col overflow-hidden text-left transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_32px_-20px_rgba(15,61,102,0.35)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-store-navy sm:min-h-0 sm:rounded-[1.125rem] ${
+        isCutout
+          ? "rounded-2xl border border-store-line bg-white"
+          : "rounded-2xl"
+      } ${className}`}
       style={{
-        backgroundColor: item.bgColor,
+        ...(isCutout ? {} : { backgroundColor: item.bgColor }),
         ...(masonry
           ? { gridColumn: item.gridColumn, gridRow: item.gridRow }
           : {}),
       }}
     >
-      <div className="flex min-h-0 flex-1 items-center justify-center px-3 pt-4 pb-1 sm:px-4 sm:pt-5">
+      <div
+        className={`flex min-h-0 flex-1 items-center justify-center px-3 pt-4 pb-1 sm:px-4 sm:pt-5 ${
+          isCutout ? "bg-white" : ""
+        }`}
+      >
         {item.image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={item.image}
             alt=""
-            className={`h-auto w-auto object-contain object-center drop-shadow-[0_10px_20px_rgba(15,61,102,0.12)] transition duration-500 group-hover:scale-[1.03] ${imageSizeClasses[item.imageSize]}`}
+            className={`h-auto w-auto object-contain object-center transition duration-500 group-hover:scale-[1.03] ${
+              isCutout
+                ? ""
+                : "drop-shadow-[0_10px_20px_rgba(15,61,102,0.12)]"
+            } ${imageClass}`}
           />
         ) : (
           <div className="h-full min-h-[68px] w-full" aria-hidden />
@@ -61,10 +82,24 @@ type CustomizedPackagingGridProps = {
   items: CustomPackagingItem[];
 };
 
+/** How many masonry rows we need from the furthest span end. */
+function masonryRowCount(items: CustomPackagingItem[]): number {
+  let max = 6;
+  for (const item of items) {
+    const match = item.gridRow.match(/(\d+)\s*\/\s*span\s*(\d+)/i);
+    if (!match) continue;
+    const start = Number(match[1]);
+    const span = Number(match[2]);
+    max = Math.max(max, start + span - 1);
+  }
+  return max;
+}
+
 export function CustomizedPackagingGrid({
   items,
 }: CustomizedPackagingGridProps) {
   const { title, subtitle, stepsLine } = customPackagingContent;
+  const rows = masonryRowCount(items);
 
   return (
     <section className="border-b border-store-line bg-white">
@@ -85,6 +120,7 @@ export function CustomizedPackagingGrid({
           </Link>
         </header>
 
+        {/* Mobile / tablet — even 2-col grid */}
         <div className="mt-8 grid grid-cols-2 gap-3 sm:mt-10 sm:gap-4 lg:hidden">
           {items.map((item) => (
             <PackagingCard
@@ -95,9 +131,12 @@ export function CustomizedPackagingGrid({
           ))}
         </div>
 
+        {/* Desktop — mixed tall / short masonry */}
         <div
           className="mt-8 hidden min-h-[500px] gap-4 lg:mt-10 lg:grid lg:grid-cols-4 lg:gap-[1.125rem]"
-          style={{ gridTemplateRows: "repeat(6, minmax(68px, 1fr))" }}
+          style={{
+            gridTemplateRows: `repeat(${rows}, minmax(68px, 1fr))`,
+          }}
         >
           {items.map((item) => (
             <PackagingCard key={item.id} item={item} masonry />

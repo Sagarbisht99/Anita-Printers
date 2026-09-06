@@ -3,8 +3,9 @@ export type CustomPackagingItem = {
   title: string;
   image: string;
   bgColor: string;
-  /** Desktop masonry placement (4 cols × 6 rows) */
+  /** Desktop masonry column (1–4) */
   gridColumn: number;
+  /** Desktop masonry row placement, e.g. "1 / span 4" */
   gridRow: string;
   /** Image max height class tier for card proportions */
   imageSize: "sm" | "md" | "lg";
@@ -17,8 +18,9 @@ export const customPackagingContent = {
 };
 
 /**
- * Layout + labels — images are loaded from /public/custom/{id}.png
- * (same kebab-case id as the filename, e.g. color-courier-bags.png).
+ * Optional layout + labels for known packaging ids.
+ * Images are loaded dynamically from /public/custom — any file there is shown.
+ * Desktop uses masonry placement (mixed tall / short cards).
  */
 export const customPackagingLayout: Omit<CustomPackagingItem, "image">[] = [
   {
@@ -46,9 +48,9 @@ export const customPackagingLayout: Omit<CustomPackagingItem, "image">[] = [
     imageSize: "md",
   },
   {
-    id: "bopp-tapes",
-    title: "BOPP Tapes",
-    bgColor: "#e8ecff",
+    id: "jewelry-box",
+    title: "Jewelry Box",
+    bgColor: "#ffffff",
     gridColumn: 4,
     gridRow: "1 / span 2",
     imageSize: "sm",
@@ -78,11 +80,19 @@ export const customPackagingLayout: Omit<CustomPackagingItem, "image">[] = [
     imageSize: "md",
   },
   {
-    id: "color-courier-bags",
-    title: "Color Courier Bags",
-    bgColor: "#fde5d5",
+    id: "arjan-dugal-bag",
+    title: "Branded Shopping Bag",
+    bgColor: "#f0f2f5",
     gridColumn: 4,
     gridRow: "3 / span 4",
     imageSize: "lg",
+  },
+  {
+    id: "color-courier-bags",
+    title: "Color Courier Bags",
+    bgColor: "#fde5d5",
+    gridColumn: 3,
+    gridRow: "7 / span 2",
+    imageSize: "sm",
   },
 ];

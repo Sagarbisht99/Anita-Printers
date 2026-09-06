@@ -81,6 +81,12 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
     { name: product.titleName },
   );
 
+  function resetProductOptions() {
+    setOrderQty(moq);
+    setSelectedSize(defaultSize);
+    setSelectedColor(defaultColor);
+  }
+
   function openEnquiry(intent?: string) {
     if (!canEnquire) return;
     openQuotePopup({
@@ -91,6 +97,7 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
       size: selectedSize.trim() || undefined,
       color: selectedColor.trim() || undefined,
       intent,
+      onSuccess: resetProductOptions,
     });
   }
 
@@ -98,10 +105,10 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
     <article className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
       <StoreBreadcrumb items={breadcrumbItems} className="mb-6" />
 
-      <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start lg:gap-12">
-        {/* Gallery — trust block only on desktop beside the long buy panel */}
-        <div>
-          <div className="relative aspect-square overflow-hidden rounded-2xl border border-store-line bg-[#eef2f6] shadow-[0_24px_48px_-32px_rgba(15,61,102,0.35)]">
+      <div className="grid gap-8 lg:grid-cols-[1fr_0.95fr] lg:items-start lg:gap-10">
+        {/* Gallery + supporting content */}
+        <div className="min-w-0 space-y-5">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-store-line bg-store-navy-deeper shadow-[0_24px_48px_-32px_rgba(15,61,102,0.35)] sm:aspect-square">
             {gallery[activeImage] ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -110,14 +117,22 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
                 className="h-full w-full object-cover"
               />
             ) : (
-              <div className="flex h-full items-center justify-center px-6 text-center text-store-muted">
-                {product.titleName}
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[radial-gradient(ellipse_at_top,rgba(29,111,184,0.35),transparent_55%),linear-gradient(160deg,#0b1f33_0%,#163a5c_100%)] px-6 text-center">
+                <p className="text-xs font-semibold tracking-[0.16em] text-store-accent uppercase">
+                  Anita Printers
+                </p>
+                <p className="max-w-xs text-lg font-bold tracking-tight text-white sm:text-xl">
+                  {product.titleName}
+                </p>
+                <p className="text-sm text-white/65">
+                  Custom print · Noida production
+                </p>
               </div>
             )}
           </div>
 
           {gallery.length > 1 ? (
-            <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
+            <div className="flex gap-2 overflow-x-auto pb-1">
               {gallery.map((src, index) => (
                 <button
                   key={`${src}-${index}`}
@@ -143,50 +158,90 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
             </div>
           ) : null}
 
-          <div className="mt-6 hidden space-y-4 lg:block">
-            <div className="rounded-2xl border border-store-line bg-store-surface px-5 py-5">
+          {product.descriptionContent ? (
+            <div className="rounded-2xl border border-store-line bg-white px-5 py-5">
               <p className="text-xs font-semibold tracking-[0.14em] text-store-muted uppercase">
-                How bulk orders work
+                Product details
               </p>
-              <ol className="mt-4 space-y-4">
-                {ORDER_STEPS.map((step, index) => (
-                  <li key={step.title} className="flex gap-3">
-                    <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-store-navy text-xs font-bold text-white">
-                      {index + 1}
-                    </span>
-                    <div>
-                      <p className="text-sm font-semibold text-store-ink">
-                        {step.title}
-                      </p>
-                      <p className="mt-0.5 text-sm leading-relaxed text-store-muted">
-                        {step.body}
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
+              <p className="mt-3 text-sm leading-relaxed whitespace-pre-line text-store-muted">
+                {product.descriptionContent}
+              </p>
             </div>
+          ) : (
+            <div className="rounded-2xl border border-store-line bg-white px-5 py-5">
+              <p className="text-xs font-semibold tracking-[0.14em] text-store-muted uppercase">
+                About this print
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-store-muted">
+                Bulk-ready print from Anita Printers (Noida). Pick quantity,
+                size, and colour on the right — keep the defaults or type your
+                own — then request a quote for rate, proof, and delivery.
+              </p>
+              <ul className="mt-4 space-y-2 text-sm text-store-ink">
+                <li className="flex gap-2">
+                  <span className="text-store-accent" aria-hidden>
+                    •
+                  </span>
+                  Starting {formatInr(product.pricing)} / unit
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-store-accent" aria-hidden>
+                    •
+                  </span>
+                  Minimum order {moq}+
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-store-accent" aria-hidden>
+                    •
+                  </span>
+                  Default size {defaultSize}, colour {defaultColor}
+                </li>
+              </ul>
+            </div>
+          )}
 
-            <div className="grid grid-cols-3 gap-2">
-              {TRUST_POINTS.map((point) => (
-                <div
-                  key={point.label}
-                  className="rounded-xl border border-store-line bg-white px-3 py-3 text-center"
-                >
-                  <p className="text-xs font-semibold text-store-navy">
-                    {point.label}
-                  </p>
-                  <p className="mt-1 text-[11px] leading-snug text-store-muted">
-                    {point.hint}
-                  </p>
-                </div>
+          <div className="rounded-2xl border border-store-line bg-store-surface px-5 py-5">
+            <p className="text-xs font-semibold tracking-[0.14em] text-store-muted uppercase">
+              How bulk orders work
+            </p>
+            <ol className="mt-4 space-y-4">
+              {ORDER_STEPS.map((step, index) => (
+                <li key={step.title} className="flex gap-3">
+                  <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-store-navy text-xs font-bold text-white">
+                    {index + 1}
+                  </span>
+                  <div>
+                    <p className="text-sm font-semibold text-store-ink">
+                      {step.title}
+                    </p>
+                    <p className="mt-0.5 text-sm leading-relaxed text-store-muted">
+                      {step.body}
+                    </p>
+                  </div>
+                </li>
               ))}
-            </div>
+            </ol>
+          </div>
+
+          <div className="grid grid-cols-3 gap-2">
+            {TRUST_POINTS.map((point) => (
+              <div
+                key={point.label}
+                className="rounded-xl border border-store-line bg-white px-2.5 py-3 text-center sm:px-3"
+              >
+                <p className="text-[11px] font-semibold text-store-navy sm:text-xs">
+                  {point.label}
+                </p>
+                <p className="mt-1 text-[10px] leading-snug text-store-muted sm:text-[11px]">
+                  {point.hint}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
 
         {/* Buy / configure panel */}
-        <div className="lg:sticky lg:top-24">
+        <div className="rounded-2xl border border-store-line bg-white p-4 shadow-[0_18px_40px_-28px_rgba(15,61,102,0.35)] sm:p-5 lg:sticky lg:top-24">
           {product.categoryName ? (
             <Link
               href={`/products?categoryId=${product.categoryId}`}
@@ -200,42 +255,29 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
             </p>
           )}
 
-          <h1 className="mt-2 text-3xl font-bold tracking-tight text-store-navy sm:text-4xl">
+          <h1 className="mt-2 text-2xl font-bold tracking-tight text-store-navy sm:text-3xl">
             {product.titleName}
           </h1>
 
-          <div className="mt-5 rounded-2xl border border-store-line bg-store-paper/80 px-5 py-4">
+          <div className="mt-4 rounded-xl border border-store-line bg-store-paper/80 px-4 py-3.5">
             <p className="text-sm text-store-muted">Starting from</p>
             <p className="mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-1">
-              <span className="text-3xl font-bold tracking-tight text-store-ink">
+              <span className="text-2xl font-bold tracking-tight text-store-ink sm:text-3xl">
                 {formatInr(product.pricing)}
               </span>
               <span className="text-sm text-store-muted">/ unit</span>
             </p>
-            <p className="mt-2 text-sm text-store-muted">
+            <p className="mt-1.5 text-sm text-store-muted">
               Minimum order{" "}
               <span className="font-semibold text-store-ink">{moq}+</span>
             </p>
           </div>
 
-          {product.descriptionContent ? (
-            <p className="mt-5 text-sm leading-relaxed whitespace-pre-line text-store-muted">
-              {product.descriptionContent}
-            </p>
-          ) : (
-            <p className="mt-5 text-sm leading-relaxed text-store-muted">
-              Choose quantity, size, and colour — then request a quote. Anita
-              Printers (Noida) confirms rate, proof, and delivery. You can keep
-              the defaults or type your own.
-            </p>
-          )}
-
-          <div className="mt-6 space-y-5 rounded-2xl border border-store-line bg-white p-4 sm:p-5">
+          <div className="mt-5 space-y-5">
             <p className="text-xs font-semibold tracking-[0.14em] text-store-muted uppercase">
-              1. Select options
+              Select options
             </p>
 
-            {/* Quantity */}
             <div>
               <label
                 htmlFor="pdp-qty"
@@ -280,7 +322,6 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
               </div>
             </div>
 
-            {/* Size: presets + custom */}
             <div>
               <label
                 htmlFor="pdp-size"
@@ -324,12 +365,8 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
                 placeholder="Or type a custom size"
                 className="mt-2 h-11 w-full rounded-xl border border-store-line bg-store-paper px-3 text-sm text-store-ink outline-none focus:border-store-navy/40 focus:ring-2 focus:ring-store-navy/10"
               />
-              <p className="mt-1.5 text-xs text-store-muted">
-                Default {defaultSize} — change anytime
-              </p>
             </div>
 
-            {/* Colour: presets + custom */}
             <div>
               <label
                 htmlFor="pdp-color"
@@ -374,19 +411,16 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
                 placeholder="Or type a custom colour"
                 className="mt-2 h-11 w-full rounded-xl border border-store-line bg-store-paper px-3 text-sm text-store-ink outline-none focus:border-store-navy/40 focus:ring-2 focus:ring-store-navy/10"
               />
-              <p className="mt-1.5 text-xs text-store-muted">
-                Default {defaultColor} — change anytime
-              </p>
             </div>
 
-            {!canEnquire ? (
-              <p className="text-xs text-store-muted">
-                Enter size and colour to continue.
-              </p>
-            ) : (
+            {canEnquire ? (
               <p className="text-xs font-medium text-store-navy">
                 Ready — {orderQty} units · {selectedSize.trim()} ·{" "}
                 {selectedColor.trim()}
+              </p>
+            ) : (
+              <p className="text-xs text-store-muted">
+                Enter size and colour to continue.
               </p>
             )}
           </div>
@@ -411,7 +445,7 @@ export function ProductDetailView({ product }: { product: StoreProductDetail }) 
           </div>
 
           <p className="mt-4 text-xs leading-relaxed text-store-muted">
-            Your quantity, size, and colour go into the quote form automatically.
+            Quantity, size, and colour go into the quote form automatically.
           </p>
         </div>
       </div>
