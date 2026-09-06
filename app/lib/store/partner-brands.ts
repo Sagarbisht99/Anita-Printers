@@ -14,9 +14,17 @@ function filenameToBrandName(filename: string): string {
 
   return base
     .replace(/-and-/g, " & ")
-    .split("-")
+    .split(/[-_\s]+/)
+    .filter(Boolean)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
+}
+
+function publicBrandPath(file: string): string {
+  return `/brands/${file
+    .split("/")
+    .map((part) => encodeURIComponent(part))
+    .join("/")}`;
 }
 
 /** Partner brand logos discovered from /public/brands */
@@ -31,10 +39,12 @@ export async function getPartnerBrands(): Promise<PartnerBrand[]> {
   }
 
   return entries
-    .filter((file) => BRAND_IMAGE_EXTENSIONS.has(path.extname(file).toLowerCase()))
+    .filter((file) =>
+      BRAND_IMAGE_EXTENSIONS.has(path.extname(file).toLowerCase()),
+    )
     .sort((a, b) => a.localeCompare(b))
     .map((file) => ({
       name: filenameToBrandName(file),
-      logo: `/brands/${file}`,
+      logo: publicBrandPath(file),
     }));
 }

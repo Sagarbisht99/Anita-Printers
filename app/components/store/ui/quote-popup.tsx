@@ -34,6 +34,8 @@ export type QuotePopupPrefill = {
   quantity?: number;
   size?: string;
   color?: string;
+  /** Called once after a successful enquiry submit. */
+  onSuccess?: () => void;
 };
 
 function buildEnquiryNotes(prefill: QuotePopupPrefill): string {
@@ -287,11 +289,16 @@ function QuotePopupModal({
   useEffect(() => {
     if (!open) return;
     setCategory(prefill.category || categoryOptions[0] || quoteItemOptions[0]);
+    setName("");
+    setPhone("");
+    setEmail("");
     setNotes(buildEnquiryNotes(prefill));
     setQuantity(String(Math.max(1, prefill.quantity ?? 100)));
     setWebsite("");
+    setCaptchaAnswer("");
     setSent(false);
     setSubmitError(null);
+    setSubmitting(false);
     void refreshCaptcha();
   }, [open, prefill, categoryOptions, refreshCaptcha]);
 
@@ -344,6 +351,9 @@ function QuotePopupModal({
         return;
       }
       setSent(true);
+      prefill.onSuccess?.();
+      setWebsite("");
+      setCaptchaAnswer("");
     } catch {
       setSubmitError("Could not submit enquiry. Please try again.");
       void refreshCaptcha();
