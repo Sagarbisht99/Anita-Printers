@@ -192,10 +192,15 @@ function CategoryChipSlider({
     const el = scrollerRef.current;
     if (!el) return;
     const active = el.querySelector<HTMLElement>('[data-active="true"]');
-    active?.scrollIntoView({
+    if (!active) return;
+
+    // Scroll only inside the category strip — never move the page
+    // (scrollIntoView was jumping the homepage down past the hero).
+    const target =
+      active.offsetLeft - (el.clientWidth - active.offsetWidth) / 2;
+    el.scrollTo({
+      left: Math.max(0, target),
       behavior: "smooth",
-      inline: "center",
-      block: "nearest",
     });
   }, [categoryId, categories]);
 
