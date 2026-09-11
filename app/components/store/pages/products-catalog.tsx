@@ -262,7 +262,14 @@ function CategoryTabs({
     const el = listRef.current;
     if (!el) return;
     const active = el.querySelector<HTMLElement>('[data-active="true"]');
-    active?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    if (!active) return;
+
+    const target =
+      active.offsetTop - (el.clientHeight - active.offsetHeight) / 2;
+    el.scrollTo({
+      top: Math.max(0, target),
+      behavior: "smooth",
+    });
   }, [categoryId, categories]);
 
   return (
