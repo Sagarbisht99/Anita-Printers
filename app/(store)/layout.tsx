@@ -1,4 +1,5 @@
 import { getOfferBannerSettings } from "@/app/actions/store/site-settings";
+import { StoreGoogleAnalytics } from "@/app/components/shared/analytics/google-analytics";
 import {
   StoreFloatChrome,
   StoreFooter,
@@ -18,11 +19,13 @@ export default async function StoreLayout({
   children: React.ReactNode;
 }) {
   const offer = await getOfferBannerSettings();
+  const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim() ?? "";
 
   return (
     <StorefrontQueryProvider>
       <QuotePopupProvider>
         <StoreJsonLd />
+        {gaId ? <StoreGoogleAnalytics gaId={gaId} /> : null}
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-lg focus:bg-store-navy focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
