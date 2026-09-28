@@ -58,7 +58,6 @@ export async function generateMetadata({
       title: `Search results for “${search.slice(0, 60)}”`,
       description: `Products matching “${search}” at Anita Printers — bulk printing, custom packaging, and pan-India delivery from Noida.`,
       path,
-      noIndex: true,
     });
   }
 
@@ -80,7 +79,6 @@ export async function generateMetadata({
           category.seoKeywords,
           productsKeywords,
         ),
-        noIndex: !category.isIndexed,
       });
     }
   }
