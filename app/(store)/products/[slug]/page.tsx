@@ -25,7 +25,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return createPageMetadata({
       title: "Product",
       path: `/products/${slug}`,
-      noIndex: true,
     });
   }
 
@@ -54,7 +53,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     path: `/products/${product.slug}`,
     image: product.image ?? undefined,
     keywords,
-    noIndex: !product.isIndexed,
   });
 }
 

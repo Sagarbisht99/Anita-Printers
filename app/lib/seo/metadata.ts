@@ -10,7 +10,6 @@ type PageSeoInput = {
   /** Path under public/ or absolute URL */
   image?: string;
   keywords?: string[];
-  noIndex?: boolean;
   type?: "website" | "article";
 };
 
@@ -37,7 +36,6 @@ export function createPageMetadata({
   path = "",
   image = siteConfig.defaultOgImage,
   keywords = [...siteConfig.defaultKeywords],
-  noIndex = false,
   type = "website",
 }: PageSeoInput): Metadata {
   const url = absoluteUrl(path);
@@ -76,7 +74,7 @@ export function createPageMetadata({
         ? { site: siteConfig.twitterHandle, creator: siteConfig.twitterHandle }
         : {}),
     },
-    robots: resolvePageRobots(noIndex),
+    robots: resolvePageRobots(),
   };
 }
 
