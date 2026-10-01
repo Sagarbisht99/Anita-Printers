@@ -208,9 +208,29 @@ export function StoreFooter() {
       <div className="relative border-t border-white/10">
         <div aria-hidden className="footer-shimmer absolute inset-x-0 top-0 h-px" />
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-4 py-5 text-center sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:text-left">
-          <p className="text-xs text-white/55">
-            © {year} Anita Printers. All Rights Reserved.
-          </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-white/55 sm:justify-start">
+            <p>© {year} Anita Printers. All Rights Reserved.</p>
+            <p>
+              ❤️ Created by{" "}
+              <a
+                href="https://weblign.in"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:text-white"
+              >
+                weblign.in
+              </a>
+              {" & "}
+              <a
+                href="https://codewithsagar.online"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:text-white"
+              >
+                codewithsagar.online
+              </a>
+            </p>
+          </div>
           <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-white/45 sm:justify-end">
             <Link href="/privacy" className="footer-link-slide">
               Privacy

@@ -2,9 +2,14 @@ import { siteInfo } from "@/app/lib/store/site-info";
 import { defaultKeywords } from "@/app/lib/seo/keywords";
 
 /** Public site URL — set NEXT_PUBLIC_SITE_URL in production (https://anitaprinters.in). */
-export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
-  "https://anitaprinters.in";
+const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+const normalizedSiteUrl = configuredSiteUrl
+  ? /^https?:\/\//i.test(configuredSiteUrl)
+    ? configuredSiteUrl
+    : `https://${configuredSiteUrl}`
+  : "https://anitaprinters.in";
+
+export const SITE_URL = normalizedSiteUrl.replace(/\/$/, "");
 
 export const siteConfig = {
   name: siteInfo.brand,
