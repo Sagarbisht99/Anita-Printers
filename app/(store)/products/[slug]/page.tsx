@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
+import { cache } from "react";
 import { notFound } from "next/navigation";
-import { fetchStoreProductBySlug } from "@/app/actions/store/catalog";
+import {
+  fetchRelatedStoreProducts,
+  fetchStoreProductBySlug,
+} from "@/app/actions/store/catalog";
 import { ProductDetailView } from "@/app/components/store/pages";
 import { FaqSection } from "@/app/components/store/sections";
 import { JsonLdScript } from "@/app/components/store/seo/json-ld-script";
 import { createPageMetadata } from "@/app/lib/seo/metadata";
 import { mergeKeywords, productPageKeywords } from "@/app/lib/seo/keywords";
+import { categoryPath, productPath } from "@/app/lib/seo/paths";
 import {
   breadcrumbJsonLd,
   faqPageJsonLd,
@@ -14,17 +19,20 @@ import {
   webPageJsonLd,
 } from "@/app/lib/seo/json-ld";
 
+/** Deduplicate the product fetch between generateMetadata and the page body. */
+const getProduct = cache(fetchStoreProductBySlug);
+
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const product = await fetchStoreProductBySlug(slug);
+  const product = await getProduct(slug);
   if (!product) {
     return createPageMetadata({
-      title: "Product",
-      path: `/products/${slug}`,
+      title: "Product not found",
+      path: productPath(slug),
     });
   }
 
@@ -32,7 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description =
     product.seoDescription?.trim() ||
     product.descriptionContent?.slice(0, 160) ||
-    `Order ${product.titleName} from Anita Printers — bulk pricing, custom print, and pan-India delivery from Noida.`;
+    `Order ${product.titleName} from Anita Printers — bulk custom printing with quotation-based pricing from Noida.`;
 
   const keywords = mergeKeywords(
     product.seoKeywords,
@@ -50,7 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return createPageMetadata({
     title,
     description,
-    path: `/products/${product.slug}`,
+    path: productPath(product.slug),
     image: product.image ?? undefined,
     keywords,
   });
@@ -58,18 +66,29 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProductDetailPage({ params }: Props) {
   const { slug } = await params;
-  const product = await fetchStoreProductBySlug(slug);
+  const product = await getProduct(slug);
   if (!product) notFound();
+
+  const related = await fetchRelatedStoreProducts({
+    categoryId: product.categoryId,
+    excludeProductId: product.id,
+    take: 4,
+  });
 
   const description =
     product.descriptionContent ??
-    `Bulk pricing and custom print options for ${product.titleName}.`;
+    `Bulk custom printing options for ${product.titleName}.`;
+
+  const categoryCrumb =
+    product.categoryName && product.categorySlug
+      ? [{ name: product.categoryName, path: categoryPath(product.categorySlug) }]
+      : [];
 
   const schemas = jsonLdGraph(
     webPageJsonLd({
       name: product.titleName,
       description,
-      path: `/products/${product.slug}`,
+      path: productPath(product.slug),
     }),
     productJsonLd({
       name: product.titleName,
@@ -83,15 +102,8 @@ export default async function ProductDetailPage({ params }: Props) {
     breadcrumbJsonLd([
       { name: "Home", path: "/" },
       { name: "Products", path: "/products" },
-      ...(product.categoryName && product.categoryId
-        ? [
-            {
-              name: product.categoryName,
-              path: `/products?categoryId=${product.categoryId}`,
-            },
-          ]
-        : []),
-      { name: product.titleName, path: `/products/${product.slug}` },
+      ...categoryCrumb,
+      { name: product.titleName, path: productPath(product.slug) },
     ]),
     faqPageJsonLd(),
   );
@@ -99,7 +111,7 @@ export default async function ProductDetailPage({ params }: Props) {
   return (
     <>
       <JsonLdScript data={schemas} />
-      <ProductDetailView product={product} />
+      <ProductDetailView product={product} related={related} />
       <FaqSection id="product-faq" />
     </>
   );

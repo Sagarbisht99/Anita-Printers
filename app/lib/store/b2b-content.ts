@@ -12,12 +12,12 @@ export const usps = [
     body: "Durable ink on tees, uniforms, tote bags, non-woven bags, signboards, mugs, and metallic plates.",
   },
   {
-    title: "One floor, many jobs",
-    body: "Corporate kits, retail packaging, wedding stationery, and school uniforms — proof-first, then scale.",
+    title: "Customisation support",
+    body: "Sizes, colours, finishes, and artwork assistance — configured per product and confirmed in your quotation.",
   },
   {
-    title: "Nationwide delivery",
-    body: "Cartons with packing lists, GST invoices, and multi-city dropship for offices, shops, and venues.",
+    title: "GST invoices & delivery",
+    body: "GST invoices on every order, with courier dispatch from our Noida unit to your office, shop, or venue.",
   },
 ];
 
@@ -37,8 +37,8 @@ export const processSteps = [
   },
   {
     step: "2",
-    title: "Send artwork & get a rate",
-    body: "Send your file (AI, PDF, PNG, or CDR) on WhatsApp or email. We check it and share MOQ, price, and delivery days — usually the same working day.",
+    title: "Receive quotation",
+    body: "Share your artwork (AI, PDF, PNG, or CDR) on WhatsApp or email. We review it and send a written quotation with pricing, MOQ, and timeline.",
     href: "/contact",
     cta: "Contact us",
   },
@@ -151,8 +151,7 @@ export const printingServiceCatalog = {
       eyebrow: "Commercial & bulk printing",
       summary:
         "Best for mass production and bulk orders. As quantity rises, per-unit cost falls — ideal for visiting cards, letterheads, brochures, posters, leaflets, boxes, carry bags, and high-volume paper jobs.",
-      image:
-        "https://content.jdmagicbox.com/v2/comp/kolkata/t8/033pxx33.xx33.260122143452.v1t8/catalogue/quality-digital-technology-kolkata-dry-offset-printing-machine-manufacturers-634w10nlzt.jpg",
+      image: "/banner.png",
       groups: [
         {
           title: "Business & marketing stationery",
@@ -272,12 +271,7 @@ export const printingServiceCatalog = {
 export const aboutProfile = {
   headline: "Offset for bulk. Screen for specialty. One accountable partner.",
   body: "Anita Printers is a Noida-based production partner for brands, agencies, shops, event planners, and institutes. We print barcodes, stickers, labels, tags, letterheads, visiting cards, plastic materials, brochures, posters, leaflets, carry bags, boxes, flex, and shadi cards — with commercial offset and durable screen printing under one roof.",
-  capacity: [
-    { label: "Daily apparel capacity", value: "8,000+ units" },
-    { label: "Press & embroidery heads", value: "42 stations" },
-    { label: "QC checkpoints", value: "5-stage" },
-    { label: "Cities served last year", value: "110+" },
-  ],
+  capacity: [] as Array<{ label: string; value: string }>,
 };
 
 export const artworkGuidelines = [
@@ -309,47 +303,47 @@ export const artworkGuidelines = [
 
 export const faqs = [
   {
-    q: "What are your MOQs?",
-    a: "Apparel usually starts at 25–50 pieces depending on decoration. Cards and stationery from 50–100. Ask for sample-box pricing if you need to validate before bulk.",
+    q: "What is the minimum order quantity (MOQ)?",
+    a: "MOQ depends on the product and specifications. Each product page lists its confirmed MOQ. Share your requirements and we will confirm whether your quantity can be produced.",
   },
   {
     q: "How long does bulk production take?",
-    a: "After artwork approval: cards 3–7 days, apparel 5–12 days, complex kits 8–14 days. Event rush slots are quoted separately.",
+    a: "Production timeline is confirmed in your written quotation after artwork and specifications are locked. Tell us your deadline when you enquire and we will confirm what is achievable.",
   },
   {
-    q: "Do you ship pan-India?",
-    a: "Yes. We dispatch via courier partners with tracking. Multi-location splits and venue delivery are available for corporate accounts.",
+    q: "Do you deliver across India?",
+    a: "We dispatch via courier partners from our Noida unit. Share your delivery city in the quote request and we will confirm shipping as part of the quotation.",
   },
   {
-    q: "Can I order a sample before bulk?",
-    a: "Yes. Sample boxes or 1–5 piece decorated samples are available. Sample cost is often adjustable against a confirmed bulk PO.",
+    q: "Can I request a sample before a bulk order?",
+    a: "Sample availability, charges, and process depend on the product. Mention your sample requirement in the quote request and we will confirm what is possible.",
   },
   {
     q: "What is your policy on custom returns?",
-    a: "Custom-printed goods are non-returnable except for manufacturing defects. We share proofs and optional samples to lock quality before production.",
+    a: "Custom-printed goods are produced to your approved specifications. Proofs are shared before printing so you can lock size, colour, and layout. Raise any manufacturing concern with us after delivery.",
   },
   {
-    q: "Do you support GST and purchase orders?",
-    a: "Yes. We issue GST invoices and can work against company POs. Net 30/60 terms are available for approved enterprise accounts.",
+    q: "Do you provide GST invoices?",
+    a: "Yes. We issue GST invoices for orders. Mention any company or PO requirements in your enquiry.",
   },
   {
     q: "Which print techniques do you offer?",
-    a: "We print barcodes, stickers, labels, tags, letterheads, visiting cards, plastic materials, brochures, posters, leaflets, carry bags, boxes, flex, and shadi cards — plus apparel and specialty jobs. Offset for bulk paper; screen for fabric and plastic. See the full list on Services.",
+    a: "Offset printing for bulk paper jobs and screen printing for fabric, plastic, and specialty surfaces. See the Services page for the full list of what we print.",
   },
   {
     q: "When should I choose offset vs screen printing?",
-    a: "Choose offset for visiting cards, letterheads, brochures, leaflets, posters, boxes, and high-volume paper jobs. Choose screen for plastic material printing, apparel, bags, flex-related specialty surfaces, and durable ink on fabric or plastic.",
+    a: "Choose offset for visiting cards, letterheads, brochures, leaflets, posters, boxes, and high-volume paper jobs. Choose screen for apparel, bags, plastic material printing, and durable ink on fabric or plastic.",
   },
   {
     q: "What artwork files do you need?",
-    a: "Vector AI/PDF/EPS for logos, or high-res PNG/TIFF at 300 DPI. Share pantone codes when brand colour must match. Our team helps clean files before proof.",
+    a: "Vector AI/PDF/EPS for logos, or high-res PNG/TIFF at 300 DPI. Share pantone codes when brand colour must match. Our team reviews files before proofing and will tell you if anything needs fixing.",
   },
   {
     q: "How do payments work for bulk orders?",
-    a: "Most jobs start with an advance against the quote, with balance before dispatch. Enterprises can request invoice terms after credit approval.",
+    a: "Payment terms are confirmed with your quotation. We will clearly state any advance requirement before production starts.",
   },
   {
     q: "Can you reprint the same order later?",
-    a: "Yes. We archive approved artwork and specs so reorders are faster and colour-matched. Just share the previous PO or job reference.",
+    a: "Yes. Share your previous job reference when reordering and we will match the approved artwork and specifications.",
   },
 ];

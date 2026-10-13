@@ -29,9 +29,9 @@ export function ServicesPageContent() {
       <section className="relative isolate min-h-[48vh] overflow-hidden border-b border-store-line sm:min-h-[52vh]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="https://5.imimg.com/data5/SELLER/Default/2024/7/436867535/ID/YF/LL/9941788/autoprint-1520-colt-7k-offset-printing-machine-500x500.jpeg"
+          src="/hero/banner-3.png"
           alt=""
-          className="absolute inset-0 h-full w-full object-cover object-center"
+          className="absolute inset-0 h-full w-full object-cover object-center opacity-40"
         />
         <div className="absolute inset-0 bg-[linear-gradient(105deg,rgba(8,31,54,0.92)_0%,rgba(15,61,102,0.78)_48%,rgba(8,31,54,0.55)_100%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(196,59,88,0.22),transparent_45%)]" />

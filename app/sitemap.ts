@@ -4,6 +4,7 @@ import {
   fetchIndexedCategoriesForSitemap,
 } from "@/app/actions/store/catalog";
 import { absoluteUrl } from "@/app/lib/seo/site";
+import { categoryPath, productPath } from "@/app/lib/seo/paths";
 
 const staticRoutes: Array<{
   path: string;
@@ -36,14 +37,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   const categoryPages: MetadataRoute.Sitemap = categories.map((category) => ({
-    url: absoluteUrl(`/products?categoryId=${category.id}`),
+    url: absoluteUrl(categoryPath(category.slug)),
     lastModified: category.createdAt,
     changeFrequency: "weekly",
     priority: 0.75,
   }));
 
   const productPages: MetadataRoute.Sitemap = products.map((product) => ({
-    url: absoluteUrl(`/products/${product.slug}`),
+    url: absoluteUrl(productPath(product.slug)),
     lastModified: product.createdAt,
     changeFrequency: "weekly",
     priority: 0.7,

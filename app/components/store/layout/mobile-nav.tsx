@@ -122,7 +122,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
             }}
             className="w-full rounded-full bg-store-navy px-4 py-3 text-sm font-semibold text-white transition hover:bg-store-accent"
           >
-            Get in touch
+            Request a Quote
           </button>
         </div>
       </aside>
