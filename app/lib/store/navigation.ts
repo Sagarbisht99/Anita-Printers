@@ -1,7 +1,7 @@
 export const storeNavLinks = [
-  { href: "/products", label: "Catalog" },
+  { href: "/products", label: "Products" },
   { href: "/services", label: "Services" },
+  { href: "/about", label: "About" },
   { href: "/#faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
-  { href: "/about", label: "About" },
 ] as const;

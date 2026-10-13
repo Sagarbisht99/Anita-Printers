@@ -1,11 +1,12 @@
-export { HeroSlider } from "./hero-slider";
 export { BrandStrip } from "./brand-strip";
 export { CustomizedPackaging } from "./customized-packaging";
-export { CuratedPicks } from "./curated-picks";
 export { WhyChooseUs } from "./why-choose-us";
 export { VisionHomegrown } from "./vision-homegrown";
 export { HowItWorks } from "./how-it-works";
-export { PrintingShowcase } from "./printing-showcase";
 export { PrintingServicesPreview } from "./printing-services-preview";
-export { BulkSavings } from "./bulk-savings";
+export { PrintingCapabilities } from "./printing-capabilities";
 export { FaqSection } from "./faq";
+export { HomeHero } from "./home-hero";
+export { PopularCategories } from "./popular-categories";
+export { FeaturedProducts } from "./featured-products";
+export { HomeEnquirySection } from "./home-enquiry-section";

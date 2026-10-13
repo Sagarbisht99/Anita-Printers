@@ -1,13 +1,13 @@
-/** Shared site map for the /sitemap page and footer. */
+/** Shared site map for the /sitemap page. */
 export const siteMapSections = [
   {
     id: "main",
     title: "Main pages",
     links: [
       { href: "/", label: "Home" },
-      { href: "/about", label: "About us" },
+      { href: "/products", label: "Products" },
       { href: "/services", label: "Services" },
-      { href: "/products", label: "Product catalog" },
+      { href: "/about", label: "About us" },
       { href: "/contact", label: "Contact" },
       { href: "/#faq", label: "FAQs" },
     ],
@@ -23,23 +23,15 @@ export const siteMapSections = [
     ],
   },
   {
-    id: "products",
-    title: "What we print",
+    id: "search",
+    title: "Search the catalogue",
     links: [
-      { href: "/products?q=barcode", label: "Barcode" },
-      { href: "/products?q=sticker", label: "Sticker" },
-      { href: "/products?q=label", label: "Label" },
-      { href: "/products?q=tag", label: "Tag" },
-      { href: "/products?q=letterhead", label: "Letterhead" },
-      { href: "/products?q=card", label: "Visiting Card" },
-      { href: "/products?q=plastic", label: "Plastic Material" },
-      { href: "/products?q=brochure", label: "Brochures" },
-      { href: "/products?q=poster", label: "Posters" },
-      { href: "/products?q=leaflet", label: "Leaflets" },
-      { href: "/products?q=bag", label: "Carry Bag" },
-      { href: "/products?q=box", label: "Box" },
-      { href: "/products?q=flex", label: "Flex" },
-      { href: "/products?q=wedding", label: "Shadi Card" },
+      { href: "/products?q=tag", label: "Hang tags" },
+      { href: "/products?q=label", label: "Woven labels" },
+      { href: "/products?q=sticker", label: "Sticker labels" },
+      { href: "/products?q=card", label: "Visiting cards" },
+      { href: "/products?q=envelope", label: "Envelopes" },
+      { href: "/products?q=insert", label: "Insert cards" },
     ],
   },
   {
@@ -52,23 +44,4 @@ export const siteMapSections = [
       { href: "/refund", label: "Refund Policy" },
     ],
   },
-] as const;
-
-export const footerPrintMarquee = [
-  "Barcode",
-  "Sticker",
-  "Label",
-  "Tag",
-  "Letterhead",
-  "Visiting Card",
-  "Plastic Printing",
-  "Brochures",
-  "Posters",
-  "Leaflets",
-  "Carry Bag",
-  "Box",
-  "Flex",
-  "Shadi Card",
-  "Offset",
-  "Screen",
 ] as const;

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Menu } from "lucide-react";
 import { HeaderSearch } from "@/app/components/store/ui/header-search";
 import { QuoteButton } from "@/app/components/store/ui/quote-popup";
+import { EnquiryHangTag } from "@/app/components/store/ui/enquiry-hang-tag";
 import { MobileNav } from "@/app/components/store/layout/mobile-nav";
 import { storeNavLinks } from "@/app/lib/store/navigation";
 import { siteContact } from "@/app/lib/store/b2b-content";
@@ -16,7 +17,7 @@ export function StoreHeader() {
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-store-line bg-store-surface">
-        <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:gap-4 sm:px-6">
+        <div className="relative mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:gap-4 sm:px-6">
         <Link
           href="/"
           className="flex shrink-0 items-center gap-2.5 sm:gap-3"
@@ -60,12 +61,17 @@ export function StoreHeader() {
             </span>
           </a>
 
-          <QuoteButton
-            intent="header"
-            className="hidden rounded-full bg-store-navy px-4 py-2 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-store-accent lg:inline-flex"
-          >
-            Get in touch
-          </QuoteButton>
+          <div className="relative hidden lg:block">
+            <QuoteButton
+              intent="header"
+              className="rounded-full bg-store-navy px-4 py-2 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-store-accent lg:inline-flex"
+            >
+              Request a Quote
+            </QuoteButton>
+            <div className="absolute top-full left-1/2 -translate-x-1/2">
+              <EnquiryHangTag />
+            </div>
+          </div>
 
           <button
             type="button"

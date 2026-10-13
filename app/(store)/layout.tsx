@@ -32,7 +32,7 @@ export default async function StoreLayout({
         >
           Skip to main content
         </a>
-        <div className="flex min-h-full flex-1 flex-col bg-store-paper pb-14 text-store-ink">
+        <div className="flex min-h-full flex-1 flex-col bg-store-paper text-store-ink">
           <StoreTopBar />
           <StoreHeader />
           <main id="main-content" className="flex-1">

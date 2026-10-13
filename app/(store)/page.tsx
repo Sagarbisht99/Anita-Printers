@@ -1,18 +1,18 @@
-import { Suspense } from "react";
 import {
   fetchStoreCategories,
   fetchStoreProducts,
 } from "@/app/actions/store/catalog";
 import {
   BrandStrip,
-  BulkSavings,
   CustomizedPackaging,
-  CuratedPicks,
   FaqSection,
-  HeroSlider,
+  FeaturedProducts,
+  HomeHero,
+  HomeEnquirySection,
   HowItWorks,
+  PopularCategories,
+  PrintingCapabilities,
   PrintingServicesPreview,
-  PrintingShowcase,
   VisionHomegrown,
   WhyChooseUs,
 } from "@/app/components/store/sections";
@@ -23,9 +23,9 @@ import { homeKeywords } from "@/app/lib/seo/keywords";
 import { jsonLdGraph, webPageJsonLd } from "@/app/lib/seo/json-ld";
 
 export const metadata = createPageMetadata({
-  title: "Offset & Screen Printing in Noida",
+  title: "Custom Printing Solutions for Brands | Anita Printers, Noida",
   description:
-    "Anita Printers — bulk offset & screen printing in Noida. Visiting cards, labels, stickers, carry bags, boxes, flex, wedding cards, and custom packaging with GST invoices and pan-India delivery.",
+    "Anita Printers — bulk custom printing in Noida. Hang tags, woven labels, sticker labels, visiting cards, envelopes, packaging inserts, and more. Quotation-based pricing with GST invoicing.",
   path: "/",
   keywords: homeKeywords,
 });
@@ -33,7 +33,7 @@ export const metadata = createPageMetadata({
 export default async function HomePage() {
   const [categories, products] = await Promise.all([
     fetchStoreCategories(),
-    fetchStoreProducts({ take: 8 }),
+    fetchStoreProducts({ take: 24 }),
   ]);
 
   return (
@@ -41,29 +41,25 @@ export default async function HomePage() {
       <JsonLdScript
         data={jsonLdGraph(
           webPageJsonLd({
-            name: "Anita Printers — Offset & Screen Printing in Noida",
+            name: "Anita Printers — Custom Printing Solutions, Noida",
             description:
-              "Bulk offset & screen printing in Noida. Visiting cards, labels, stickers, carry bags, boxes, flex, wedding cards, and custom packaging.",
+              "Bulk custom printing in Noida — hang tags, labels, visiting cards, packaging inserts, and more with quotation-based pricing.",
             path: "/",
           }),
         )}
       />
       <HomeJsonLd />
-      <HeroSlider />
+      <HomeHero />
+      <PopularCategories categories={categories} products={products} />
+      <PrintingCapabilities />
       <BrandStrip />
       <CustomizedPackaging />
-      <Suspense fallback={null}>
-        <CuratedPicks
-          initialCategories={categories}
-          initialProducts={products}
-        />
-      </Suspense>
-      <WhyChooseUs />
       <VisionHomegrown />
+      <WhyChooseUs />
       <HowItWorks />
-      <PrintingShowcase />
+      <FeaturedProducts categories={categories} products={products} />
       <PrintingServicesPreview />
-      <BulkSavings />
+      <HomeEnquirySection />
       <FaqSection />
     </>
   );

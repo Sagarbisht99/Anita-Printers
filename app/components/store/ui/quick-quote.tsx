@@ -7,12 +7,36 @@ import {
   submitEnquiry,
 } from "@/app/actions/store/enquiries";
 import { quoteItemOptions } from "@/app/lib/store/b2b-content";
+import {
+  digitsOnly,
+  validateEnquiryForm,
+  type EnquiryFieldErrors,
+} from "@/app/lib/store/enquiry-validation";
 
-export function QuickQuoteForm({ compact = false }: { compact?: boolean }) {
+const inputClass =
+  "mt-1.5 w-full rounded-xl border bg-store-paper px-3 py-2.5 text-store-ink outline-none focus:border-store-navy/40";
+
+const errorInputClass = "border-rose-400 focus:border-rose-500";
+
+function FieldError({ message }: { message?: string }) {
+  if (!message) return null;
+  return <p className="mt-1 text-xs text-rose-600">{message}</p>;
+}
+
+export function QuickQuoteForm({
+  compact = false,
+  className = "",
+  leadSource = "Quick lead form",
+}: {
+  compact?: boolean;
+  className?: string;
+  leadSource?: string;
+}) {
   const [item, setItem] = useState(quoteItemOptions[0] ?? "");
   const [qty, setQty] = useState("250");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [website, setWebsite] = useState("");
   const [captcha, setCaptcha] = useState<{
     a: number;
@@ -23,6 +47,7 @@ export function QuickQuoteForm({ compact = false }: { compact?: boolean }) {
   const [sent, setSent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<EnquiryFieldErrors>({});
 
   const refreshCaptcha = useCallback(async () => {
     try {
@@ -41,6 +66,17 @@ export function QuickQuoteForm({ compact = false }: { compact?: boolean }) {
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
     setError(null);
+
+    const errors = validateEnquiryForm({
+      name,
+      phone,
+      email,
+      quantity: qty,
+      captchaAnswer,
+    });
+    setFieldErrors(errors);
+    if (Object.keys(errors).length > 0) return;
+
     if (!captcha) {
       setError("Captcha is loading. Please wait a moment.");
       void refreshCaptcha();
@@ -51,10 +87,10 @@ export function QuickQuoteForm({ compact = false }: { compact?: boolean }) {
       const result = await submitEnquiry({
         name: name || "Website lead",
         phone,
-        email: "",
+        email,
         category: item,
         quantity: Number(qty) || undefined,
-        notes: "Quick lead form",
+        notes: leadSource,
         website,
         captchaToken: captcha.token,
         captchaAnswer,
@@ -91,9 +127,10 @@ export function QuickQuoteForm({ compact = false }: { compact?: boolean }) {
   return (
     <form
       onSubmit={onSubmit}
+      noValidate
       className={`relative rounded-2xl border border-store-line bg-store-surface ${
         compact ? "p-5" : "p-6 sm:p-8"
-      }`}
+      } ${className}`}
     >
       {!compact ? (
         <>
@@ -112,31 +149,48 @@ export function QuickQuoteForm({ compact = false }: { compact?: boolean }) {
 
       <div className={`grid gap-4 ${compact ? "" : "mt-6 sm:grid-cols-2"}`}>
         <label className="block text-sm">
-          <span className="font-medium text-store-ink">Your name</span>
+          <span className="font-medium text-store-ink">Your name *</span>
           <input
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="mt-1.5 w-full rounded-xl border border-store-line bg-store-paper px-3 py-2.5 text-store-ink outline-none focus:border-store-navy/40"
+            aria-invalid={Boolean(fieldErrors.name)}
+            className={`${inputClass} ${fieldErrors.name ? errorInputClass : "border-store-line"}`}
           />
+          <FieldError message={fieldErrors.name} />
         </label>
         <label className="block text-sm">
-          <span className="font-medium text-store-ink">Phone / WhatsApp</span>
+          <span className="font-medium text-store-ink">Phone / WhatsApp *</span>
           <input
             type="tel"
             required
+            inputMode="numeric"
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={(e) => setPhone(digitsOnly(e.target.value, 15))}
             placeholder="+91 ..."
-            className="mt-1.5 w-full rounded-xl border border-store-line bg-store-paper px-3 py-2.5 text-store-ink outline-none focus:border-store-navy/40"
+            aria-invalid={Boolean(fieldErrors.phone)}
+            className={`${inputClass} ${fieldErrors.phone ? errorInputClass : "border-store-line"}`}
           />
+          <FieldError message={fieldErrors.phone} />
+        </label>
+        <label className="block text-sm sm:col-span-2">
+          <span className="font-medium text-store-ink">Email</span>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@company.com"
+            aria-invalid={Boolean(fieldErrors.email)}
+            className={`${inputClass} ${fieldErrors.email ? errorInputClass : "border-store-line"}`}
+          />
+          <FieldError message={fieldErrors.email} />
         </label>
         <label className="block text-sm">
           <span className="font-medium text-store-ink">Item</span>
           <select
             value={item}
             onChange={(e) => setItem(e.target.value)}
-            className="mt-1.5 w-full rounded-xl border border-store-line bg-store-paper px-3 py-2.5 text-store-ink outline-none focus:border-store-navy/40"
+            className={`${inputClass} border-store-line`}
           >
             {quoteItemOptions.map((option) => (
               <option key={option} value={option}>
@@ -151,9 +205,11 @@ export function QuickQuoteForm({ compact = false }: { compact?: boolean }) {
             type="number"
             min={1}
             value={qty}
-            onChange={(e) => setQty(e.target.value)}
-            className="mt-1.5 w-full rounded-xl border border-store-line bg-store-paper px-3 py-2.5 text-store-ink outline-none focus:border-store-navy/40"
+            onChange={(e) => setQty(digitsOnly(e.target.value, 8))}
+            aria-invalid={Boolean(fieldErrors.quantity)}
+            className={`${inputClass} ${fieldErrors.quantity ? errorInputClass : "border-store-line"}`}
           />
+          <FieldError message={fieldErrors.quantity} />
         </label>
       </div>
 
@@ -173,7 +229,7 @@ export function QuickQuoteForm({ compact = false }: { compact?: boolean }) {
       </div>
 
       <label className="mt-4 block text-sm">
-        <span className="font-medium text-store-ink">Captcha</span>
+        <span className="font-medium text-store-ink">Captcha *</span>
         <div className="mt-1.5 flex items-center gap-2">
           <span className="shrink-0 rounded-xl border border-store-line bg-store-paper px-3 py-2.5 text-sm font-semibold tabular-nums text-store-ink">
             {captcha ? `${captcha.a} + ${captcha.b}` : "…"}
@@ -185,11 +241,16 @@ export function QuickQuoteForm({ compact = false }: { compact?: boolean }) {
             required
             inputMode="numeric"
             value={captchaAnswer}
-            onChange={(e) => setCaptchaAnswer(e.target.value)}
+            onChange={(e) => setCaptchaAnswer(digitsOnly(e.target.value, 6))}
             placeholder="?"
             aria-label="Captcha answer"
+            aria-invalid={Boolean(fieldErrors.captchaAnswer)}
             disabled={!captcha}
-            className="w-full rounded-xl border border-store-line bg-store-paper px-3 py-2.5 text-store-ink outline-none focus:border-store-navy/40 disabled:opacity-60"
+            className={`w-full rounded-xl border bg-store-paper px-3 py-2.5 text-store-ink outline-none focus:border-store-navy/40 disabled:opacity-60 ${
+              fieldErrors.captchaAnswer
+                ? errorInputClass
+                : "border-store-line"
+            }`}
           />
           <button
             type="button"
@@ -199,6 +260,7 @@ export function QuickQuoteForm({ compact = false }: { compact?: boolean }) {
             Refresh
           </button>
         </div>
+        <FieldError message={fieldErrors.captchaAnswer} />
       </label>
 
       <button

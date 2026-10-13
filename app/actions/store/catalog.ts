@@ -54,13 +54,22 @@ const productListSelect = {
   pricing: true,
   quantity: true,
   categoryId: true,
-  category: { select: { name: true } },
+  descriptionContent: true,
+  category: { select: { name: true, slug: true } },
 } as const;
 
 export type StoreCategoryItem = {
   id: number;
   name: string;
   slug: string;
+  description: string | null;
+};
+
+export type StoreCategoryDetail = StoreCategoryItem & {
+  seoTitle: string | null;
+  seoDescription: string | null;
+  seoKeywords: string[];
+  isIndexed: boolean;
 };
 
 export type StoreProductItem = {
@@ -72,6 +81,9 @@ export type StoreProductItem = {
   quantity: number;
   categoryId: number | null;
   categoryName: string | null;
+  categorySlug: string | null;
+  /** First sentence of the product description, for cards. */
+  shortDescription: string | null;
 };
 
 export type StoreProductDetail = StoreProductItem & {
@@ -95,6 +107,15 @@ export type StoreProductsPage = {
   totalPages: number;
 };
 
+function firstSentence(text: string | null, max = 140): string | null {
+  if (!text) return null;
+  const cleaned = text.replace(/\s+/g, " ").trim();
+  if (!cleaned) return null;
+  const match = cleaned.match(/^[^.!?]*[.!?]/);
+  const sentence = (match ? match[0] : cleaned).trim();
+  return sentence.length > max ? `${sentence.slice(0, max - 1).trimEnd()}…` : sentence;
+}
+
 function mapProduct(product: {
   id: number;
   titleName: string;
@@ -103,7 +124,8 @@ function mapProduct(product: {
   pricing: { toString(): string } | number;
   quantity: number;
   categoryId: number | null;
-  category: { name: string } | null;
+  descriptionContent?: string | null;
+  category: { name: string; slug: string } | null;
 }): StoreProductItem {
   return {
     id: product.id,
@@ -114,6 +136,8 @@ function mapProduct(product: {
     quantity: Math.max(1, product.quantity || 1),
     categoryId: product.categoryId,
     categoryName: product.category?.name ?? null,
+    categorySlug: product.category?.slug ?? null,
+    shortDescription: firstSentence(product.descriptionContent ?? null),
   };
 }
 
@@ -126,6 +150,30 @@ export async function fetchStoreCategories(): Promise<StoreCategoryItem[]> {
       id: true,
       name: true,
       slug: true,
+      description: true,
+    },
+  });
+}
+
+const categorySlugSchema = slugSchema;
+
+export async function fetchStoreCategoryBySlug(
+  slug: string,
+): Promise<StoreCategoryDetail | null> {
+  const parsed = categorySlugSchema.safeParse(slug);
+  if (!parsed.success) return null;
+
+  return prisma.category.findFirst({
+    where: { status: "active", slug: parsed.data },
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+      description: true,
+      seoTitle: true,
+      seoDescription: true,
+      seoKeywords: true,
+      isIndexed: true,
     },
   });
 }
@@ -219,7 +267,7 @@ export async function fetchStoreProductBySlug(
       seoKeywords: true,
       isIndexed: true,
       categoryId: true,
-      category: { select: { name: true } },
+      category: { select: { name: true, slug: true } },
     },
   });
 
@@ -250,11 +298,55 @@ export async function fetchActiveProductSlugsForSitemap() {
   });
 }
 
+/** Used by /sitemap.xml — bounded read of indexable category URLs. */
 export async function fetchIndexedCategoriesForSitemap() {
   return prisma.category.findMany({
     where: { status: "active", isIndexed: true },
-    select: { id: true, name: true, createdAt: true },
+    select: { id: true, name: true, slug: true, createdAt: true },
     orderBy: { name: "asc" },
+  });
+}
+
+/** Related products in the same category, excluding the current product. */
+export async function fetchRelatedStoreProducts(input: {
+  categoryId: number | null;
+  excludeProductId: number;
+  take?: number;
+}): Promise<StoreProductItem[]> {
+  const take = Math.min(24, Math.max(1, input.take ?? 4));
+  if (!input.categoryId) return [];
+
+  const products = await prisma.product.findMany({
+    where: {
+      status: "active",
+      categoryId: input.categoryId,
+      NOT: { id: input.excludeProductId },
+    },
+    orderBy: { createdAt: "desc" },
+    take,
+    select: productListSelect,
+  });
+
+  return products.map(mapProduct);
+}
+
+/** Category metadata by slug — used by the category page generateMetadata. */
+export async function fetchStoreCategoryMetaBySlug(slug: string) {
+  const parsed = categorySlugSchema.safeParse(slug);
+  if (!parsed.success) return null;
+
+  return prisma.category.findFirst({
+    where: { status: "active", slug: parsed.data },
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+      description: true,
+      seoTitle: true,
+      seoDescription: true,
+      seoKeywords: true,
+      isIndexed: true,
+    },
   });
 }
 
@@ -264,6 +356,7 @@ export async function fetchStoreCategoryMeta(categoryId: number) {
     select: {
       id: true,
       name: true,
+      slug: true,
       seoTitle: true,
       seoDescription: true,
       seoKeywords: true,
