@@ -1,5 +1,6 @@
 export { AboutPageContent } from "./about";
 export { ContactPageContent } from "./contact";
+export { CategoriesIndexView } from "./categories-index";
 export { ServicesPageContent } from "./services";
 export { SitemapPageContent } from "./sitemap-content";
 export { LegalPage } from "./legal";

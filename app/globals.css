@@ -144,6 +144,8 @@ body {
 
 .brand-marquee {
   animation: brand-marquee 28s linear infinite;
+  will-change: transform;
+  animation-direction: normal;
 }
 
 .brand-marquee:hover {

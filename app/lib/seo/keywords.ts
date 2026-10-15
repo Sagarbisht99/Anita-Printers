@@ -220,6 +220,24 @@ export const defaultKeywords = mergeKeywords(
   bulkAndB2b,
 );
 
+export const categoriesKeywords = mergeKeywords(
+  brand,
+  noidaLocal,
+  visitingCardsAndStationery,
+  labelsStickersBarcodes,
+  packagingAndBags,
+  flexAndOutdoor,
+  weddingAndEvents,
+  apparelAndPromo,
+  bulkAndB2b,
+  [
+    "printing categories",
+    "custom print categories",
+    "product categories Noida",
+    "printing catalogue India",
+  ],
+);
+
 export const homeKeywords = mergeKeywords(
   brand,
   noidaLocal,

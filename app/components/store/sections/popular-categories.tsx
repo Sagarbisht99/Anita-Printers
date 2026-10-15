@@ -70,22 +70,20 @@ export function PopularCategories({
   if (featured.length === 0) return null;
 
   return (
-    <section className="border-b border-store-line bg-store-surface">
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-14">
+    <section className="bg-store-surface">
+      <div className="mx-auto max-w-6xl px-4 py-7 sm:px-6 sm:py-9">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
-            <p className="text-xs font-semibold tracking-[0.16em] text-store-muted uppercase">
-              Catalogue
-            </p>
+          
             <h2 className="mt-2 text-2xl font-bold tracking-tight text-store-navy sm:text-3xl">
               Popular categories
             </h2>
           </div>
           <Link
-            href="/products"
+            href="/categories"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-store-navy hover:underline"
           >
-            View All Products
+            View All Categories
             <ChevronRight className="h-4 w-4" strokeWidth={2.25} aria-hidden />
           </Link>
         </div>
@@ -168,15 +166,7 @@ export function PopularCategories({
           </div>
         </div>
 
-        <div className="mt-8 flex justify-center">
-          <Link
-            href="/products"
-            className="inline-flex items-center gap-2 rounded-full bg-store-navy px-6 py-3 text-sm font-semibold text-white transition hover:bg-store-navy-dark"
-          >
-            All Categories
-            <ChevronRight className="h-4 w-4" strokeWidth={2.25} aria-hidden />
-          </Link>
-        </div>
+     
       </div>
     </section>
   );

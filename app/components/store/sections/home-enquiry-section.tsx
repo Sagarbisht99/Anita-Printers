@@ -32,25 +32,8 @@ export function HomeEnquirySection() {
             <h2 className="mt-3 text-2xl font-bold tracking-tight text-white sm:text-3xl">
               Tell us what you need printed
             </h2>
-            <p className="mt-4 text-sm leading-relaxed text-white/65">
-              Share your product type, quantity, and specifications. We will
-              review the requirements and respond with a written quotation —
-              no online payment or checkout.
-            </p>
-            <ul className="mt-6 space-y-3 text-sm text-white/75">
-              <li className="flex gap-2.5">
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-store-accent" aria-hidden />
-                Quotation-based pricing confirmed for your specs
-              </li>
-              <li className="flex gap-2.5">
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-store-accent" aria-hidden />
-                GST invoices on every order
-              </li>
-              <li className="flex gap-2.5">
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-store-accent" aria-hidden />
-                Production and courier dispatch from Noida
-              </li>
-            </ul>
+         
+           
 
             {/* What happens next */}
             <div className="mt-8 border-t border-white/10 pt-6">

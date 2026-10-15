@@ -1,5 +1,4 @@
 export { BrandStrip } from "./brand-strip";
-export { CustomizedPackaging } from "./customized-packaging";
 export { WhyChooseUs } from "./why-choose-us";
 export { VisionHomegrown } from "./vision-homegrown";
 export { HowItWorks } from "./how-it-works";

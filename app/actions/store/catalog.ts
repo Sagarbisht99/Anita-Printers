@@ -65,6 +65,11 @@ export type StoreCategoryItem = {
   description: string | null;
 };
 
+export type StoreCategoryCard = StoreCategoryItem & {
+  image: string | null;
+  productCount: number;
+};
+
 export type StoreCategoryDetail = StoreCategoryItem & {
   seoTitle: string | null;
   seoDescription: string | null;
@@ -153,6 +158,39 @@ export async function fetchStoreCategories(): Promise<StoreCategoryItem[]> {
       description: true,
     },
   });
+}
+
+export async function fetchStoreCategoriesWithCovers(): Promise<StoreCategoryCard[]> {
+  const categories = await prisma.category.findMany({
+    where: { status: "active" },
+    orderBy: { name: "asc" },
+    take: MAX_CATEGORIES,
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+      description: true,
+      _count: {
+        select: {
+          products: {
+            where: { status: "active" },
+          },
+        },
+      },
+      products: {
+        where: { status: "active" },
+        orderBy: { createdAt: "desc" },
+        take: 1,
+        select: { image: true },
+      },
+    },
+  });
+
+  return categories.map(({ _count, products, ...category }) => ({
+    ...category,
+    image: products[0]?.image ?? null,
+    productCount: _count.products,
+  }));
 }
 
 const categorySlugSchema = slugSchema;

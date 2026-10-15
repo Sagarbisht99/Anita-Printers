@@ -4,7 +4,6 @@ import {
 } from "@/app/actions/store/catalog";
 import {
   BrandStrip,
-  CustomizedPackaging,
   FaqSection,
   FeaturedProducts,
   HomeHero,
@@ -53,7 +52,6 @@ export default async function HomePage() {
       <PopularCategories categories={categories} products={products} />
       <PrintingCapabilities />
       <BrandStrip />
-      <CustomizedPackaging />
       <VisionHomegrown />
       <WhyChooseUs />
       <HowItWorks />

@@ -10,7 +10,7 @@ import {
 import { QuoteButton } from "@/app/components/store/ui/quote-popup";
 
 const assurances = [
-  { icon: Ruler, label: "Custom Sizes & Finishes" },
+  { icon: Ruler, label: "Custom Sizes" },
   { icon: Package, label: "Bulk Order Support" },
   { icon: Truck, label: "Pan-India Delivery" },
   { icon: Headset, label: "Personalized Assistance" },
