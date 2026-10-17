@@ -207,12 +207,12 @@ export async function StoreFooter() {
               </span>{" "}
               Created by{" "}
               <a
-                href="https://webign.in"
+                href="https://weblign.in"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white/70 transition hover:text-white"
               >
-                webign.in
+                weblign.in
               </a>{" "}
               &amp;{" "}
               <a
